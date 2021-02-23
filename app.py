@@ -16,6 +16,7 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Automatically tear down SQLAlchemy.
