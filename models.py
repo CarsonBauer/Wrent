@@ -2,9 +2,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
-from extensions import db
+from app import db
+from config import SQLALCHEMY_DATABASE_URI
 
-engine = create_engine('postgresql://postgres:password@localhost/wrentTest', echo=True)
+engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
