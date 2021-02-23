@@ -2,11 +2,13 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from flask import Flask, render_template, request
-# from flask.ext.sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
+from extensions import db
 import logging
 from logging import Formatter, FileHandler
 from forms import *
+from models import Users, Items, Rentals
 import os
 
 #----------------------------------------------------------------------------#
@@ -15,9 +17,12 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
-#db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/wrentTest'
+db = SQLAlchemy(app)
+db.init_app(app)
 
 # Automatically tear down SQLAlchemy.
+
 '''
 @app.teardown_request
 def shutdown_session(exception=None):
@@ -44,7 +49,6 @@ def login_required(test):
 @app.route('/')
 def home():
     return render_template('pages/placeholder.home.html')
-
 
 @app.route('/about')
 def about():
