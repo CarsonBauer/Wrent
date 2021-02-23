@@ -1,8 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
-from app import db
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint
 from config import SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
@@ -17,13 +16,13 @@ Base.query = db_session.query_property()
 class Users(Base):
     __tablename__ = 'Users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    location = db.Column(db.Integer, db.ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
-    userName = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(30), unique=True, nullable=False)
-    permission = db.Column(db.Integer, db.ForeignKey("Permissions.id", ondelete="CASCADE"), nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(120), unique=True, nullable=False)
+    email = Column(String(120), unique=True, nullable=False)
+    location = Column(Integer, ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
+    userName = Column(String(20), unique=True, nullable=False)
+    password = Column(String(30), unique=True, nullable=False)
+    permission = Column(Integer, ForeignKey("Permissions.id", ondelete="CASCADE"), nullable=False)
 
     def __init__(self, id, name, password, email, location, userName, permission):
         self.id = id
@@ -37,13 +36,13 @@ class Users(Base):
 class Items(Base):
     __tablename__ = 'Items'
 
-    id = db.Column(db.Integer, primary_key=True)
-    location = db.Column(db.Integer, db.ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
-    ownerId = db.Column(db.Integer, db.ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
-    name = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.String(500), nullable=False)
-    imageURL = db.Column(db.String(120))
-    rating = db.Column(db.Float)
+    id = Column(Integer, primary_key=True)
+    location = Column(Integer, ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
+    ownerId = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
+    name = Column(String(120), nullable=False)
+    description = Column(String(500), nullable=False)
+    imageURL = Column(String(120))
+    rating = Column(Float)
 
     def __init__(self, id, location, ownerId, name, description, imageURL, rating):
         self.id = id
@@ -57,11 +56,11 @@ class Items(Base):
 class Rentals(Base):
     __tablename__ = "Rentals"
 
-    renterId = db.Column(db.Integer, db.ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
-    itemId = db.Column(db.Integer, db.ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+    renterId = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
 
     __table_args__ = (
-        db.PrimaryKeyConstraint(
+        PrimaryKeyConstraint(
             renterId, itemId,
         ),
     )
@@ -73,8 +72,8 @@ class Rentals(Base):
 class Permissions(Base):
     __tablename__ = "Permissions"
 
-    id = db.Column(db.Integer, primary_key=True)
-    permission = db.Column(db.String(120), nullable=False)
+    id = Column(Integer, primary_key=True)
+    permission = Column(String(120), nullable=False)
 
     def __init__(self, id, permission):
         self.id = id
@@ -83,10 +82,10 @@ class Permissions(Base):
 class Comments(Base):
     __tablename__ = "Comments"
 
-    id = db.Column(db.Integer, primary_key=True)
-    commentText = db.Column(db.String(120), nullable=False)
-    posterId = db.Column(db.Integer, db.ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
-    itemId = db.Column(db.Integer, db.ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+    id = Column(Integer, primary_key=True)
+    commentText = Column(String(120), nullable=False)
+    posterId = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
 
     def __init__(self, id, commentText, posterId, itemId):
         self.id = id
@@ -97,9 +96,9 @@ class Comments(Base):
 class Locations(Base):
     __tablename__ = "Locations"
 
-    id = db.Column(db.Integer, primary_key=True)
-    lat = db.Column(db.Float, nullable=False)
-    lon = db.Column(db.Float, nullable=False)
+    id = Column(Integer, primary_key=True)
+    lat = Column(Float, nullable=False)
+    lon = Column(Float, nullable=False)
 
     def __init__(self, id, lat, lon):
         self.id = id
