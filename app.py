@@ -2,13 +2,13 @@
 # Imports
 #----------------------------------------------------------------------------#
 
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request
+# from flask.ext.sqlalchemy import SQLAlchemy
 from extensions import db
 import logging
 from logging import Formatter, FileHandler
 from forms import *
-from models import Users, Items, Rentals
+from models import Users, Items, Rentals, Permissions, Comments, Locations
 import os
 
 #----------------------------------------------------------------------------#
@@ -18,7 +18,7 @@ import os
 app = Flask(__name__)
 app.config.from_object('config')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/wrentTest'
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 db.init_app(app)
 
 # Automatically tear down SQLAlchemy.

@@ -100,7 +100,7 @@ class Locations(Base):
     lat = db.Column(db.Float, nullable=False)
     lon = db.Column(db.Float, nullable=False)
 
-    def __init__(self, id, lat, lod):
+    def __init__(self, id, lat, lon):
         self.id = id
         self.lat = lat
         self.lon = lon
