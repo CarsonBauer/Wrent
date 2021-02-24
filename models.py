@@ -128,6 +128,24 @@ class Locations(Base):
         self.lat = lat
         self.lon = lon
 
+    def get_location(sent_id):
+        return db_session.query(Locations).get(sent_id)
+
+    def post_location(sent_id, sent_lat, sent_lon):
+        db_session.add(Locations(id=sent_id,lat=sent_lat,lon=sent_lon))
+        db_session.commit()
+
+    def delete_location(sent_id):
+        loc = db_session.query(Locations).get(sent_id)
+        db_session.delete(loc)
+        db_session.commit()
+
+    def update_location(sent_id, sent_lat, sent_lon):
+        loc = db_session.query(Locations).get(sent_id)
+        loc.lat = sent_lat
+        loc.lon = sent_lon
+        db_session.commit()
+
 
 # Create tables.
 Base.metadata.create_all(bind=engine)

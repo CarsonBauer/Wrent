@@ -1,71 +1,75 @@
 from flask import jsonify, request
 from controllers import *
-from models import Permissions
+from models import Locations
 
-@controllers.route('/permissions/all', methods=['GET'])
-def get_permissions():
+@controllers.route('/locations/all', methods=['GET'])
+def get_locations():
 
-    perms = Permissions.query.all()
+    locs = Locations.query.all()
     lst = list()
 
-    for perm in perms:
+    for loc in locs:
         lst.append(
             {
-                'id': perm.id,
-                'permission': perm.permission
+                'id': loc.id,
+                'lat': loc.lat,
+                'lon': loc.lon
             }
         )
 
     return jsonify(lst)
 
 
-@controllers.route('/permissions/<int:id>', methods=['GET'])
-def get_permission(id):
+@controllers.route('/locations/<int:id>', methods=['GET'])
+def get_location(id):
     try:
-        perm = Permissions.query.get(id)
+        loc = Locations.query.get(id)
 
         data = {
-            'id': perm.id,
-            'permission': perm.permission
+            'id': loc.id,
+            'lat': loc.lat,
+            'lon': loc.lon
         }
 
     except Exception as e:
         return jsonify(isError=True,
-                       message="Could not find permission",
+                       message="Could not find location",
                        statusCode=404,
                        data=str("Not Found")), 404
     else:
         return jsonify(data)
 
-@controllers.route('/permissions/update/<int:id>', methods=['PUT'])
-def update_permission(id):
+@controllers.route('/locations/update/<int:id>', methods=['PUT'])
+def update_location(id):
     try:
         args = request.get_json()
 
-        permission = args['permission']
+        lat = args['lat']
+        lon = args['lon']
 
-        Permissions.update_permission(id, permission)
+        Locations.update_location(id, lat, lon)
 
     except Exception as e:
         return jsonify(isError=True,
                        message="Error",
                        statusCode=500,
-                       data=str("Permission update error")), 500
+                       data=str("Location update error")), 500
     else:
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
-                       data=permission), 201
+                       data=f"{lat},{lon}"), 201
 
-@controllers.route('/permissions/post', methods=['POST'])
-def post_permission():
+@controllers.route('/locations/post', methods=['POST'])
+def post_location():
     try:
         args = request.get_json()
 
         id = args['id']
-        permission = args['permission']
+        lat = args['lat']
+        lon = args['lon']
 
-        Permissions.post_permission(id, permission)
+        Locations.post_location(id, lat, lon)
 
     except Exception as e:
         return jsonify(isError=True,
@@ -76,13 +80,13 @@ def post_permission():
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
-                       data=permission), 201
+                       data=f"{lat},{lon}"), 201
 
-@controllers.route('/permissions/delete/<int:id>', methods=['DELETE'])
-def delete_permission(id):
+@controllers.route('/locations/delete/<int:id>', methods=['DELETE'])
+def delete_location(id):
     try:
 
-        Permissions.delete_permission(id)
+        Locations.delete_location(id)
 
     except Exception as e:
         return jsonify(isError=True,
@@ -93,4 +97,4 @@ def delete_permission(id):
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
-                       data="permission"), 201
+                       data="location"), 201
