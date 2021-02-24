@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from forms import *
+from controllers import *
 from models import Users, Items, Rentals, Permissions, Comments, Locations, db_session
 import os
 
@@ -16,6 +17,7 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
+app.register_blueprint(controllers)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -42,6 +44,7 @@ def login_required(test):
 #----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
+
 
 
 @app.route('/')

@@ -33,6 +33,11 @@ class Users(Base):
         self.userName = userName
         self.permission = permission
 
+    def post_user(sent_id, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
+        new_user = Users(id=sent_id,name=sent_name,password=sent_password,email=sent_email,location=sent_location,userName=sent_userName,permission=sent_permission)
+        db_session.add(new_user)
+        db_session.commit()
+
 class Items(Base):
     __tablename__ = 'Items'
 
@@ -78,6 +83,24 @@ class Permissions(Base):
     def __init__(self, id, permission):
         self.id = id
         self.permission = permission
+
+    def get_permission(sent_id):
+        return db_session.query(Permissions).get(sent_id)
+
+    def post_permission(sent_id, sent_permission):
+        db_session.add(Permissions(id=sent_id,permission=sent_permission))
+        db_session.commit()
+
+    def delete_permission(sent_id):
+        perm = db_session.query(Permissions).get(sent_id)
+        db_session.delete(perm)
+        db_session.commit()
+
+    def update_permission(sent_id, sent_permission):
+        perm = db_session.query(Permissions).get(sent_id)
+        perm.permission = sent_permission
+        db_session.commit()
+
 
 class Comments(Base):
     __tablename__ = "Comments"
