@@ -9,8 +9,10 @@ class itemCard extends React.Component{
 
     render(){
         return(
-            <h2>hello</h2>
-            <button>view item</button>
+            <div>
+                <h2>hello</h2>
+                <button>view item</button>
+            </div>
         );
     }
 }
