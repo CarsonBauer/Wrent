@@ -65,11 +65,10 @@ def post_location():
     try:
         args = request.get_json()
 
-        id = args['id']
         lat = args['lat']
         lon = args['lon']
 
-        Locations.post_location(id, lat, lon)
+        Locations.post_location(lat, lon)
 
     except Exception as e:
         return jsonify(isError=True,

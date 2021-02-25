@@ -77,7 +77,6 @@ def post_user():
     try:
         args = request.get_json()
 
-        id = args['id']
         name = args['name']
         password = args['password']
         email = args['email']
@@ -85,7 +84,7 @@ def post_user():
         userName = args['userName']
         permission = args['permission']
 
-        Users.post_user(id, name, password, email, location, userName, permission)
+        Users.post_user(name, password, email, location, userName, permission)
 
     except Exception as e:
         return jsonify(isError=True,

@@ -62,10 +62,9 @@ def post_permission():
     try:
         args = request.get_json()
 
-        id = args['id']
         permission = args['permission']
 
-        Permissions.post_permission(id, permission)
+        Permissions.post_permission(permission)
 
     except Exception as e:
         return jsonify(isError=True,

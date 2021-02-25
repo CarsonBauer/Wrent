@@ -24,8 +24,7 @@ class Users(Base):
     password = Column(String(30), unique=True, nullable=False)
     permission = Column(Integer, ForeignKey("Permissions.id", ondelete="CASCADE"), nullable=False)
 
-    def __init__(self, id, name, password, email, location, userName, permission):
-        self.id = id
+    def __init__(self, name, password, email, location, userName, permission):
         self.name = name
         self.password = password
         self.email = email
@@ -36,8 +35,8 @@ class Users(Base):
     def get_user(sent_id):
         return db_session.query(Users).get(sent_id)
 
-    def post_user(sent_id, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
-        new_user = Users(id=sent_id,name=sent_name,password=sent_password,email=sent_email,location=sent_location,userName=sent_userName,permission=sent_permission)
+    def post_user(sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
+        new_user = Users(name=sent_name,password=sent_password,email=sent_email,location=sent_location,userName=sent_userName,permission=sent_permission)
         db_session.add(new_user)
         db_session.commit()
 
@@ -68,8 +67,7 @@ class Items(Base):
     imageURL = Column(String(120))
     rating = Column(Float)
 
-    def __init__(self, id, location, ownerId, name, description, imageURL, rating):
-        self.id = id
+    def __init__(self, location, ownerId, name, description, imageURL, rating):
         self.location = location
         self.ownerId = ownerId
         self.name = name
@@ -99,15 +97,14 @@ class Permissions(Base):
     id = Column(Integer, primary_key=True)
     permission = Column(String(120), nullable=False)
 
-    def __init__(self, id, permission):
-        self.id = id
+    def __init__(self, permission):
         self.permission = permission
 
     def get_permission(sent_id):
         return db_session.query(Permissions).get(sent_id)
 
-    def post_permission(sent_id, sent_permission):
-        db_session.add(Permissions(id=sent_id,permission=sent_permission))
+    def post_permission(sent_permission):
+        db_session.add(Permissions(permission=sent_permission))
         db_session.commit()
 
     def delete_permission(sent_id):
@@ -129,8 +126,7 @@ class Comments(Base):
     posterId = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
     itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
 
-    def __init__(self, id, commentText, posterId, itemId):
-        self.id = id
+    def __init__(self, commentText, posterId, itemId):
         self.commentText = commentText
         self.posterId = posterId
         self.itemId = itemId
@@ -142,16 +138,15 @@ class Locations(Base):
     lat = Column(Float, nullable=False)
     lon = Column(Float, nullable=False)
 
-    def __init__(self, id, lat, lon):
-        self.id = id
+    def __init__(self, lat, lon):
         self.lat = lat
         self.lon = lon
 
     def get_location(sent_id):
         return db_session.query(Locations).get(sent_id)
 
-    def post_location(sent_id, sent_lat, sent_lon):
-        db_session.add(Locations(id=sent_id,lat=sent_lat,lon=sent_lon))
+    def post_location(sent_lat, sent_lon):
+        db_session.add(Locations(lat=sent_lat,lon=sent_lon))
         db_session.commit()
 
     def delete_location(sent_id):
