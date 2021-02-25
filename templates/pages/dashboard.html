@@ -1,0 +1,42 @@
+{% extends 'layouts/main.html' %}
+{% block title %}Wrent{% endblock %}
+{% block content %}
+
+<!-- search bar --> 
+<div class="page-header">
+  <form>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search">
+      <div class="input-group-btn">
+        <button class="btn btn-default" type="submit">
+          <i class="glyphicon glyphicon-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div id="item-card"></div>
+<div class = "row">
+  <div class="col-sm-4">
+    <div id="item-card"></div>
+  </div>
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-body">A Basic Panel</div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="panel panel-default">
+      <div class="panel-body">A Basic Panel</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script  type = "text/babel" src="item-card.js"></script>
+
+<script>ReactDOM.render(<item-card/>,document.querySelector('.itemcard'))</script>
+
+{% endblock %}
