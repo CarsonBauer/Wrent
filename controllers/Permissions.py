@@ -2,7 +2,7 @@ from flask import jsonify, request
 from controllers import *
 from models import Permissions
 
-@controllers.route('/permissions/all', methods=['GET'])
+@controllers.route('/permissions', methods=['GET'])
 def get_permissions():
 
     perms = Permissions.query.all()
@@ -37,7 +37,7 @@ def get_permission(id):
     else:
         return jsonify(data)
 
-@controllers.route('/permissions/update/<int:id>', methods=['PUT'])
+@controllers.route('/permissions/<int:id>', methods=['PUT'])
 def update_permission(id):
     try:
         args = request.get_json()
@@ -57,7 +57,7 @@ def update_permission(id):
                        statusCode=201,
                        data=permission), 201
 
-@controllers.route('/permissions/post', methods=['POST'])
+@controllers.route('/permissions', methods=['POST'])
 def post_permission():
     try:
         args = request.get_json()
@@ -78,7 +78,7 @@ def post_permission():
                        statusCode=201,
                        data=permission), 201
 
-@controllers.route('/permissions/delete/<int:id>', methods=['DELETE'])
+@controllers.route('/permissions/<int:id>', methods=['DELETE'])
 def delete_permission(id):
     try:
 

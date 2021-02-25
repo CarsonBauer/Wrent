@@ -33,9 +33,28 @@ class Users(Base):
         self.userName = userName
         self.permission = permission
 
+    def get_user(sent_id):
+        return db_session.query(Users).get(sent_id)
+
     def post_user(sent_id, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
         new_user = Users(id=sent_id,name=sent_name,password=sent_password,email=sent_email,location=sent_location,userName=sent_userName,permission=sent_permission)
         db_session.add(new_user)
+        db_session.commit()
+
+    def delete_user(sent_id):
+        del_user = db_session.query(Users).get(sent_id)
+        db_session.delete(del_user)
+        db_session.commit()
+
+    def update_user(sent_id, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
+        updated_user = db_session.query(Users).get(sent_id)
+        updated_user.id = sent_id
+        updated_user.name = sent_name
+        updated_user.password = sent_password
+        updated_user.email = sent_email
+        updated_user.location = sent_location
+        updated_user.userName = sent_userName
+        updated_user.permission = sent_permission
         db_session.commit()
 
 class Items(Base):

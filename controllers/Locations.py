@@ -2,7 +2,7 @@ from flask import jsonify, request
 from controllers import *
 from models import Locations
 
-@controllers.route('/locations/all', methods=['GET'])
+@controllers.route('/locations', methods=['GET'])
 def get_locations():
 
     locs = Locations.query.all()
@@ -39,7 +39,7 @@ def get_location(id):
     else:
         return jsonify(data)
 
-@controllers.route('/locations/update/<int:id>', methods=['PUT'])
+@controllers.route('/locations/<int:id>', methods=['PUT'])
 def update_location(id):
     try:
         args = request.get_json()
@@ -60,7 +60,7 @@ def update_location(id):
                        statusCode=201,
                        data=f"{lat},{lon}"), 201
 
-@controllers.route('/locations/post', methods=['POST'])
+@controllers.route('/locations', methods=['POST'])
 def post_location():
     try:
         args = request.get_json()
@@ -82,7 +82,7 @@ def post_location():
                        statusCode=201,
                        data=f"{lat},{lon}"), 201
 
-@controllers.route('/locations/delete/<int:id>', methods=['DELETE'])
+@controllers.route('/locations/<int:id>', methods=['DELETE'])
 def delete_location(id):
     try:
 
