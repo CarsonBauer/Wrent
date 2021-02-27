@@ -3,10 +3,11 @@
 #----------------------------------------------------------------------------#
 
 from flask import Flask, render_template, request
-# from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
-from forms import *
+from controllers import *
+from models import Users, Items, Rentals, Permissions, Comments, Locations, db_session
 import os
 
 #----------------------------------------------------------------------------#
@@ -15,14 +16,17 @@ import os
 
 app = Flask(__name__)
 app.config.from_object('config')
-#db = SQLAlchemy(app)
+app.register_blueprint(controllers)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 # Automatically tear down SQLAlchemy.
-'''
+
+
 @app.teardown_request
 def shutdown_session(exception=None):
     db_session.remove()
-'''
+
 
 # Login required decorator.
 '''
@@ -41,10 +45,10 @@ def login_required(test):
 #----------------------------------------------------------------------------#
 
 
+
 @app.route('/')
 def home():
     return render_template('pages/dashboard.html')
-
 
 @app.route('/about')
 def about():
