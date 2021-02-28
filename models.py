@@ -118,6 +118,24 @@ class Rentals(Base):
         self.renterId = renterId
         self.itemId = itemId
 
+    def get_rental(sent_rentalId, sent_itemId):
+        return db_session.query(Rentals).get((sent_rentalId, sent_itemId))
+
+    def post_rental(sent_renterId, sent_itemId):
+        db_session.add(Rentals(renterId=sent_renterId, itemId=sent_itemId))
+        db_session.commit()
+
+    def delete_rental(sent_rentalId, sent_itemId):
+        ren = db_session.query(Rentals).get((sent_rentalId, sent_itemId))
+        db_session.delete(ren)
+        db_session.commit()
+
+    def update_rental(sent_renterId, sent_itemId):
+        ren = db_session.query(Rentals).get((sent_renterId, sent_itemId))
+        ren.renterId=sent_renterId
+        ren.itemId=sent_itemId
+        db_session.commit()
+
 class Permissions(Base):
     __tablename__ = "Permissions"
 
@@ -157,6 +175,25 @@ class Comments(Base):
         self.commentText = commentText
         self.posterId = posterId
         self.itemId = itemId
+
+    def get_comment(sent_id):
+        return db_session.query(Comments).get(sent_id)
+
+    def post_comment(sent_commentText, sent_posterId, sent_itemId):
+        db_session.add(Comments(commentText=sent_commentText, posterId=sent_posterId, itemId=sent_itemId))
+        db_session.commit()
+
+    def delete_comment(sent_id):
+        com = db_session.query(Comments).get(sent_id)
+        db_session.delete(com)
+        db_session.commit()
+
+    def update_comment(sent_id, sent_commentText, sent_posterId, sent_itemId):
+        com = db_session.query(Comments).get(sent_id)
+        com.commentText=sent_commentText
+        com.posterId=sent_posterId
+        com.itemId=sent_itemId
+        db_session.commit()
 
 class Locations(Base):
     __tablename__ = "Locations"
