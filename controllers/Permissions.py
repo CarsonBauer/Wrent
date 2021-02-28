@@ -24,10 +24,16 @@ def get_permission(id):
     try:
         perm = Permissions.query.get(id)
 
-        data = {
-            'id': perm.id,
-            'permission': perm.permission
-        }
+        if not perm:
+            return jsonify(isError=True,
+                       message="Could not find permission",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            data = {
+                'id': perm.id,
+                'permission': perm.permission
+            }
 
     except Exception as e:
         return jsonify(isError=True,
@@ -44,7 +50,13 @@ def update_permission(id):
 
         permission = args['permission']
 
-        Permissions.update_permission(id, permission)
+        if not Permissions.get_permission(id):
+            return jsonify(isError=True,
+                       message="Could not find permission",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            Permissions.update_permission(id, permission)
 
     except Exception as e:
         return jsonify(isError=True,
@@ -81,7 +93,13 @@ def post_permission():
 def delete_permission(id):
     try:
 
-        Permissions.delete_permission(id)
+        if not Permissions.get_permission(id):
+            return jsonify(isError=True,
+                       message="Could not find permission",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            Permissions.delete_permission(id)
 
     except Exception as e:
         return jsonify(isError=True,

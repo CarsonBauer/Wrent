@@ -29,6 +29,12 @@ def get_user(id):
     try:
         user = Users.query.get(id)
 
+        if not user:
+            return jsonify(isError=True,
+                       message="Could not find user",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+
         data = {
             'id': user.id,
             'name': user.name,
@@ -59,13 +65,19 @@ def update_user(id):
         userName = args['userName']
         permission = args['permission']
 
-        Users.update_user(id, name, password, email, location, userName, permission)
+        if not Users.get_user(id):
+            return jsonify(isError=True,
+                       message="Could not find user",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            Users.update_user(id, name, password, email, location, userName, permission)
 
     except Exception as e:
         return jsonify(isError=True,
                        message="Error",
                        statusCode=500,
-                       data=str("User update error")), 500
+                       data=str("Internal Server Error")), 500
     else:
         return jsonify(isError=False,
                        message="Success",
@@ -101,8 +113,13 @@ def post_user():
 def delete_user(id):
     try:
 
-        Users.delete_user(id)
-
+        if not Users.get_user(id):
+            return jsonify(isError=True,
+                       message="Could not find user",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            Users.delete_user(id)
     except Exception as e:
         return jsonify(isError=True,
                        message="Error",

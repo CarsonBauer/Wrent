@@ -17,11 +17,11 @@ class Users(Base):
     __tablename__ = 'Users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(120), unique=True, nullable=False)
+    name = Column(String(120), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     location = Column(Integer, ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
     userName = Column(String(20), unique=True, nullable=False)
-    password = Column(String(30), unique=True, nullable=False)
+    password = Column(String(30), nullable=False)
     permission = Column(Integer, ForeignKey("Permissions.id", ondelete="CASCADE"), nullable=False)
 
     def __init__(self, name, password, email, location, userName, permission):
@@ -74,6 +74,29 @@ class Items(Base):
         self.description = description
         self.imageURL = imageURL
         self.rating = rating
+
+    def get_item(sent_id):
+        return db_session.query(Items).get(sent_id)
+
+    def post_item(sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
+        new_item = Items(location=sent_location, ownerId=sent_ownerId, name=sent_name, description=sent_description, imageURL=sent_imageURL, rating=sent_rating)
+        db_session.add(new_item)
+        db_session.commit()
+
+    def delete_item(sent_id):
+        del_item = db_session.query(Items).get(sent_id)
+        db_session.delete(del_item)
+        db_session.commit()
+
+    def update_item(sent_id, sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
+        updated_item = db_session.query(Items).get(sent_id)
+        updated_item.location=sent_location
+        updated_item.ownerId=sent_ownerId
+        updated_item.name=sent_name
+        updated_item.description=sent_description
+        updated_item.imageURL=sent_imageURL
+        updated_item.rating=sent_rating
+        db_session.commit()
 
 class Rentals(Base):
     __tablename__ = "Rentals"

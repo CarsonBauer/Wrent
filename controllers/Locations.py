@@ -25,17 +25,23 @@ def get_location(id):
     try:
         loc = Locations.query.get(id)
 
-        data = {
-            'id': loc.id,
-            'lat': loc.lat,
-            'lon': loc.lon
-        }
-
-    except Exception as e:
-        return jsonify(isError=True,
+        if not loc:
+            return jsonify(isError=True,
                        message="Could not find location",
                        statusCode=404,
                        data=str("Not Found")), 404
+        else:
+            data = {
+                'id': loc.id,
+                'lat': loc.lat,
+                'lon': loc.lon
+            }   
+
+    except Exception as e:
+        return jsonify(isError=True,
+                       message="Error",
+                       statusCode=500,
+                       data=str("Internal Server Error")), 500
     else:
         return jsonify(data)
 
@@ -47,13 +53,19 @@ def update_location(id):
         lat = args['lat']
         lon = args['lon']
 
-        Locations.update_location(id, lat, lon)
+        if not Locations.get_location(id):
+            return jsonify(isError=True,
+                       message="Could not find location",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            Locations.update_location(id, lat, lon)
 
     except Exception as e:
         return jsonify(isError=True,
                        message="Error",
                        statusCode=500,
-                       data=str("Location update error")), 500
+                       data=str("Internal Server Error")), 500
     else:
         return jsonify(isError=False,
                        message="Success",
@@ -74,7 +86,7 @@ def post_location():
         return jsonify(isError=True,
                        message="Error",
                        statusCode=500,
-                       data=str("Permission addition error")), 500
+                       data=str("Internal Server Error")), 500
     else:
         return jsonify(isError=False,
                        message="Success",
@@ -85,7 +97,13 @@ def post_location():
 def delete_location(id):
     try:
 
-        Locations.delete_location(id)
+        if not Locations.get_location(id):
+            return jsonify(isError=True,
+                       message="Could not find location",
+                       statusCode=404,
+                       data=str("Not Found")), 404
+        else:
+            Locations.delete_location(id)
 
     except Exception as e:
         return jsonify(isError=True,
