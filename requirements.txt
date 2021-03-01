@@ -5,6 +5,7 @@ WTForms
 coverage
 gunicorn
 psycopg2
+flask-jwt-extended
 # ecdsa
 # paramiko
 # pycrypto

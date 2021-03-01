@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 import logging
 from logging import Formatter, FileHandler
 from controllers import *
+from flask_jwt_extended import JWTManager
 from models import Users, Items, Rentals, Permissions, Comments, Locations, db_session
 import os
 
@@ -19,6 +20,7 @@ app.config.from_object('config')
 app.register_blueprint(controllers)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+jwt = JWTManager(app)
 
 # Automatically tear down SQLAlchemy.
 

@@ -1,6 +1,40 @@
 from flask import jsonify, request
 from controllers import *
 from models import Users
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
+
+@controllers.route('/users/login', methods=['POST'])
+def login():
+    auth = request.form
+
+    if not auth or not auth.get('email') or not auth.get('password'):
+        return jsonify(isError=True,
+                       message="Login required",
+                       statusCode=401,
+                       data=str("Could not verify")), 401
+    
+    user = Users.query.filter_by(email = auth.get('email')).first()
+
+    if not user:
+        return jsonify(isError=True,
+                       message="User not found",
+                       statusCode=404,
+                       data=str("Not found")), 404
+
+    if user.password == auth.get('password'):
+        token = create_access_token(identity={
+            "userName": user.userName,
+            "email": user.email,
+            "permission": user.permission
+            })
+        return {"access_token": token}, 200
+        return 'Success', 200
+    else:
+        return 'Invalid login info', 400
+        
 
 @controllers.route('/users', methods=['GET'])
 def get_users():
