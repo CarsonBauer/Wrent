@@ -5,8 +5,10 @@
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 import logging
+from flask import Flask, send_from_directory
 from logging import Formatter, FileHandler
 from controllers import *
+from flask_jwt_extended import JWTManager
 from models import Users, Items, Rentals, Permissions, Comments, Locations, db_session
 import os
 
@@ -14,11 +16,20 @@ import os
 # App Config.
 #----------------------------------------------------------------------------#
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='wrent_frontend/build')
 app.config.from_object('config')
 app.register_blueprint(controllers)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+jwt = JWTManager(app)
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 # Automatically tear down SQLAlchemy.
 
@@ -40,50 +51,20 @@ def login_required(test):
             return redirect(url_for('login'))
     return wrap
 '''
-#----------------------------------------------------------------------------#
-# Controllers.
-#----------------------------------------------------------------------------#
 
 
-
-@app.route('/')
-def home():
-    return render_template('pages/placeholder.home.html')
-
-@app.route('/about')
-def about():
-    return render_template('pages/placeholder.about.html')
-
-
-@app.route('/login')
-def login():
-    form = LoginForm(request.form)
-    return render_template('forms/login.html', form=form)
-
-
-@app.route('/register')
-def register():
-    form = RegisterForm(request.form)
-    return render_template('forms/register.html', form=form)
-
-
-@app.route('/forgot')
-def forgot():
-    form = ForgotForm(request.form)
-    return render_template('forms/forgot.html', form=form)
-
-# Error handlers.
-
-
-@app.errorhandler(500)
-def internal_error(error):
-    #db_session.rollback()
-    return render_template('errors/500.html'), 500
-
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('errors/404.html'), 404
+# # Error handlers.
+#
+#
+# @app.errorhandler(500)
+# def internal_error(error):
+#     #db_session.rollback()
+#     return render_template('errors/500.html'), 500
+#
+#
+# @app.errorhandler(404)
+# def not_found_error(error):
+#     return render_template('errors/404.html'), 404
 
 if not app.debug:
     file_handler = FileHandler('error.log')

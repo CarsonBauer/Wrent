@@ -1,8 +1,14 @@
 from flask import jsonify, request
 from controllers import *
 from models import Locations
+import jwt
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
 
 @controllers.route('/locations', methods=['GET'])
+@jwt_required(optional=False)
 def get_locations():
 
     locs = Locations.query.all()
@@ -21,6 +27,7 @@ def get_locations():
 
 
 @controllers.route('/locations/<int:id>', methods=['GET'])
+@jwt_required(optional=False)
 def get_location(id):
     try:
         loc = Locations.query.get(id)
@@ -46,6 +53,7 @@ def get_location(id):
         return jsonify(data)
 
 @controllers.route('/locations/<int:id>', methods=['PUT'])
+@jwt_required(optional=False)
 def update_location(id):
     try:
         args = request.get_json()
@@ -73,6 +81,7 @@ def update_location(id):
                        data=f"{lat},{lon}"), 201
 
 @controllers.route('/locations', methods=['POST'])
+@jwt_required(optional=False)
 def post_location():
     try:
         args = request.get_json()
@@ -94,6 +103,7 @@ def post_location():
                        data=f"{lat},{lon}"), 201
 
 @controllers.route('/locations/<int:id>', methods=['DELETE'])
+@jwt_required(optional=False)
 def delete_location(id):
     try:
 
