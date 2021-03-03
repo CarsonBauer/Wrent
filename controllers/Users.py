@@ -9,15 +9,15 @@ from flask_jwt_extended import (
 
 @controllers.route('/users/login', methods=['POST'])
 def login():
-    auth = request.form
+    auth = request.json
 
-    if not auth or not auth.get('email') or not auth.get('password'):
+    if not auth or not auth['email'] or not auth['password']:
         return jsonify(isError=True,
                        message="Login required",
                        statusCode=401,
                        data=str("Could not verify")), 401
     
-    user = Users.query.filter_by(email = auth.get('email')).first()
+    user = Users.query.filter_by(email = auth['email']).first()
 
     if not user:
         return jsonify(isError=True,
@@ -25,11 +25,11 @@ def login():
                        statusCode=404,
                        data=str("Not found")), 404
 
-    if user.password == auth.get('password'):
+    if user.password == auth['password']:
         token = create_access_token({
             "userName": user.userName,
             "email": user.email,
-            "permission": 2
+            "permission": user.permission
             })
         return {"access_token": token}, 200
         return 'Success', 200
@@ -96,7 +96,7 @@ def update_user(id):
 
     data = get_jwt_identity()
 
-    if data['permission'] == 1 or Users.query.filter_by(email=data['email']).first().id == id:
+    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
         try:
             args = request.get_json()
 
@@ -132,7 +132,6 @@ def update_user(id):
                     data=str("Restricted access")), 401
 
 @controllers.route('/users', methods=['POST'])
-@jwt_required(optional=False)
 def post_user():
     try:
         args = request.get_json()
@@ -144,7 +143,13 @@ def post_user():
         userName = args['userName']
         permission = args['permission']
 
-        Users.post_user(name, password, email, location, userName, permission)
+        if not Users.query.filter_by(userName=userName).first() and not Users.query.filter_by(email=email).first():
+            Users.post_user(name, password, email, location, userName, permission)
+        else:
+            return jsonify(isError=True,
+                        message="Error",
+                        statusCode=400,
+                        data=str("username or email already exists")), 400
 
     except Exception as e:
         return jsonify(isError=True,
@@ -163,7 +168,7 @@ def delete_user(id):
 
     data = get_jwt_identity()
 
-    if data['permission'] == 1 or Users.query.filter_by(email=data['email']).first().id == id:
+    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
         try:
 
             if not Users.get_user(id):
