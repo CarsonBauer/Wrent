@@ -10,6 +10,8 @@ import PrivateRoute from "./auth/PrivateRoute";
 import SignIn from "./auth/SignIn";
 import { AuthContext } from "./auth/auth";
 import Home from "./home";
+import SignUp from "./auth/SignUp";
+import ForgotPassWord from "./auth/ForgotPassWord";
 
 export default function Main() {
   return (
@@ -27,6 +29,8 @@ export default function Main() {
               </PrivateRoute>
             ))}
             <Route exact path="/login" component={SignIn} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/forgotpassword" component={ForgotPassWord} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
