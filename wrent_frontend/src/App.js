@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+import logo from './Wrent.png';
 import './App.css';
 import '../src/components/auth/SignIn';
 import '../src/components/auth/SignUp';
