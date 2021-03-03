@@ -2,6 +2,7 @@ import Home from "../components/home";
 // import TherapistPage from "../components/therapists/TherapistPage";
 import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
+import ForgotPassWord from "../components/auth/ForgotPassWord";
 export const routes = [
 
 
@@ -14,8 +15,14 @@ export const routes = [
   {
     path: "/signup",
     private: false,
-    name: "Sign Up",
+    name: "Signup",
     component: SignUp,
+  },
+  {
+    path: "/forgotpassword",
+    private: false,
+    name: "ForgotPassword",
+    component: ForgotPassWord,
   },
   {
     path: "/",

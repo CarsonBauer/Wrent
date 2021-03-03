@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import '../src/components/auth/SignIn';
 import '../src/components/auth/SignUp';
+import '../src/components/auth/ForgotPassWord';
 
 function App() {
   return (<div className="App" >
