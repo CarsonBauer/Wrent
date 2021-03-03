@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
       display: "block",
     }},
     tabs: {
-        marginLeft: '30%'
+        marginRight: '30%'
     }
 }));
 
