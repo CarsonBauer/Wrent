@@ -100,6 +100,17 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
+                                id="location"
+                                label="Location"
+                                name="location"
+                                autoComplete="location"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
                                 name="password"
                                 label="Password"
                                 type="password"
