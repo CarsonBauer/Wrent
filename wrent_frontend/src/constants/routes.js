@@ -15,13 +15,13 @@ export const routes = [
   {
     path: "/signup",
     private: false,
-    name: "Signup",
+    name: "Sign Up",
     component: SignUp,
   },
   {
     path: "/forgotpassword",
     private: false,
-    name: "ForgotPassword",
+
     component: ForgotPassWord,
   },
   {
