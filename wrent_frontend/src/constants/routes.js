@@ -12,7 +12,7 @@ export const routes = [
     component: SignIn,
   },
   {
-    path: "/sign up",
+    path: "/signup",
     private: false,
     name: "Sign Up",
     component: SignUp,
