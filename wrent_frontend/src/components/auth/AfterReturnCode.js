@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    div: {
+        margin: '10%',
+    },
 }));
 
 export default function AfterReturnCode() {
@@ -41,25 +44,37 @@ export default function AfterReturnCode() {
             <CssBaseline />
             <div className={classes.paper}>
                 <WrentLogo />
-                <Typography component="h1" variant="h5">
-                    Password Assistance
-        </Typography>
-                <Grid item xs={12}>
-                    <TextField
-                        variant="outlined"
-                        required
-                        fullWidth
-                        name="Code"
-                        label="Return Code"
-                        type="password"
-                        id="returncode"
-                        autoComplete="return-code"
-                    />
-                </Grid>
+
+
                 <form className={classes.form} noValidate>
                     <Typography component="h1" variant="h5">
-                        Section of Returnning Password:
+                        Password Assistance Return Code
+        </Typography>
+                    <Typography component="h1" variant="h5">
+
                     </Typography>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="VerificationCode"
+                            label="Verification Code"
+                            type="password"
+                            id="verificationncode"
+                            autoComplete="verification-code"
+                        />
+                    </Grid>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <Typography component="h1" variant="h5">
+                        Password Return Here:
+        </Typography>
+                    <div>&nbsp;&nbsp;</div><div>&nbsp;&nbsp;</div>
                     <Grid item xs>
                         <Button
                             href="/login"
