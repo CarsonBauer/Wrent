@@ -31,8 +31,8 @@ def login():
             "email": user.email,
             "permission": user.permission
             })
-        return {"access_token": token}, 200
-        return 'Success', 200
+        return jsonify({"access_token": token}), 200
+        # return 'Success', 200
     else:
         return 'Invalid login info', 400
         
