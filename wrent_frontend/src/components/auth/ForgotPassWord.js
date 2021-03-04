@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SignUp() {
+export default function ForgotPassWord() {
     const classes = useStyles();
 
     return (
@@ -44,7 +44,7 @@ export default function SignUp() {
             <div className={classes.paper}>
                 <WrentLogo />
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Password Assistance
         </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -76,50 +76,10 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="userName"
-                                label="User Name"
-                                name="userName"
-                                autoComplete="user name"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
                                 id="email"
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="location"
-                                label="Location"
-                                name="location"
-                                autoComplete="location"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
                             />
                         </Grid>
                     </Grid>
@@ -130,15 +90,8 @@ export default function SignUp() {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign Up
+                        Find password
           </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link href="/login" variant="body2">
-                                Already have an account? Sign in
-              </Link>
-                        </Grid>
-                    </Grid>
                 </form>
             </div>
         </Container>

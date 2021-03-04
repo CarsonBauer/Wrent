@@ -11,6 +11,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import WrentLogo from './wrentLogo';
 
 
 
@@ -77,6 +78,8 @@ export default function SignIn() {
       <CssBaseline />
       <div className={classes.paper}>
 
+        <WrentLogo />
+
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -120,7 +123,7 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="./forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

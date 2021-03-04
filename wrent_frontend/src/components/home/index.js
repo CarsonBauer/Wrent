@@ -3,9 +3,15 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Button from "@material-ui/core/Button";
 import Markdown from "./Markdown";
 import motd from "./motd.md";
 import { makeStyles } from "@material-ui/core/styles";
+import { SearchRounded } from "@material-ui/icons";
+import TextField from "@material-ui/core/TextField";
+import Item from "./Item";
+import WrentLogo from "../auth/wrentLogo"
+
 
 import ReactDOM from "react-dom";
 
@@ -32,12 +38,55 @@ export default function Home() {
   });
 
   return (
+    
     <div className={classes.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper>
-            <Markdown className={classes.markdown}>{message}</Markdown>
-          </Paper>
+      <Grid container xs={12} spacing={3} direction="column" alignItems="center">
+      <WrentLogo/>
+      </Grid>
+      <Grid container spacing={3} direction="row" alignItems="center">
+        <Grid container spacing={1} alignItems="flex-end">
+          <Grid item>
+            <SearchRounded />
+          </Grid>
+          <Grid item>
+            <TextField id="input-with-icon-grid" label="Search..." />
+          </Grid>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
+        </Grid>
+        <Grid item xs={2}>
+          <Item/>
         </Grid>
       </Grid>
     </div>
