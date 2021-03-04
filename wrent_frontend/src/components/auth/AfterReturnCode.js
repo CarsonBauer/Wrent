@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ForgotPassWord() {
+export default function AfterReturnCode() {
     const classes = useStyles();
 
     return (
@@ -46,35 +46,35 @@ export default function ForgotPassWord() {
                 <Typography component="h1" variant="h5">
                     Password Assistance
         </Typography>
+                <Grid item xs={12}>
+                    <TextField
+                        variant="outlined"
+                        required
+                        fullWidth
+                        name="Code"
+                        label="Return Code"
+                        type="password"
+                        id="returncode"
+                        autoComplete="return-code"
+                    />
+                </Grid>
                 <form className={classes.form} noValidate>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                            />
-                        </Grid>
+                    <Typography component="h1" variant="h5">
+                        Section of Returnning Password:
+                    </Typography>
+                    <Grid item xs>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Back To sign In
+          </Button>
                     </Grid>
-
-
-                    <Grid item>
-                        <Link href="/afterreturncode" variant="body2">
-                            <Grid item>
-                                <Typography component="h1" variant="h5">
-                                    Password Assistance
-        </Typography>
-                            </Grid>
-                        </Link>
-                    </Grid>
-
-
                 </form>
             </div>
-        </Container >
+        </Container>
     );
 }

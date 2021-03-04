@@ -3,6 +3,7 @@ import './App.css';
 import '../src/components/auth/SignIn';
 import '../src/components/auth/SignUp';
 import '../src/components/auth/ForgotPassWord';
+import '../src/components/auth/AfterReturnCode';
 
 function App() {
   return (<div className="App" >
