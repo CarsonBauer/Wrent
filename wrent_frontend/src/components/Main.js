@@ -32,7 +32,7 @@ export default function Main() {
             <Route exact path="/login" component={SignIn} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/forgotpassword" component={ForgotPassWord} />
-            <Route exact path="/aterreturncode" component={AfterReturnCode} />
+            <Route exact path="/afterreturncode" component={AfterReturnCode} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>

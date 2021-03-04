@@ -63,13 +63,16 @@ export default function ForgotPassWord() {
 
 
                     <Grid item>
-                        <Link href="/afterreturncode" variant="body2">
-                            <Grid item>
-                                <Typography component="h1" variant="h5">
-                                    Password Assistance
-        </Typography>
-                            </Grid>
-                        </Link>
+                        <Button
+                            href="/afterreturncode"
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Get Verification Code
+          </Button>
                     </Grid>
 
 
