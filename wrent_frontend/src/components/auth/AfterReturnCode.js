@@ -1,5 +1,4 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,7 +7,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -33,9 +31,12 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    div: {
+        margin: '10%',
+    },
 }));
 
-export default function ForgotPassWord() {
+export default function AfterReturnCode() {
     const classes = useStyles();
 
     return (
@@ -43,41 +44,56 @@ export default function ForgotPassWord() {
             <CssBaseline />
             <div className={classes.paper}>
                 <WrentLogo />
-                <Typography component="h1" variant="h5">
-                    Password Assistance
-        </Typography>
+
+
                 <form className={classes.form} noValidate>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                            />
-                        </Grid>
+                    <Typography component="h1" variant="h5">
+                        Password Assistance Return Code
+        </Typography>
+                    <Typography component="h1" variant="h5">
+
+                    </Typography>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="VerificationCode"
+                            label="Verification Code"
+                            type="password"
+                            id="verificationncode"
+                            autoComplete="verification-code"
+                        />
                     </Grid>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <Typography component="h1" variant="h5">
+                        Password Return Here:
+        </Typography>
+                    <div>&nbsp;&nbsp;</div>
+                    <span>Section: </span>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
 
-
-                    <Grid item>
+                    <div>&nbsp;&nbsp;</div>
+                    <Grid item xs>
                         <Button
-                            href="/afterreturncode"
+                            href="/login"
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
                         >
-                            Get Verification Code
+                            Back To sign In
           </Button>
                     </Grid>
-
-
                 </form>
             </div>
-        </Container >
+        </Container>
     );
 }

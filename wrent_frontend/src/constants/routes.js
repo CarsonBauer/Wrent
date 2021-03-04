@@ -3,6 +3,7 @@ import Home from "../components/home";
 import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
 import ForgotPassWord from "../components/auth/ForgotPassWord";
+import AfterReturnCode from "../components/auth/AfterReturnCode";
 export const routes = [
 
 
@@ -23,6 +24,12 @@ export const routes = [
     private: false,
 
     component: ForgotPassWord,
+  },
+  {
+    path: "/afterreturncode",
+    private: false,
+
+    component: AfterReturnCode,
   },
   {
     path: "/",
