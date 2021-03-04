@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import Button from "@material-ui/core/Button";
 import Markdown from "./Markdown";
 import motd from "./motd.md";
 import { makeStyles } from "@material-ui/core/styles";
@@ -35,6 +36,7 @@ export default function Home() {
         <Grid item xs={12}>
           <Paper>
             <Markdown className={classes.markdown}>{message}</Markdown>
+            <Button variant = "outlined" color = "secondary"> Test Button</Button>
           </Paper>
         </Grid>
       </Grid>
