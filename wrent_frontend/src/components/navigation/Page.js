@@ -26,7 +26,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="/">
-        Wrent
+      Wrent
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

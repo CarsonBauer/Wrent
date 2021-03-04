@@ -9,7 +9,9 @@ import Link from "@material-ui/core/Link";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import {routes} from "../../constants/routes"
+import {routes} from "../../constants/routes";
+import logo from "../home/Icon.png";
+
 
 // stolen from: https://github.com/sneas/react-nested-routes-example
 
@@ -27,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     }},
     tabs: {
         marginRight: '30%'
+    },
+    logo: {
+      height: 50,
     }
 }));
 
@@ -64,7 +69,9 @@ const Navigation = ({route}) => {
             <AppBar position="static">
                 <Toolbar className={classes.grow}>
                     <Typography className={classes.title} variant="h6" noWrap>
-                        Wrent
+                      <Link href="/">
+                        <img className={classes.logo} src={logo} alt="WrentLogo" />
+                      </Link>
                     </Typography>
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered
                           className={classes.tabs}>
