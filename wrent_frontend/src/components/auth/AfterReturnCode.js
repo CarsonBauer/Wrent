@@ -55,7 +55,7 @@ export default function AfterReturnCode() {
                     </Typography>
                     <div>&nbsp;&nbsp;</div>
                     <div>&nbsp;&nbsp;</div>
-                    <div>&nbsp;&nbsp;</div>
+
                     <Grid item xs={12}>
                         <TextField
                             variant="outlined"
@@ -70,11 +70,16 @@ export default function AfterReturnCode() {
                     </Grid>
                     <div>&nbsp;&nbsp;</div>
                     <div>&nbsp;&nbsp;</div>
-                    <div>&nbsp;&nbsp;</div>
                     <Typography component="h1" variant="h5">
                         Password Return Here:
         </Typography>
-                    <div>&nbsp;&nbsp;</div><div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <span>Section: </span>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div>
+
+                    <div>&nbsp;&nbsp;</div>
                     <Grid item xs>
                         <Button
                             href="/login"
