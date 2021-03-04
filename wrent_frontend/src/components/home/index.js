@@ -9,6 +9,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import ReactDOM from "react-dom";
 
+window.$token = ''
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
