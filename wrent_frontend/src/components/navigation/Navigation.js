@@ -16,35 +16,37 @@ import logo from "../home/Icon.png";
 // stolen from: https://github.com/sneas/react-nested-routes-example
 
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    }},
+    grow: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        display: "none",
+        [theme.breakpoints.up("sm")]: {
+            display: "block",
+        }
+    },
     tabs: {
-        marginRight: '30%'
+        marginLeft: 'auto',
+        marginRight: 0
     },
     logo: {
-      height: 50,
+        height: 50,
     }
 }));
 
 function LinkTab(props) {
-  return (
-    <Tab
-      component="a"
-      onClick={(event) => {
-        event.preventDefault();
-      }}
-      {...props}
-    />
-  );
+    return (
+        <Tab
+            component="a"
+            onClick={(event) => {
+                event.preventDefault();
+            }}
+            {...props}
+        />
+    );
 }
 
 
@@ -69,17 +71,17 @@ const Navigation = ({route}) => {
             <AppBar position="static">
                 <Toolbar className={classes.grow}>
                     <Typography className={classes.title} variant="h6" noWrap>
-                      <Link href="/">
-                        <img className={classes.logo} src={logo} alt="WrentLogo" />
-                      </Link>
+                        <Link href="/">
+                            <img className={classes.logo} src={logo} alt="WrentLogo"/>
+                        </Link>
                     </Typography>
-                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered
+                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"
                           className={classes.tabs}>
                         {routes.map((route, i) => (
                             typeof (route.name) !== "undefined" ?
                                 <Tab label={route.name} value={route.path}/> : null
                         ))}
-                </Tabs>
+                    </Tabs>
                 </Toolbar>
             </AppBar>
         </nav>

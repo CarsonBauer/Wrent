@@ -10,9 +10,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import SignIn from "./auth/SignIn";
 import { AuthContext } from "./auth/auth";
 import Home from "./home";
-import SignUp from "./auth/SignUp";
-import ForgotPassWord from "./auth/ForgotPassWord";
-import AfterReturnCode from "./auth/AfterReturnCode";
+
 
 export default function Main() {
   return (
@@ -29,10 +27,6 @@ export default function Main() {
                 <Page route={route} />
               </PrivateRoute>
             ))}
-            <Route exact path="/login" component={SignIn} />
-            <Route exact path="/signup" component={SignUp} />
-            <Route exact path="/forgotpassword" component={ForgotPassWord} />
-            <Route exact path="/afterreturncode" component={AfterReturnCode} />
           </Switch>
         </BrowserRouter>
       </MuiThemeProvider>
