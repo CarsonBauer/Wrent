@@ -12,16 +12,20 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from "@material-ui/core/Paper";
 import WrentLogo from './wrentLogo';
 
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
+      paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-    },
+        padding: theme.spacing(5),
+        marginLeft: -theme.spacing(3),
+        width: '450px',
+      },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
@@ -41,7 +45,7 @@ export default function SignUp() {
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            <Paper className={classes.paper}>
                 <WrentLogo />
                 <Typography component="h1" variant="h5">
                     Sign up
@@ -140,7 +144,7 @@ export default function SignUp() {
                         </Grid>
                     </Grid>
                 </form>
-            </div>
+            </Paper>
         </Container>
     );
 }
