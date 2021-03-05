@@ -65,6 +65,7 @@ export default function SignIn() {
         password = event.target.value;
     }
 
+
     const handleSubmit = (event) => {
         login();
         event.preventDefault();
@@ -83,7 +84,7 @@ export default function SignIn() {
         )
     })
     .then(res => res.json())
-    .then();
+    .then(jwt => console.log(jwt));
 
 
     return (
