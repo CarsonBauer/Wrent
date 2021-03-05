@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
+import { Redirect } from 'react-router';
 
 
 
@@ -70,7 +71,7 @@ export default function SignIn() {
     })
 
     window.$token = await res.json();
-    
+
   }
 
   return (

@@ -6,3 +6,4 @@ from .Users import *
 from .Items import *
 from .Comments import *
 from .Rentals import *
+from .TempCodes import *
