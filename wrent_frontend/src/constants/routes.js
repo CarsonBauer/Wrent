@@ -16,7 +16,6 @@ export const routes = [
   {
     path: "/signup",
     private: false,
-    name: "Sign Up",
     component: SignUp,
   },
   {
@@ -28,7 +27,6 @@ export const routes = [
   {
     path: "/afterreturncode",
     private: false,
-
     component: AfterReturnCode,
   },
   {
