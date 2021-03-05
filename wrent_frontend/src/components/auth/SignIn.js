@@ -39,6 +39,40 @@ export default function SignIn() {
   const classes = useStyles();
   console.log("rendering");
 
+  var email = "";
+  var password = ""
+
+  const handleEmailChange = (event) => {
+    email = event.target.value;
+  }
+
+  const handlePasswordChange = (event) => {
+    password = event.target.value;
+  }
+
+  const handleSubmit = (event) => {
+    login();
+    event.preventDefault();
+  }
+
+  const login = async () => {
+    const res = await fetch('/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          'email': email.toString(),
+          'password': password.toString()
+       }
+      )
+    })
+
+    window.$token = await res.json();
+    
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -51,7 +85,7 @@ export default function SignIn() {
         </Typography>
 
         <form className={classes.form} noValidate>
-          <TextField
+          <TextField onChange={handleEmailChange}
             variant="outlined"
             margin="normal"
             required
@@ -62,7 +96,7 @@ export default function SignIn() {
             autoComplete="email"
             autoFocus
           />
-          <TextField
+          <TextField onChange={handlePasswordChange}
             variant="outlined"
             margin="normal"
             required
@@ -78,6 +112,7 @@ export default function SignIn() {
             label="Remember me"
           />
           <Button
+            onClick={handleSubmit}
             type="submit"
             fullWidth
             variant="contained"

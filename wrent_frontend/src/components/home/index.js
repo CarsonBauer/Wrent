@@ -15,6 +15,8 @@ import WrentLogo from "../auth/wrentLogo"
 
 import ReactDOM from "react-dom";
 
+window.$token = ''
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

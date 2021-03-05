@@ -17,11 +17,11 @@ class Users(Base):
     __tablename__ = 'Users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(120), unique=True, nullable=False)
+    name = Column(String(120), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     location = Column(Integer, ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
     userName = Column(String(20), unique=True, nullable=False)
-    password = Column(String(30), unique=True, nullable=False)
+    password = Column(String(30), nullable=False)
     permission = Column(Integer, ForeignKey("Permissions.id", ondelete="CASCADE"), nullable=False)
 
     def __init__(self, name, password, email, location, userName, permission):
@@ -32,20 +32,20 @@ class Users(Base):
         self.userName = userName
         self.permission = permission
 
-    def get_user(self, sent_id):
+    def get_user(sent_id):
         return db_session.query(Users).get(sent_id)
 
-    def post_user(self, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
+    def post_user(sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
         new_user = Users(name=sent_name,password=sent_password,email=sent_email,location=sent_location,userName=sent_userName,permission=sent_permission)
         db_session.add(new_user)
         db_session.commit()
 
-    def delete_user(self, sent_id):
+    def delete_user(sent_id):
         del_user = db_session.query(Users).get(sent_id)
         db_session.delete(del_user)
         db_session.commit()
 
-    def update_user(self, sent_id, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
+    def update_user(sent_id, sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
         updated_user = db_session.query(Users).get(sent_id)
         updated_user.id = sent_id
         updated_user.name = sent_name
@@ -56,7 +56,7 @@ class Users(Base):
         updated_user.permission = sent_permission
         db_session.commit()
 
-    def authenticate(self, username, password):
+    def authenticate(username, password):
         result = db_session.query(Users).filter(Users.name == username, Users.password == password).first()
         return result
 
@@ -79,6 +79,29 @@ class Items(Base):
         self.imageURL = imageURL
         self.rating = rating
 
+    def get_item(sent_id):
+        return db_session.query(Items).get(sent_id)
+
+    def post_item(sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
+        new_item = Items(location=sent_location, ownerId=sent_ownerId, name=sent_name, description=sent_description, imageURL=sent_imageURL, rating=sent_rating)
+        db_session.add(new_item)
+        db_session.commit()
+
+    def delete_item(sent_id):
+        del_item = db_session.query(Items).get(sent_id)
+        db_session.delete(del_item)
+        db_session.commit()
+
+    def update_item(sent_id, sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
+        updated_item = db_session.query(Items).get(sent_id)
+        updated_item.location=sent_location
+        updated_item.ownerId=sent_ownerId
+        updated_item.name=sent_name
+        updated_item.description=sent_description
+        updated_item.imageURL=sent_imageURL
+        updated_item.rating=sent_rating
+        db_session.commit()
+
 class Rentals(Base):
     __tablename__ = "Rentals"
 
@@ -94,6 +117,24 @@ class Rentals(Base):
     def __init__(self, renterId, itemId):
         self.renterId = renterId
         self.itemId = itemId
+
+    def get_rental(sent_rentalId, sent_itemId):
+        return db_session.query(Rentals).get((sent_rentalId, sent_itemId))
+
+    def post_rental(sent_renterId, sent_itemId):
+        db_session.add(Rentals(renterId=sent_renterId, itemId=sent_itemId))
+        db_session.commit()
+
+    def delete_rental(sent_rentalId, sent_itemId):
+        ren = db_session.query(Rentals).get((sent_rentalId, sent_itemId))
+        db_session.delete(ren)
+        db_session.commit()
+
+    def update_rental(sent_renterId, sent_itemId):
+        ren = db_session.query(Rentals).get((sent_renterId, sent_itemId))
+        ren.renterId=sent_renterId
+        ren.itemId=sent_itemId
+        db_session.commit()
 
 class Permissions(Base):
     __tablename__ = "Permissions"
@@ -134,6 +175,25 @@ class Comments(Base):
         self.commentText = commentText
         self.posterId = posterId
         self.itemId = itemId
+
+    def get_comment(sent_id):
+        return db_session.query(Comments).get(sent_id)
+
+    def post_comment(sent_commentText, sent_posterId, sent_itemId):
+        db_session.add(Comments(commentText=sent_commentText, posterId=sent_posterId, itemId=sent_itemId))
+        db_session.commit()
+
+    def delete_comment(sent_id):
+        com = db_session.query(Comments).get(sent_id)
+        db_session.delete(com)
+        db_session.commit()
+
+    def update_comment(sent_id, sent_commentText, sent_posterId, sent_itemId):
+        com = db_session.query(Comments).get(sent_id)
+        com.commentText=sent_commentText
+        com.posterId=sent_posterId
+        com.itemId=sent_itemId
+        db_session.commit()
 
 class Locations(Base):
     __tablename__ = "Locations"
