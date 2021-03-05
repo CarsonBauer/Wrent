@@ -224,6 +224,26 @@ class Locations(Base):
         loc.lon = sent_lon
         db_session.commit()
 
+class TempCodes(Base):
+    __tablename__ = "TempCodes"
+
+    id = Column(Integer, primary_key=True)
+    code = Column(String, nullable=False)
+
+    def __init__(self, code):
+        self.code = code
+
+    def get_code(sent_id):
+        return db_session.query(TempCodes).get(sent_id)
+
+    def post_code(sent_code):
+        db_session.add(TempCodes(code=sent_code))
+        db_session.commit()
+
+    def delete_code(sent_id):
+        loc = db_session.query(TempCodes).get(sent_id)
+        db_session.delete(loc)
+        db_session.commit()
 
 # Create tables.
 Base.metadata.create_all(bind=engine)

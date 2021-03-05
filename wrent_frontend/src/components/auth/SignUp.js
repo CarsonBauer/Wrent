@@ -12,16 +12,20 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from "@material-ui/core/Paper";
 import WrentLogo from './wrentLogo';
 
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
+      paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-    },
+        padding: theme.spacing(5),
+        marginLeft: -theme.spacing(3),
+        width: '450px',
+      },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
@@ -38,10 +42,67 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
     const classes = useStyles();
 
+    var firstName = "";
+    var lastName = "";
+    var userName = "";
+    var email = "";
+    var location = "";
+    var password = "";
+
+    const handleFirstNameChange = (event) => {
+        firstName = event.target.value;
+    }
+
+    const handleLastNameChange = (event) => {
+        lastName = event.target.value;
+    }
+
+    const handleUserNameChange = (event) => {
+        userName = event.target.value;
+    }
+
+    const handleEmailChange = (event) => {
+        email = event.target.value;
+    }
+
+    const handleLocationChange = (event) => {
+        location = event.target.value;
+    }
+
+    const handlePasswordChange = (event) => {
+        password = event.target.value;
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (!firstName || !lastName || !userName || !email || !location || !password) {
+            alert('One of the required fields is empty');
+        } else {
+            postUser();
+        }
+    }
+
+    const postUser = async () => {
+        await fetch('/users', {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                'name': firstName.toString() + " " + lastName.toString(),
+                'password': password.toString(),
+                'email': email.toString(),
+                'location': 1,
+                'userName': userName.toString(),
+                'permission': 1
+            })
+        })
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            <Paper className={classes.paper}>
                 <WrentLogo />
                 <Typography component="h1" variant="h5">
                     Sign up
@@ -49,7 +110,7 @@ export default function SignUp() {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
-                            <TextField
+                            <TextField onChange={handleFirstNameChange}
                                 autoComplete="fname"
                                 name="firstName"
                                 variant="outlined"
@@ -61,7 +122,7 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <TextField
+                            <TextField onChange={handleLastNameChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -72,7 +133,7 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <TextField onChange={handleUserNameChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -83,7 +144,7 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <TextField onChange={handleEmailChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -94,7 +155,7 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <TextField onChange={handleLocationChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -105,7 +166,7 @@ export default function SignUp() {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField
+                            <TextField onChange={handlePasswordChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -123,7 +184,7 @@ export default function SignUp() {
                             />
                         </Grid>
                     </Grid>
-                    <Button
+                    <Button onClick={handleSubmit}
                         type="submit"
                         fullWidth
                         variant="contained"
@@ -140,7 +201,7 @@ export default function SignUp() {
                         </Grid>
                     </Grid>
                 </form>
-            </div>
+            </Paper>
         </Container>
     );
 }
