@@ -79,7 +79,7 @@ export default function AfterReturnCode({email}) {
                 <form className={classes.form} noValidate>
                     <Typography component="h1" variant="h5">
                         Password Assistance Return Code
-        </Typography>
+                    </Typography>
                     <Typography component="h1" variant="h5">
 
                     </Typography>
