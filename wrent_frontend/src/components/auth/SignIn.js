@@ -54,15 +54,15 @@ export default function SignIn() {
     const [error] = useState();
     console.log("rendering");
 
-    var email = "";
-    var password = ""
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleEmailChange = (event) => {
-        email = event.target.value;
+        setEmail(event.target.value);
     }
 
     const handlePasswordChange = (event) => {
-        password = event.target.value;
+        setPassword(event.target.value);
     }
 
     const handleSubmit = (event) => {
@@ -70,7 +70,7 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = fetch('/users/login', {
+    const login = async () =>  fetch('/users/login', {
         method: 'POST',
         headers: {
             'Content-type': 'application/json'
