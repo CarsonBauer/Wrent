@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
+import {useState} from 'react'
+import AfterReturnCode from './AfterReturnCode';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,8 +40,41 @@ const useStyles = makeStyles((theme) => ({
 export default function ForgotPassWord() {
     const classes = useStyles();
 
+    const [email, setEmail] = useState("");
+    const [navigate, setNav] = useState(true);
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    }
+
+    const handleSubmit = (event) => {
+        getCode();
+        // useHistory().push("/afterreturncode");
+        event.preventDefault();
+    }
+
+    const getCode = async () => {
+        const res = await fetch('/tempcodes', {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify(
+              {
+                'email': email.toString()
+             }
+            )
+          })
+        
+        if (res.status == 200) {
+            setNav(false);
+        }
+
+    }
+
     return (
-        <Container component="main" maxWidth="xs">
+        <>
+        {navigate ? <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <WrentLogo />
@@ -49,7 +84,7 @@ export default function ForgotPassWord() {
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField
+                            <TextField onChange={handleEmailChange}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -64,20 +99,23 @@ export default function ForgotPassWord() {
 
                     <Grid item>
                         <Button
-                            href="/afterreturncode"
+                            // href="/afterreturncode"
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={handleSubmit}
                         >
                             Get Verification Code
-          </Button>
+                        </Button>
                     </Grid>
 
 
                 </form>
             </div>
-        </Container >
+        </Container >: 
+        <AfterReturnCode email={email} />}
+        </>
     );
 }
