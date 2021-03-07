@@ -4,6 +4,7 @@ import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
 import ForgotPassWord from "../components/auth/ForgotPassWord";
 import AfterReturnCode from "../components/auth/AfterReturnCode";
+import UpdatePassword from "../components/auth/UpdatePassword";
 export const routes = [
 
 
@@ -17,6 +18,11 @@ export const routes = [
     path: "/signup",
     private: false,
     component: SignUp,
+  },
+  {
+    path: "/updatepassword",
+    private: false,
+    component: UpdatePassword,
   },
   {
     path: "/forgotpassword",

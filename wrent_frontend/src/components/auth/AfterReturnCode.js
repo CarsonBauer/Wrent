@@ -10,9 +10,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import WrentLogo from './wrentLogo';
 import {useState} from 'react'
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,26 +20,35 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: theme.spacing(5),
+        marginLeft: -theme.spacing(3),
+        width: '450px',
+    },
+    errorPaper: {
+        marginTop: theme.spacing(2),
+        padding: theme.spacing(3),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: '#FFBABA',
     },
     avatar: {
-        margin: theme.spacing(1),
+        margin: theme.spacing(8),
+        marginTop: '50px',
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(8)
+
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-    },
-    div: {
-        margin: '10%',
     },
 }));
 
 export default function AfterReturnCode({email}) {
     const classes = useStyles();
-
     var code = "";
     const [password, setPassword] = useState('test');
 
@@ -48,11 +57,11 @@ export default function AfterReturnCode({email}) {
     }
 
     const handleSubmit = (event) => {
-        getPassword();
+        checkCode();
         event.preventDefault();
     }
 
-    const getPassword = async () => {
+    const checkCode = async () => {
         const res = await fetch(`/tempcodes/check`, {
             method: 'POST',
             headers: {
@@ -65,14 +74,15 @@ export default function AfterReturnCode({email}) {
              }
             )
           })
-          var data = await res.json();
-          setPassword(data['password']);
+        var data = await res.json();
+        localStorage.setItem('user-jwt', data['access_token'])
     }
 
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            {/* <div className={classes.paper}> */}
+            <Paper className={classes.paper}>
                 <WrentLogo />
 
 
@@ -108,10 +118,10 @@ export default function AfterReturnCode({email}) {
                             className={classes.submit}
                             onClick={handleSubmit}
                         >
-                            Get Password
+                            Enter Code
                         </Button>
                     </Grid>
-                    <div>&nbsp;&nbsp;</div>
+                    {/* <div>&nbsp;&nbsp;</div>
                     <div>&nbsp;&nbsp;</div>
                     <Typography component="h1" variant="h5">
                         Password Return Here: 
@@ -123,7 +133,7 @@ export default function AfterReturnCode({email}) {
                     <div>&nbsp;&nbsp;</div>
                     <div>&nbsp;&nbsp;</div>
 
-                    <div>&nbsp;&nbsp;</div>
+                    <div>&nbsp;&nbsp;</div> */}
                     <Grid item xs>
                         <Button
                             href="/login"
@@ -137,7 +147,8 @@ export default function AfterReturnCode({email}) {
           </Button>
                     </Grid>
                 </form>
-            </div>
+            {/* </div> */}
+            </Paper>
         </Container>
     );
 }

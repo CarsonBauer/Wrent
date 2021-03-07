@@ -56,6 +56,11 @@ class Users(Base):
         updated_user.permission = sent_permission
         db_session.commit()
 
+    def update_user_password(sent_id, sent_password):
+        updated_user = db_session.query(Users).get(sent_id)
+        updated_user.password = sent_password
+        db_session.commit()
+
     def authenticate(username, password):
         result = db_session.query(Users).filter(Users.name == username, Users.password == password).first()
         return result

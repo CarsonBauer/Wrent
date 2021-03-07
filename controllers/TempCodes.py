@@ -44,13 +44,12 @@ def check_code():
 
     if code:
         user = Users.query.filter_by(email=auth['email']).first()
-        # token = create_access_token({
-        #     "userName": user.userName,
-        #     "email": user.email,
-        #     "permission": user.permission
-        #     })
-        # return jsonify({"access_token": token}), 200
-        return jsonify({'password': user.password}), 200
+        token = create_access_token({
+            "userName": user.userName,
+            "email": user.email,
+            "permission": user.permission
+            })
+        return jsonify({"access_token": token}), 200
     else:
         return jsonify(isError=True,
                        message="Invalid retrieval code.",

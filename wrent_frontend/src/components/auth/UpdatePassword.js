@@ -54,37 +54,33 @@ export default function SignIn() {
     const [error] = useState();
     console.log("rendering");
 
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    }
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     }
 
     const handleSubmit = (event) => {
-        login();
+        updatePassword();
         event.preventDefault();
     }
 
-    const login = async () =>  fetch('/users/login', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-                'email': email.toString(),
-                'password': password.toString()
-            }
-        )
-    })
-    .then(res => res.json())
-    .then(window.$token=res);
-
+    const updatePassword = async () => {
+        var tkn = localStorage.getItem('user-jwt')
+        fetch('/users/password', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${tkn}`
+            },
+            body: JSON.stringify(
+                {
+                    // 'email': tkn['email'],
+                    'password': password.toString()
+                }
+            )
+        })
+    }   
 
     return (
         <Container component="main" maxWidth="xs">
@@ -94,37 +90,22 @@ export default function SignIn() {
                 <WrentLogo className={classes.avatar}/>
 
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Update Password
                 </Typography>
 
                 {error && <Paper className={classes.errorPaper}>{error.message}</Paper>}
 
                 <form className={classes.form} noValidate>
-                    <TextField onChange={handleEmailChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               id="email"
-                               label="Email Address"
-                               name="email"
-                               autoComplete="email"
-                               autoFocus
-                    />
                     <TextField onChange={handlePasswordChange}
                                variant="outlined"
                                margin="normal"
                                required
                                fullWidth
-                               name="password"
-                               label="Password"
-                               type="password"
                                id="password"
-                               autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="Remember me"
+                               label="Password"
+                               name="password"
+                               autoComplete="password"
+                               autoFocus
                     />
                     <Button
                         onClick={handleSubmit}
@@ -134,20 +115,8 @@ export default function SignIn() {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
+                        Update
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="./forgotpassword" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
                 </form>
             </Paper>
         </Container>

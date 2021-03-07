@@ -193,3 +193,36 @@ def delete_user(id):
                     message="You are Unauthorized",
                     statusCode=401,
                     data=str("Restricted access")), 401
+
+@controllers.route('/users/password', methods=['POST'])
+@jwt_required(optional=False)
+def update_password():
+    data = get_jwt_identity()
+
+    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
+        try:
+            args = request.get_json()
+            user = Users.query.filter_by(email=data['email']).first()
+
+            if user:
+                Users.update_user_password(user.id, args['password'])
+            else:
+                return jsonify(isError=True,
+                        message="Could not find user",
+                        statusCode=404,
+                        data=str("Not Found")), 404
+        except Exception as e:
+            return jsonify(isError=True,
+                        message="Error",
+                        statusCode=500,
+                        data=str("Internal Server error")), 500
+        else:
+            return jsonify(isError=False,
+                            message="Success",
+                            statusCode=201,
+                            data="test"), 201
+    else:
+        return jsonify(isError=True,
+                    message="You are Unauthorized",
+                    statusCode=401,
+                    data=str("Restricted access")), 401

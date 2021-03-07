@@ -12,10 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import WrentLogo from './wrentLogo';
 import {useState} from 'react'
 import AfterReturnCode from './AfterReturnCode';
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -23,14 +23,27 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: theme.spacing(5),
+        marginLeft: -theme.spacing(3),
+        width: '450px',
+    },
+    errorPaper: {
+        marginTop: theme.spacing(2),
+        padding: theme.spacing(3),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: '#FFBABA',
     },
     avatar: {
-        margin: theme.spacing(1),
+        margin: theme.spacing(8),
+        marginTop: '50px',
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(8)
+
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
@@ -76,11 +89,12 @@ export default function ForgotPassWord() {
         <>
         {navigate ? <Container component="main" maxWidth="xs">
             <CssBaseline />
-            <div className={classes.paper}>
+            {/* <div className={classes.paper}> */}
+            <Paper className={classes.paper}>
                 <WrentLogo />
                 <Typography component="h1" variant="h5">
                     Password Assistance
-        </Typography>
+                </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -113,7 +127,8 @@ export default function ForgotPassWord() {
 
 
                 </form>
-            </div>
+            {/* </div> */}
+            </Paper>
         </Container >: 
         <AfterReturnCode email={email} />}
         </>
