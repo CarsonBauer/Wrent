@@ -65,7 +65,7 @@ def update_item(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
         try:
 
             args = request.get_json()
@@ -133,7 +133,7 @@ def delete_item(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
         try:
 
             if not Items.get_item(id):

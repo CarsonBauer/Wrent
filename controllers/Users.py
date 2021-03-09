@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from controllers import *
 from models import Users
+from models import Permissions
 import jwt
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -29,10 +30,9 @@ def login():
         token = create_access_token({
             "userName": user.userName,
             "email": user.email,
-            "permission": user.permission
+            "permission": Permissions.get_permission(user.permission).permission
             })
         return jsonify({"access_token": token}), 200
-        # return 'Success', 200
     else:
         return 'Invalid login info', 400
         
@@ -96,7 +96,7 @@ def update_user(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
         try:
             args = request.get_json()
 
@@ -168,7 +168,7 @@ def delete_user(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
         try:
 
             if not Users.get_user(id):
@@ -199,7 +199,7 @@ def delete_user(id):
 def update_password():
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == id:
         try:
             args = request.get_json()
             user = Users.query.filter_by(email=data['email']).first()
@@ -226,3 +226,34 @@ def update_password():
                     message="You are Unauthorized",
                     statusCode=401,
                     data=str("Restricted access")), 401
+
+@controllers.route('/users/get', methods=['GET'])
+@jwt_required(optional=False)
+def get_user_jwt():
+    data = get_jwt_identity()
+    email = data['email']
+    
+    try:
+        user = Users.query.filter_by(email=email).first()
+        if not user:
+            return jsonify(isError=True,
+                        message="Could not find user",
+                        statusCode=404,
+                        data=str("Not Found")), 404
+
+        res = {
+            'id': user.id,
+            'name': user.name,
+            'email': user.email,
+            'location': user.location,
+            'userName': user.userName,
+            'msg': str("OK"),
+            'permission': user.permission
+        }
+    except Exception as e:
+        return jsonify(isError=True,
+                        message="Error",
+                        statusCode=500,
+                        data=str("Internal Server error")), 500
+    else:
+        return jsonify(res)

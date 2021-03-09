@@ -56,7 +56,7 @@ def update_permission(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin":
+    if data['permission'] == "Admin":
         try:
             args = request.get_json()
 
@@ -92,7 +92,7 @@ def post_permission():
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin":
+    if data['permission'] == "Admin":
         try:
             args = request.get_json()
 
@@ -122,7 +122,7 @@ def delete_permission(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin":
+    if data['permission'] == "Admin":
         try:
 
             if not Permissions.get_permission(id):
