@@ -70,21 +70,22 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = async () =>  fetch('/users/login', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-                'email': email.toString(),
-                'password': password.toString()
-            }
-        )
-    })
-    .then(res => res.json())
-    .then(window.$token=res);
-
+    const login = async () => { 
+        const res = await fetch('/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    'email': email.toString(),
+                    'password': password.toString()
+                }
+            )
+            });
+            var data = await res.json();
+            localStorage.setItem('user-jwt', data['access_token'])
+    }   
 
     return (
         <Container component="main" maxWidth="xs">
