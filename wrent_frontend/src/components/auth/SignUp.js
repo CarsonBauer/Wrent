@@ -92,9 +92,9 @@ export default function SignUp() {
                 'name': firstName.toString() + " " + lastName.toString(),
                 'password': password.toString(),
                 'email': email.toString(),
-                'location': 1,
+                'location': null,
                 'userName': userName.toString(),
-                'permission': 1
+                'permission': "User"
             })
         })
     }
