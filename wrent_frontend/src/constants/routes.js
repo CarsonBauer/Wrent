@@ -4,9 +4,16 @@ import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
 import ForgotPassWord from "../components/auth/ForgotPassWord";
 import AfterReturnCode from "../components/auth/AfterReturnCode";
+import ItemPage from "../components/Item/ItemPage";
 export const routes = [
 
 
+  {
+    path: "/item",
+    private: false,
+    name: "Item",
+    component: ItemPage,
+  },
   {
     path: "/login",
     private: false,

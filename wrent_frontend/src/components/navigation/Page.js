@@ -17,9 +17,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
-
-        backgroundImage: `url(${Background})`
+    backgroundImage: `url(${Background})`
   }
+  
 
 }));
 
@@ -42,6 +42,7 @@ const Page = ({route}) => {
   const classes = useStyles();
   return (
     <>
+      
       {<Navigation route={route}/>}
       <main className={classes.content}>
         <Container maxWidth="xl" className={classes.container}>

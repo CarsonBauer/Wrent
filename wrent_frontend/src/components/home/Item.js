@@ -51,7 +51,7 @@ export default function item(){
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color="primary">
+                        <Button href="/Item" size="small" color="primary">
                         Learn More
                         </Button>
                         <Button size="small" color="primary">
