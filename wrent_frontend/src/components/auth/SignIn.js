@@ -14,6 +14,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
 import { Redirect } from 'react-router';
+import GoogleLogin from 'react-google-login';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +57,7 @@ export default function SignIn() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [failure, setFailure] = useState(false);
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -82,10 +84,39 @@ export default function SignIn() {
                     'password': password.toString()
                 }
             )
-            });
+            }).catch(err => setFailure(true));
+
             var data = await res.json();
-            localStorage.setItem('user-jwt', data['access_token'])
+
+            if (data['statusCode'] != 200) {
+                setFailure(true);
+            } else {
+                localStorage.setItem('user-jwt', data['access_token']);
+            }
     }   
+
+    const loginOauth = async (res) => {
+        var id_token = res.tokenId;
+        const tkn = await fetch('/users/oauth', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    'id_token': id_token.toString()
+                }
+            )
+        }).catch(err => setFailure(true));
+
+        var data = await tkn.json();
+
+        if (data['statusCode'] != 200) {
+            setFailure(true);
+        } else {
+            localStorage.setItem('user-jwt', data['access_token']);
+        }
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -149,6 +180,18 @@ export default function SignIn() {
                             </Link>
                         </Grid>
                     </Grid>
+                    <br />
+                    <GoogleLogin 
+                    clientId="This is where our client id will go."
+                    buttonText="Login"
+                    onSuccess={loginOauth}
+                    // onFailure={loginOauth}
+                    />
+                    <br />
+                    <br />
+                    <>
+                        {failure && <font color='red'>Unable to login</font>}
+                    </>
                 </form>
             </Paper>
         </Container>

@@ -36,7 +36,10 @@ def login():
             "email": user.email,
             "permission": Permissions.get_permission(user.permission).permission
             })
-        return jsonify({"access_token": token}), 200
+        return jsonify(isError=False,
+                        message="Success",
+                        statusCode=200,
+                        access_token=str(token)), 200
     else:
         return 'Invalid login info', 400
         
@@ -285,7 +288,10 @@ def verify_oauth():
                 "email": user.email,
                 "permission": Permissions.get_permission(user.permission).permission
             })
-            return jsonify({"access_token": res}), 200
+            return jsonify(isError=False,
+                        message="Success",
+                        statusCode=200,
+                        access_token=str(res)), 200
         except AppIdentityError:
             return jsonify(isError=True,
                         message="Error",
