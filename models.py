@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean
 from config import SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
@@ -19,24 +19,39 @@ class Users(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(120), nullable=False)
     email = Column(String(120), unique=True, nullable=False)
-    location = Column(Integer, ForeignKey("Locations.id", ondelete="CASCADE"), nullable=False)
-    userName = Column(String(20), unique=True, nullable=False)
+    location = Column(Integer, ForeignKey("Locations.id", ondelete="CASCADE"))
+    userName = Column(String(120), unique=True, nullable=False)
     password = Column(String(30), nullable=False)
     permission = Column(Integer, ForeignKey("Permissions.id", ondelete="CASCADE"), nullable=False)
+    isOauth = Column(Boolean, nullable=False)
 
-    def __init__(self, name, password, email, location, userName, permission):
+    def __init__(self, name, password, email, location, userName, permission, isOauth):
         self.name = name
         self.password = password
         self.email = email
         self.location = location
         self.userName = userName
         self.permission = permission
+        self.isOauth = isOauth
+
+    def __init__(self, name, password, email, userName, permission, isOauth):
+        self.name = name
+        self.password = password
+        self.email = email
+        self.userName = userName
+        self.permission = permission
+        self.isOauth = isOauth
 
     def get_user(sent_id):
         return db_session.query(Users).get(sent_id)
 
-    def post_user(sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission):
-        new_user = Users(name=sent_name,password=sent_password,email=sent_email,location=sent_location,userName=sent_userName,permission=sent_permission)
+    def post_user(sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission, sent_oauth):
+        new_user = Users(name=sent_name,password=sent_password,email=sent_email,location=sent_location, userName=sent_userName,permission=sent_permission,isOauth=sent_oauth)
+        db_session.add(new_user)
+        db_session.commit()
+
+    def post_user_noLoc(sent_name, sent_password, sent_email, sent_userName, sent_permission, sent_oauth):
+        new_user = Users(name=sent_name,password=sent_password,email=sent_email,userName=sent_userName,permission=sent_permission,isOauth=sent_oauth)
         db_session.add(new_user)
         db_session.commit()
 
@@ -54,6 +69,11 @@ class Users(Base):
         updated_user.location = sent_location
         updated_user.userName = sent_userName
         updated_user.permission = sent_permission
+        db_session.commit()
+
+    def update_user_password(sent_id, sent_password):
+        updated_user = db_session.query(Users).get(sent_id)
+        updated_user.password = sent_password
         db_session.commit()
 
     def authenticate(username, password):

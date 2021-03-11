@@ -6,6 +6,7 @@ coverage
 gunicorn
 psycopg2
 flask-jwt-extended
+oauth2client
 # ecdsa
 # paramiko
 # pycrypto

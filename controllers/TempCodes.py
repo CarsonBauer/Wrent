@@ -25,19 +25,19 @@ def send_code():
 
         TempCodes.post_code(random_string)
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-        server.login("bauer.carson@gmail.com", os.getenv('CONNP'))
-        server.sendmail("bauer.carson@gmail.com", email, random_string)
+        # server = smtplib.SMTP("smtp.gmail.com", 587)
+        # server.starttls()
+        # server.login("email", os.getenv('CONNP'))
+        # server.sendmail("email", email, random_string)
 
-        return random_string
+        return jsonify(random_string),200
     else:
         return jsonify(isError=True,
                        message="Email not found",
                        statusCode=404,
                        data=str("Not found")), 404
 
-@controllers.route('/tempcodes', methods=['GET'])
+@controllers.route('/tempcodes/check', methods=['POST'])
 def check_code():
     auth = request.json
     code = TempCodes.query.filter_by(code=auth['code']).first()

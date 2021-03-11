@@ -14,6 +14,7 @@ import WrentLogo from "../auth/wrentLogo"
 
 
 import ReactDOM from "react-dom";
+import Authorization from "../auth/Authorization";
 
 window.$token = ''
 
@@ -43,7 +44,6 @@ export default function Home() {
   
 
   return (
-    
     <div className={classes.root}>
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
       <WrentLogo/>

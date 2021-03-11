@@ -56,7 +56,7 @@ def update_rental(renterId, itemId):
 
         data = get_jwt_identity()
 
-        if Permissions.get_permission(data['permission']).permission == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
+        if data['permission'] == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
             try:
                 args = request.get_json()
 
@@ -114,7 +114,7 @@ def delete_rental(renterId, itemId):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
+    if data['permission'] == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
         try:
 
             if not Rentals.get_rental(renterId, itemId):

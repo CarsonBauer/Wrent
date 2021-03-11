@@ -14,7 +14,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
 import { Redirect } from 'react-router';
-import GoogleLogin from 'react-google-login';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,68 +54,33 @@ export default function SignIn() {
     const [error] = useState();
     console.log("rendering");
 
-    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [failure, setFailure] = useState(false);
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    }
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     }
 
     const handleSubmit = (event) => {
-        login();
+        updatePassword();
         event.preventDefault();
     }
 
-    const login = async () => { 
-        const res = await fetch('/users/login', {
+    const updatePassword = async () => {
+        var tkn = localStorage.getItem('user-jwt')
+        fetch('/users/password', {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${tkn}`
             },
             body: JSON.stringify(
                 {
-                    'email': email.toString(),
+                    // 'email': tkn['email'],
                     'password': password.toString()
                 }
             )
-            }).catch(err => setFailure(true));
-
-            var data = await res.json();
-
-            if (data['statusCode'] != 200) {
-                setFailure(true);
-            } else {
-                localStorage.setItem('user-jwt', data['access_token']);
-            }
+        })
     }   
-
-    const loginOauth = async (res) => {
-        var id_token = res.tokenId;
-        const tkn = await fetch('/users/oauth', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    'id_token': id_token.toString()
-                }
-            )
-        }).catch(err => setFailure(true));
-
-        var data = await tkn.json();
-
-        if (data['statusCode'] != 200) {
-            setFailure(true);
-        } else {
-            localStorage.setItem('user-jwt', data['access_token']);
-        }
-    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -126,37 +90,22 @@ export default function SignIn() {
                 <WrentLogo className={classes.avatar}/>
 
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Update Password
                 </Typography>
 
                 {error && <Paper className={classes.errorPaper}>{error.message}</Paper>}
 
                 <form className={classes.form} noValidate>
-                    <TextField onChange={handleEmailChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               id="email"
-                               label="Email Address"
-                               name="email"
-                               autoComplete="email"
-                               autoFocus
-                    />
                     <TextField onChange={handlePasswordChange}
                                variant="outlined"
                                margin="normal"
                                required
                                fullWidth
-                               name="password"
-                               label="Password"
-                               type="password"
                                id="password"
-                               autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="Remember me"
+                               label="Password"
+                               name="password"
+                               autoComplete="password"
+                               autoFocus
                     />
                     <Button
                         onClick={handleSubmit}
@@ -166,32 +115,8 @@ export default function SignIn() {
                         color="primary"
                         className={classes.submit}
                     >
-                        Sign In
+                        Update
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="./forgotpassword" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid>
-                    <br />
-                    <GoogleLogin 
-                    clientId="This is where our client id will go."
-                    buttonText="Login"
-                    onSuccess={loginOauth}
-                    // onFailure={loginOauth}
-                    />
-                    <br />
-                    <br />
-                    <>
-                        {failure && <font color='red'>Unable to login</font>}
-                    </>
                 </form>
             </Paper>
         </Container>
