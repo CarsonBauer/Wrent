@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import card from "@material-ui/core/card";
+import Card from "@material-ui/core/card";
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -51,7 +51,7 @@ export default function item(){
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color="primary">
+                        <Button href="/Item" size="small" color="primary">
                         Learn More
                         </Button>
                         <Button size="small" color="primary">
