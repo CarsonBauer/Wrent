@@ -35,13 +35,11 @@ export default function Home() {
       .then((res) => res.text())
       .then((post) => setMessage(post))
       .catch((err) => console.error(err));
-
-      const items = fetch('/items', {method: 'GET'})
-      .then(res => res.json())
-      .then(jwt => {console.log(jwt)});
   });
 
-  
+  const items = fetch('/items', {method: 'GET'})
+  .then(res => res.json())
+  .then(jwt => {console.log(jwt)});
   
 
   return (
