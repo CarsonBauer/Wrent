@@ -47,6 +47,18 @@ const useStyles = makeStyles((theme) => ({
         width: '12%',
         height: '50px'
     },
+    leftCol: {
+        maxHeight: '300px',
+        width: '50%'
+    },
+    rightCol: {
+        width: '50%',
+        maxHeight: '300px',
+    },
+    reviwplaceholder: {
+        width: '50%',
+        height: '300px',
+    },
 }));
 
 export default function ItemPage() {
@@ -86,7 +98,7 @@ export default function ItemPage() {
                     </Grid>
                 </Grid>
 
-                <Grid container direction='row' justify='flex-start' alignItems="center">
+                <Grid container direction='row' justify='flex-start' alignItems="flex-start">
                     <Grid className={classes.ownerData} item justify='center' alignItems='center'>
                         <Grid container direction='row' justify='flex-start' alignItems="flex-start">
                             <Typography variant='h5'>Owner Info</Typography>
@@ -98,9 +110,17 @@ export default function ItemPage() {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item>
-                        TODO Map 
+                    <Grid Item>
+                    <Typography variant='h5'>Map</Typography>
                     </Grid>
+                </Grid>
+
+                <Grid container direction='row' justify='center' alignItems="center">
+                    <Typography variant='h5'>Reviews</Typography>
+                </Grid>
+
+                <Grid container direction='row' justify='center' alignItems="center">
+                    <Grid item className={classes.reviwplaceholder}></Grid>
                 </Grid>
                 
             </Paper>
