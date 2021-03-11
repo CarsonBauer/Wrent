@@ -38,6 +38,11 @@ export default function Home() {
       .catch((err) => console.error(err));
   });
 
+  const items = fetch('/items', {method: 'GET'})
+  .then(res => res.json())
+  .then(jwt => {console.log(jwt)});
+  
+
   return (
     <div className={classes.root}>
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
