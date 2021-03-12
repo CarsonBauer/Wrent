@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
 import { Redirect } from 'react-router';
@@ -72,7 +72,7 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = async () => { 
+    const login = async () => {
         const res = await fetch('/users/login', {
             method: 'POST',
             headers: {
@@ -84,16 +84,16 @@ export default function SignIn() {
                     'password': password.toString()
                 }
             )
-            }).catch(err => setFailure(true));
+        }).catch(err => setFailure(true));
 
-            var data = await res.json();
+        var data = await res.json();
 
-            if (data['statusCode'] != 200) {
-                setFailure(true);
-            } else {
-                localStorage.setItem('user-jwt', data['access_token']);
-            }
-    }   
+        if (data['statusCode'] != 200) {
+            setFailure(true);
+        } else {
+            localStorage.setItem('user-jwt', data['access_token']);
+        }
+    }
 
     const loginOauth = async (res) => {
         var id_token = res.tokenId;
@@ -120,10 +120,10 @@ export default function SignIn() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+            <CssBaseline />
             <Paper className={classes.paper}>
 
-                <WrentLogo className={classes.avatar}/>
+                <WrentLogo className={classes.avatar} />
 
                 <Typography component="h1" variant="h5">
                     Sign in
@@ -133,29 +133,29 @@ export default function SignIn() {
 
                 <form className={classes.form} noValidate>
                     <TextField onChange={handleEmailChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               id="email"
-                               label="Email Address"
-                               name="email"
-                               autoComplete="email"
-                               autoFocus
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
                     />
                     <TextField onChange={handlePasswordChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               name="password"
-                               label="Password"
-                               type="password"
-                               id="password"
-                               autoComplete="current-password"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
+                        control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
                     <Button
@@ -181,10 +181,10 @@ export default function SignIn() {
                         </Grid>
                     </Grid>
                     <br />
-                    <GoogleLogin 
-                    clientId="This is where our client id will go."
-                    buttonText="Login"
-                    onSuccess={loginOauth}
+                    <GoogleLogin
+                        clientId="This is where our client id will go."
+                        buttonText="Login"
+                        onSuccess={loginOauth}
                     // onFailure={loginOauth}
                     />
                     <br />
