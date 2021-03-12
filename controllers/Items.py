@@ -104,7 +104,7 @@ def update_item(id):
 @controllers.route('/items', methods=['POST'])
 @jwt_required(optional=False)
 def post_item():
-    # try:
+    try:
         args = request.get_json()
 
         location = args['location']
@@ -116,12 +116,12 @@ def post_item():
 
         Items.post_item(location, ownerId, name, description, imageURL, rating)
 
-    # except Exception as e:
-    #     return jsonify(isError=True,
-    #                    message="Error",
-    #                    statusCode=500,
-    #                    data=str("Internal Server Error")), 500
-    # else:
+    except Exception as e:
+        return jsonify(isError=True,
+                       message="Error",
+                       statusCode=500,
+                       data=str("Internal Server Error")), 500
+    else:
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
