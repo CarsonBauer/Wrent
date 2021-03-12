@@ -6,6 +6,7 @@ import ForgotPassWord from "../components/auth/ForgotPassWord";
 import AfterReturnCode from "../components/auth/AfterReturnCode";
 import ItemPage from "../components/Item/ItemPage";
 import UpdatePassword from "../components/auth/UpdatePassword";
+import AddItem from "../components/auth/AddItem";
 export const routes = [
 
 
@@ -14,6 +15,12 @@ export const routes = [
     private: false,
     name: "Item",
     component: ItemPage,
+  },
+  {
+    path: "/addItem",
+    private: false,
+    name: "AddItem",
+    component: AddItem
   },
   {
     path: "/login",

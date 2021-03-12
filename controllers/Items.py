@@ -8,7 +8,7 @@ from flask_jwt_extended import (
 )
 
 @controllers.route('/items', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_items():
 
     items = Items.query.all()
@@ -31,7 +31,7 @@ def get_items():
 
 
 @controllers.route('/items/<int:id>', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_item(id):
     try:
         item = Items.query.get(id)
@@ -104,7 +104,7 @@ def update_item(id):
 @controllers.route('/items', methods=['POST'])
 @jwt_required(optional=False)
 def post_item():
-    try:
+    # try:
         args = request.get_json()
 
         location = args['location']
@@ -116,12 +116,12 @@ def post_item():
 
         Items.post_item(location, ownerId, name, description, imageURL, rating)
 
-    except Exception as e:
-        return jsonify(isError=True,
-                       message="Error",
-                       statusCode=500,
-                       data=str("Internal Server Error")), 500
-    else:
+    # except Exception as e:
+    #     return jsonify(isError=True,
+    #                    message="Error",
+    #                    statusCode=500,
+    #                    data=str("Internal Server Error")), 500
+    # else:
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
