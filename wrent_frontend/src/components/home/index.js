@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
+
   const classes = useStyles();
   const [message, setMessage] = useState("loading...");
 
@@ -38,15 +39,15 @@ export default function Home() {
       .catch((err) => console.error(err));
   });
 
-  const items = fetch('/items', {method: 'GET'})
-  .then(res => res.json())
-  .then(jwt => {console.log(jwt)});
-  
+  const items = fetch('/items', { method: 'GET' })
+    .then(res => res.json())
+    .then(jwt => { console.log(jwt) });
+
 
   return (
     <div className={classes.root}>
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
-      <WrentLogo/>
+        <WrentLogo />
       </Grid>
       <Grid container spacing={3} direction="row" alignItems="center">
         <Grid container spacing={1} alignItems="flex-end">
@@ -58,40 +59,40 @@ export default function Home() {
           </Grid>
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
       </Grid>
     </div>
