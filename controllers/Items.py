@@ -8,7 +8,6 @@ from flask_jwt_extended import (
 )
 
 @controllers.route('/items', methods=['GET'])
-#@jwt_required(optional=False)
 def get_items():
 
     items = Items.query.all()
@@ -31,7 +30,6 @@ def get_items():
 
 
 @controllers.route('/items/<int:id>', methods=['GET'])
-#@jwt_required(optional=False)
 def get_item(id):
     try:
         item = Items.query.get(id)

@@ -72,7 +72,8 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = async () => {
+    const login = async () => { 
+        localStorage.removeItem('user-jwt');
         const res = await fetch('/users/login', {
             method: 'POST',
             headers: {
@@ -181,10 +182,11 @@ export default function SignIn() {
                         </Grid>
                     </Grid>
                     <br />
-                    <GoogleLogin
-                        clientId="This is where our client id will go."
-                        buttonText="Login"
-                        onSuccess={loginOauth}
+
+                    <GoogleLogin 
+                    clientId="388134853342-jdceelk8d664b8rmhk7h3582ph42d6ut.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={loginOauth}
                     // onFailure={loginOauth}
                     />
                     <br />
