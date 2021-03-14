@@ -41,6 +41,7 @@ def get_item(id):
                        data=str("Not Found")), 404
         else:
             data = {
+                'id': item.id,
                 'location': item.location,
                 'ownerId': item.ownerId,
                 'name': item.name,
