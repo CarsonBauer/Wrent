@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
+
   const classes = useStyles();
   const [message, setMessage] = useState("loading...");
   const [items, setItems] = useState([]);
@@ -61,12 +62,11 @@ export default function Home() {
     const data = await res.json();
     return data
   }
-  
 
   return (
     <div className={classes.root}>
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
-      <WrentLogo/>
+        <WrentLogo />
       </Grid>
       <Grid container spacing={3} direction="row" alignItems="center">
         <Grid container spacing={1} alignItems="flex-end">
@@ -88,34 +88,34 @@ export default function Home() {
           <Item/>
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
-          <Item/>
+          <Item />
         </Grid>
         <Grid item xs={2}>
           <Item/>
