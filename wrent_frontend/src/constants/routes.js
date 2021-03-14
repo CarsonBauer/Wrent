@@ -11,7 +11,7 @@ export const routes = [
 
 
   {
-    path: "/item",
+    path: "/item/:id",
     private: false,
     name: "Item",
     component: ItemPage,

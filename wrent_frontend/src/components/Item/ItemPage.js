@@ -61,16 +61,36 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ItemPage() {
+export default function ItemPage(props) {
     const classes = useStyles();
 
-    var id = "";
-    //var image = {Image};
-    var description = "Donec interdum dolor sed finibus posuere. Curabitur dignissim tellus et ultrices rutrum. Curabitur vestibulum, nisi ac faucibus posuere, leo ipsum ultricies enim, ut consequat quam erat et velit. Nulla id mauris neque. Mauris dui velit, scelerisque in elit et, fringilla tristique augue. Sed feugiat tellus velit, sed maximus ipsum posuere vel. Pellentesque cursus finibus lacus in blandit. Nam auctor risus quis diam vestibulum, sed ornare mi pharetra. Aenean lectus est, malesuada luctus leo eu, eleifend pretium diam. Donec lacinia, arcu vitae tempor accumsan, quam turpis tristique est, quis pulvinar metus nunc at purus. Vivamus efficitur sapien eu laoreet scelerisque. Praesent lobortis est nulla, non dignissim tellus luctus quis. Praesent sed lectus ut neque semper porttitor. Curabitur eu ex sapien. Etiam vitae augue tortor. Sed magna tortor, pretium vestibulum orci ut, tincidunt imperdiet dolor.";
-    var ownerId = "";
-    var name = "Item Name";
-    var location = "";
-    var rating = "";
+    const [item, setItem] = useState({});
+
+    useEffect(() => {
+        const getItem = async () => {
+          const itemFromServer = await fetchItem()
+          setItem(itemFromServer)
+        }
+        getItem()
+      }, [])
+    
+      const fetchItem = async () => {
+        const res = await fetch('/items/'+props.params['id'], {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        })
+        const data = await res.json();
+        return data
+      }
+
+    var id = item['id'];
+    var description = item['description'];
+    var ownerId = item['ownerId'];
+    var name = item['name'];
+    var location = item['location'];
+    var rating = item['rating'];
 
     return (
         <Container component="main" maxWidth="xs=12">
