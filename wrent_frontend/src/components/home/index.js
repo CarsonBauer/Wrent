@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
   const [message, setMessage] = useState("loading...");
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     fetch(motd)
@@ -38,9 +39,28 @@ export default function Home() {
       .catch((err) => console.error(err));
   });
 
-  const items = fetch('/items', {method: 'GET'})
-  .then(res => res.json())
-  .then(jwt => {console.log(jwt)});
+  // const items = fetch('/items', {method: 'GET'})
+  // .then(res => res.json())
+  // .then(jwt => {console.log(jwt)});
+
+  useEffect(() => {
+    const getItems = async () => {
+      const itemsFromServer = await fetchItems()
+      setItems(itemsFromServer)
+    }
+    getItems()
+  }, [])
+
+  const fetchItems = async () => {
+    const res = await fetch('/items', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    const data = await res.json();
+    return data
+  }
   
 
   return (
@@ -57,7 +77,14 @@ export default function Home() {
             <TextField id="input-with-icon-grid" label="Search..." />
           </Grid>
         </Grid>
-        <Grid item xs={2}>
+        <>
+          {items.map((item, i) => (
+                          <Grid item xs={2}>
+                            <Item name={item.name} description={item.desc}/>
+                          </Grid>
+                        ))}
+        </>
+        {/* <Grid item xs={2}>
           <Item/>
         </Grid>
         <Grid item xs={2}>
@@ -92,7 +119,7 @@ export default function Home() {
         </Grid>
         <Grid item xs={2}>
           <Item/>
-        </Grid>
+        </Grid> */}
       </Grid>
     </div>
   );

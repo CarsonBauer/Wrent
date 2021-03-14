@@ -73,7 +73,6 @@ export default function SignIn() {
     }
 
     const login = async () => { 
-        localStorage.removeItem('user-jwt');
         const res = await fetch('/users/login', {
             method: 'POST',
             headers: {

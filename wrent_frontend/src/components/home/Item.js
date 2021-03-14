@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function item(){
+export default function item({name, description}){
 
     const classes = useStyles;
 
@@ -44,10 +44,10 @@ export default function item(){
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            Item
+                            {name}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            This is a tile to represent an item to rent
+                            {description}
                         </Typography>
                     </CardContent>
                     <CardActions>
