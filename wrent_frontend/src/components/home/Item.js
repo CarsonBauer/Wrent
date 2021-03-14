@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function item({name, description}){
+export default function item({id, name, description}){
 
     const classes = useStyles;
 
@@ -51,7 +51,7 @@ export default function item({name, description}){
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button href="/Item" size="small" color="primary">
+                        <Button href={"/item/"+id} size="small" color="primary">
                         Learn More
                         </Button>
                         <Button size="small" color="primary">

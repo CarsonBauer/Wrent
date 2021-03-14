@@ -80,7 +80,7 @@ export default function Home() {
         <>
           {items.map((item, i) => (
                           <Grid item xs={2}>
-                            <Item name={item.name} description={item.desc}/>
+                            <Item id={item.id} name={item.name} description={item.desc}/>
                           </Grid>
                         ))}
         </>

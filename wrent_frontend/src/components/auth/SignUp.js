@@ -48,6 +48,7 @@ export default function SignUp() {
     var email = "";
     var location = "";
     var password = "";
+    var confPassword = "";
 
     const handleFirstNameChange = (event) => {
         firstName = event.target.value;
@@ -73,10 +74,16 @@ export default function SignUp() {
         password = event.target.value;
     }
 
+    const handleConfPasswordChange = (event) => {
+        confPassword = event.target.value;
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!firstName || !lastName || !userName || !email || !location || !password) {
+        if (!firstName || !lastName || !userName || !email || !location || !password || !confPassword) {
             alert('One of the required fields is empty');
+        } else if (password != confPassword) {
+            alert('Your passwords are different.');
         } else {
             postUser();
         }
@@ -175,6 +182,18 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField onChange={handleConfPasswordChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confpassword"
+                                label="Confirm Password"
+                                type="confpassword"
+                                id="confpassword"
+                                autoComplete="confirm-password"
                             />
                         </Grid>
                         <Grid item xs={12}>
