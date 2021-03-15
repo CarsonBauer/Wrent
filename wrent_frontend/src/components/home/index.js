@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Markdown from "./Markdown";
 import motd from "./motd.md";
 import { makeStyles } from "@material-ui/core/styles";
-import { SearchRounded } from "@material-ui/icons";
+import { ControlCamera, SearchRounded } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Item from "./Item";
 import WrentLogo from "../auth/wrentLogo"
@@ -62,6 +62,28 @@ export default function Home() {
     const data = await res.json();
     return data
   }
+
+  const fetchItems = async () => {
+    const res = await fetch('/items', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    const data = await res.json();
+    console.log(JSON.stringify(data));
+    return data
+  };
+
+  fetchItems();
+
+
+
+
+
+
+
+
 
   return (
     <div className={classes.root}>
