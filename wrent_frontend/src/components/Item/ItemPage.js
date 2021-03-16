@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Image from './img/background.jpg';
+import GoogleMap from "../auth/GoogleMap";
 
 
 const useStyles = makeStyles((theme) => ({
