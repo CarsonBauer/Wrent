@@ -151,10 +151,7 @@ def post_user():
         perm = Permissions.query.filter_by(permission=permission).first()
 
         if not Users.query.filter_by(userName=userName).first() and not Users.query.filter_by(email=email).first():
-            if location:
-                Users.post_user(name, password, email, location, userName, perm.id, False)
-            else:
-                Users.post_user_noLoc(name, password, email, userName, perm.id, False)
+            Users.post_user(name, password, email, location, userName, perm.id, False)
         else:
             return jsonify(isError=True,
                         message="Error",

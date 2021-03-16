@@ -34,24 +34,11 @@ class Users(Base):
         self.permission = permission
         self.isOauth = isOauth
 
-    def __init__(self, name, password, email, userName, permission, isOauth):
-        self.name = name
-        self.password = password
-        self.email = email
-        self.userName = userName
-        self.permission = permission
-        self.isOauth = isOauth
-
     def get_user(sent_id):
         return db_session.query(Users).get(sent_id)
 
     def post_user(sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission, sent_oauth):
         new_user = Users(name=sent_name,password=sent_password,email=sent_email,location=sent_location, userName=sent_userName,permission=sent_permission,isOauth=sent_oauth)
-        db_session.add(new_user)
-        db_session.commit()
-
-    def post_user_noLoc(sent_name, sent_password, sent_email, sent_userName, sent_permission, sent_oauth):
-        new_user = Users(name=sent_name,password=sent_password,email=sent_email,userName=sent_userName,permission=sent_permission,isOauth=sent_oauth)
         db_session.add(new_user)
         db_session.commit()
 
