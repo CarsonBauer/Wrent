@@ -71,8 +71,7 @@ export default function Home() {
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
         <WrentLogo />
       </Grid>
-      <Grid container spacing={3} direction="row" alignItems="center">
-        <Grid container spacing={1} alignItems="flex-end">
+      <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
             <SearchRounded />
           </Grid>
@@ -80,27 +79,7 @@ export default function Home() {
             <TextField id="input-with-icon-grid" label="Search..." />
           </Grid>
         </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
+      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
         <Grid item xs={2}>
           <Item />
         </Grid>
