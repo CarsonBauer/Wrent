@@ -96,6 +96,40 @@ export default function Home() {
           <Item />
         </Grid>
       </Grid>
+      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+      </Grid>
     </div>
   );
 }
