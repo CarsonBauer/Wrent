@@ -140,7 +140,7 @@ def update_user(id):
 def post_user():
     try:
         args = request.get_json()
-
+        
         name = args['name']
         password = args['password']
         email = args['email']

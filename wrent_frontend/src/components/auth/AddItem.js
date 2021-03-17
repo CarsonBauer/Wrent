@@ -72,6 +72,8 @@ export default function AddItem() {
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
+    const [image, setImage] = useState('');
+
     var id = null;
 
     useEffect(() => {
@@ -195,12 +197,19 @@ export default function AddItem() {
                                autoComplete="location"
                                autoFocus
                         />
-                    <ImageUploader 
+                    <br />
+                    <br />
+                    {/* <ImageUploader 
                         withIcon={true}
                         buttonText='Choose images'
-                        // onChange={this.onDrop}
+                        onChange={onDrop}
                         imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                        maxFileSize={5242880} />
+                        maxFileSize={5242880} /> */}
+                    <input type="file"
+                        name="file"
+                        placeholder="Upload an image" />
+                    <br />
+                    <br />
                     <Button
                         onClick={handleSubmit}
                         type="submit"

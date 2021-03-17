@@ -8,7 +8,7 @@ from flask_jwt_extended import (
 )
 
 @controllers.route('/locations', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_locations():
 
     locs = Locations.query.all()
@@ -27,7 +27,7 @@ def get_locations():
 
 
 @controllers.route('/locations/<int:id>', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_location(id):
     try:
         loc = Locations.query.get(id)
