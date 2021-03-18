@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Markdown from "./Markdown";
 import motd from "./motd.md";
 import { makeStyles } from "@material-ui/core/styles";
-import { SearchRounded } from "@material-ui/icons";
+import { ControlCamera, SearchRounded } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Item from "./Item";
 import WrentLogo from "../auth/wrentLogo"
@@ -63,13 +63,34 @@ export default function Home() {
     return data
   }
 
+  const fetchItems = async () => {
+    const res = await fetch('/items', {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+    const data = await res.json();
+    console.log(JSON.stringify(data));
+    return data
+  };
+
+  fetchItems();
+
+
+
+
+
+
+
+
+
   return (
     <div className={classes.root}>
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
         <WrentLogo />
       </Grid>
-      <Grid container spacing={3} direction="row" alignItems="center">
-        <Grid container spacing={1} alignItems="flex-end">
+      <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
             <SearchRounded />
           </Grid>
@@ -99,12 +120,25 @@ export default function Home() {
         <Grid item xs={2}>
           <Item />
         </Grid>
+      </Grid>
+      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
         <Grid item xs={2}>
           <Item />
         </Grid>
         <Grid item xs={2}>
           <Item />
         </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+        <Grid item xs={2}>
+          <Item />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
         <Grid item xs={2}>
           <Item />
         </Grid>
