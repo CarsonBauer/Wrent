@@ -91,6 +91,7 @@ export default function SignIn() {
         if (data['statusCode'] != 200) {
             setFailure(true);
         } else {
+            setFailure(false);
             localStorage.setItem('user-jwt', data['access_token']);
         }
     }

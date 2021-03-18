@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean, LargeBinary
 from config import SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
@@ -250,6 +250,23 @@ class TempCodes(Base):
     def delete_code(sent_id):
         loc = db_session.query(TempCodes).get(sent_id)
         db_session.delete(loc)
+        db_session.commit()
+
+class Images(Base):
+    __tablename__ = "Images"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(300), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+    data = Column(LargeBinary, nullable=False)
+
+    def __init__(self, data, name, itemId):
+        self.data = data
+        self.name = name
+        self.itemId = itemId
+
+    def post_image(sent_image, sent_name, sent_itemId):
+        db_session.add(Images(data=sent_image, name=sent_name, itemId=sent_itemId))
         db_session.commit()
 
 # Create tables.

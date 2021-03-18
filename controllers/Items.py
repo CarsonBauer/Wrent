@@ -1,6 +1,6 @@
-from flask import jsonify, request
+from flask import Flask, jsonify, request
 from controllers import *
-from models import Items
+from models import Items, Images
 import jwt
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
