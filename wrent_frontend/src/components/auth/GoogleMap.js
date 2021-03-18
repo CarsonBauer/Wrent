@@ -31,7 +31,7 @@ export class MapContainer extends Component {
               lat: this.props.lat,
               lng: this.props.lon
             }}
-            style = {{ width: '97%', height: '80%' }}
+            style = {{ width: this.props.width, height: this.props.height }}
             onClick={this.onMapClicked}>
           <Marker onClick={this.onMarkerClick}
                   name={'Current location'} />

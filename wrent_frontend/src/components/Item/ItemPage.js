@@ -66,13 +66,20 @@ export default function ItemPage(props) {
     const classes = useStyles();
 
     const [item, setItem] = useState({});
+    const [location, setLocation] = useState({});
 
     useEffect(() => {
         const getItem = async () => {
           const itemFromServer = await fetchItem()
           setItem(itemFromServer)
+          return itemFromServer['location']
         }
-        getItem()
+        const getLocation = async (loc) => {
+            const locFromServer = await fetchLocation(loc)
+            setLocation(locFromServer)
+            return locFromServer
+        }
+        getItem().then((res) => { getLocation(res) })
       }, [])
     
       const fetchItem = async () => {
@@ -86,11 +93,21 @@ export default function ItemPage(props) {
         return data
       }
 
+      const fetchLocation = async (loc) => {
+          const res = await fetch('/locations/'+loc, {
+              method: 'GET',
+              headers: {
+                  'Content-type': 'application/json'
+              }
+          })
+          const data = await res.json();
+          return data
+      }
+
     var id = item['id'];
     var description = item['description'];
     var ownerId = item['ownerId'];
     var name = item['name'];
-    var location = item['location'];
     var rating = item['rating'];
 
     return (
@@ -107,6 +124,7 @@ export default function ItemPage(props) {
                 <Grid container direction="row" justify='flex-start' alignItems="center">
                     <Button className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button>
                     <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
+                    <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>Find Item</Button>
                 </Grid>
 
                 <Grid container direction="row" justify='flex-start' alignItems="flex-start">
@@ -135,7 +153,7 @@ export default function ItemPage(props) {
                     <Typography variant='h5'>Map</Typography>
                     </Grid>
                 </Grid>
-
+                
                 <Grid container direction='row' justify='center' alignItems="center">
                     <Typography variant='h5'>Reviews</Typography>
                 </Grid>

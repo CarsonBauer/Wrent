@@ -5,7 +5,7 @@ import GoogleMap from "./GoogleMap";
 export default function Map(props) {
     return (
         <div>
-            <GoogleMap lat={42.37268230000001} lon={-71.062115} />
+            <GoogleMap lat={props.params['lat']} lon={props.params['lon']} width='97%' height='80%' />
         </div>
     )
 }
