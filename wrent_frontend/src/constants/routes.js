@@ -7,11 +7,17 @@ import AfterReturnCode from "../components/auth/AfterReturnCode";
 import ItemPage from "../components/Item/ItemPage";
 import UpdatePassword from "../components/auth/UpdatePassword";
 import AddItem from "../components/auth/AddItem";
+import Map from "../components/auth/Map";
 export const routes = [
 
-
   {
-    path: "/item",
+    path: "/map/:lat/:lon",
+    private: false,
+    name: "Map",
+    component: Map
+  },
+  {
+    path: "/item/:id",
     private: false,
     name: "Item",
     component: ItemPage,

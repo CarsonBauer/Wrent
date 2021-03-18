@@ -32,6 +32,7 @@ def login():
 
     if user.password == auth['password']:
         token = create_access_token({
+            "id": user.id,
             "userName": user.userName,
             "email": user.email,
             "permission": Permissions.get_permission(user.permission).permission
@@ -140,7 +141,7 @@ def update_user(id):
 def post_user():
     #try:
         args = request.get_json()
-
+        
         name = args['name']
         password = args['password']
         email = args['email']
@@ -151,10 +152,7 @@ def post_user():
         perm = Permissions.query.filter_by(permission=permission).first()
 
         if not Users.query.filter_by(userName=userName).first() and not Users.query.filter_by(email=email).first():
-            if location:
-                Users.post_user(name, password, email, location, userName, perm.id, False)
-            else:
-                Users.post_user_noLoc(name, password, email, userName, perm.id, False)
+            Users.post_user(name, password, email, location, userName, perm.id, False)
         else:
             return jsonify(isError=True,
                         message="Error",
@@ -284,6 +282,7 @@ def verify_oauth():
                 Users.post_user_noLoc(user.name, user.password, user.email, 
                 user.userName, user.permission, True)
             res = create_access_token({
+                "id": user.id,
                 "userName": user.userName,
                 "email": user.email,
                 "permission": Permissions.get_permission(user.permission).permission

@@ -1,6 +1,6 @@
-from flask import jsonify, request
+from flask import Flask, jsonify, request
 from controllers import *
-from models import Items
+from models import Items, Images
 import jwt
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -41,6 +41,7 @@ def get_item(id):
                        data=str("Not Found")), 404
         else:
             data = {
+                'id': item.id,
                 'location': item.location,
                 'ownerId': item.ownerId,
                 'name': item.name,

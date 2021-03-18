@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -40,46 +40,80 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-    const classes = useStyles();
+    const classes = useStyles();   
 
-    var firstName = "";
-    var lastName = "";
-    var userName = "";
-    var email = "";
-    var location = "";
-    var password = "";
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [location, setLocation] = useState("");
+    const [password, setPassword] = useState("");
+    const [confPassword, setConfPassword] = useState("");
+    var id = null;
 
     const handleFirstNameChange = (event) => {
-        firstName = event.target.value;
+        setFirstName(event.target.value);
     }
 
     const handleLastNameChange = (event) => {
-        lastName = event.target.value;
+        setLastName(event.target.value);
     }
 
     const handleUserNameChange = (event) => {
-        userName = event.target.value;
+        setUserName(event.target.value);
     }
 
     const handleEmailChange = (event) => {
-        email = event.target.value;
+        setEmail(event.target.value);
     }
 
     const handleLocationChange = (event) => {
-        location = event.target.value;
+        setLocation(event.target.value);
     }
 
     const handlePasswordChange = (event) => {
-        password = event.target.value;
+        setPassword(event.target.value);
+    }
+
+    const handleConfPasswordChange = (event) => {
+        setConfPassword(event.target.value);
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!firstName || !lastName || !userName || !email || !location || !password) {
+        if (!firstName || !lastName || !userName || !email || !location || !password || !confPassword) {
             alert('One of the required fields is empty');
+        } else if (password != confPassword) {
+            alert('Your passwords are different.');
         } else {
-            postUser();
+            geocode().then(() => { postUser() })
         }
+    }
+
+    const postLocation = async (lt, lg) => {
+        const res = await fetch('/locations', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+            },
+            body: JSON.stringify(
+                {
+                    lat: lt,
+                    lon: lg
+                }
+            )
+        })
+        var res_json = await res.json();
+        return res_json['data']
+    }
+
+    const geocode = async () => {
+        const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${process.env.REACT_APP_API_KEY}`)
+        const res_json = await res.json()
+        var lat = res_json.results[0].geometry.location.lat
+        var lng = res_json.results[0].geometry.location.lng
+        id = await postLocation(lat, lng)
     }
 
     const postUser = async () => {
@@ -92,13 +126,13 @@ export default function SignUp() {
                 'name': firstName.toString() + " " + lastName.toString(),
                 'password': password.toString(),
                 'email': email.toString(),
-                'location': null,
+                'location': id,
                 'userName': userName.toString(),
                 'permission': "User"
             })
         })
     }
-
+    
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -175,6 +209,18 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField onChange={handleConfPasswordChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confpassword"
+                                label="Confirm Password"
+                                type="confpassword"
+                                id="confpassword"
+                                autoComplete="confirm-password"
                             />
                         </Grid>
                         <Grid item xs={12}>

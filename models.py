@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean, LargeBinary
 from config import SQLALCHEMY_DATABASE_URI
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
@@ -34,24 +34,11 @@ class Users(Base):
         self.permission = permission
         self.isOauth = isOauth
 
-    def __init__(self, name, password, email, userName, permission, isOauth):
-        self.name = name
-        self.password = password
-        self.email = email
-        self.userName = userName
-        self.permission = permission
-        self.isOauth = isOauth
-
     def get_user(sent_id):
         return db_session.query(Users).get(sent_id)
 
     def post_user(sent_name, sent_password, sent_email, sent_location, sent_userName, sent_permission, sent_oauth):
         new_user = Users(name=sent_name,password=sent_password,email=sent_email,location=sent_location, userName=sent_userName,permission=sent_permission,isOauth=sent_oauth)
-        db_session.add(new_user)
-        db_session.commit()
-
-    def post_user_noLoc(sent_name, sent_password, sent_email, sent_userName, sent_permission, sent_oauth):
-        new_user = Users(name=sent_name,password=sent_password,email=sent_email,userName=sent_userName,permission=sent_permission,isOauth=sent_oauth)
         db_session.add(new_user)
         db_session.commit()
 
@@ -263,6 +250,23 @@ class TempCodes(Base):
     def delete_code(sent_id):
         loc = db_session.query(TempCodes).get(sent_id)
         db_session.delete(loc)
+        db_session.commit()
+
+class Images(Base):
+    __tablename__ = "Images"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(300), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+    data = Column(LargeBinary, nullable=False)
+
+    def __init__(self, data, name, itemId):
+        self.data = data
+        self.name = name
+        self.itemId = itemId
+
+    def post_image(sent_image, sent_name, sent_itemId):
+        db_session.add(Images(data=sent_image, name=sent_name, itemId=sent_itemId))
         db_session.commit()
 
 # Create tables.
