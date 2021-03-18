@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Image from './img/background.jpg';
+import GoogleMap from "../auth/GoogleMap";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,16 +62,54 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ItemPage() {
+export default function ItemPage(props) {
     const classes = useStyles();
 
-    var id = "";
-    //var image = {Image};
-    var description = "Donec interdum dolor sed finibus posuere. Curabitur dignissim tellus et ultrices rutrum. Curabitur vestibulum, nisi ac faucibus posuere, leo ipsum ultricies enim, ut consequat quam erat et velit. Nulla id mauris neque. Mauris dui velit, scelerisque in elit et, fringilla tristique augue. Sed feugiat tellus velit, sed maximus ipsum posuere vel. Pellentesque cursus finibus lacus in blandit. Nam auctor risus quis diam vestibulum, sed ornare mi pharetra. Aenean lectus est, malesuada luctus leo eu, eleifend pretium diam. Donec lacinia, arcu vitae tempor accumsan, quam turpis tristique est, quis pulvinar metus nunc at purus. Vivamus efficitur sapien eu laoreet scelerisque. Praesent lobortis est nulla, non dignissim tellus luctus quis. Praesent sed lectus ut neque semper porttitor. Curabitur eu ex sapien. Etiam vitae augue tortor. Sed magna tortor, pretium vestibulum orci ut, tincidunt imperdiet dolor.";
-    var ownerId = "";
-    var name = "Item Name";
-    var location = "";
-    var rating = "";
+    const [item, setItem] = useState({});
+    const [location, setLocation] = useState({});
+
+    useEffect(() => {
+        const getItem = async () => {
+          const itemFromServer = await fetchItem()
+          setItem(itemFromServer)
+          return itemFromServer['location']
+        }
+        const getLocation = async (loc) => {
+            const locFromServer = await fetchLocation(loc)
+            setLocation(locFromServer)
+            return locFromServer
+        }
+        getItem().then((res) => { getLocation(res) })
+      }, [])
+    
+      const fetchItem = async () => {
+        const res = await fetch('/items/'+props.params['id'], {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        })
+        const data = await res.json();
+        return data
+      }
+
+      const fetchLocation = async (loc) => {
+          const res = await fetch('/locations/'+loc, {
+              method: 'GET',
+              headers: {
+                  'Content-type': 'application/json'
+              }
+          })
+          const data = await res.json();
+          return data
+      }
+
+    var id = item['id'];
+    var description = item['description'];
+    var url = item['imageURL'];
+    var ownerId = item['ownerId'];
+    var name = item['name'];
+    var rating = item['rating'];
 
     return (
         <Container component="main" maxWidth="xs=12">
@@ -86,6 +125,7 @@ export default function ItemPage() {
                 <Grid container direction="row" justify='flex-start' alignItems="center">
                     <Button className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button>
                     <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
+                    <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>Find Item</Button>
                 </Grid>
 
                 <Grid container direction="row" justify='flex-start' alignItems="flex-start">
@@ -94,7 +134,8 @@ export default function ItemPage() {
                         <Typography variant='body1'>{description}</Typography>
                     </Grid>
                     <Grid item className={classes.imageContainer}>
-                        <img className = {classes.image} src={Image} class="img-Rounded"></img>
+                        {/* <img className = {classes.image} src={Image} class="img-Rounded"></img> */}
+                        <img className = {classes.image} width='40%' height='40%' src={url} class="img-Rounded"></img>
                     </Grid>
                 </Grid>
 
@@ -114,7 +155,7 @@ export default function ItemPage() {
                     <Typography variant='h5'>Map</Typography>
                     </Grid>
                 </Grid>
-
+                
                 <Grid container direction='row' justify='center' alignItems="center">
                     <Typography variant='h5'>Reviews</Typography>
                 </Grid>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -73,7 +73,6 @@ export default function SignIn() {
     }
 
     const login = async () => { 
-        localStorage.removeItem('user-jwt');
         const res = await fetch('/users/login', {
             method: 'POST',
             headers: {
@@ -92,6 +91,7 @@ export default function SignIn() {
         if (data['statusCode'] != 200) {
             setFailure(true);
         } else {
+            setFailure(false);
             localStorage.setItem('user-jwt', data['access_token']);
         }
     }
@@ -184,7 +184,7 @@ export default function SignIn() {
                     <br />
 
                     <GoogleLogin 
-                    clientId="388134853342-jdceelk8d664b8rmhk7h3582ph42d6ut.apps.googleusercontent.com"
+                    clientId={process.env.REACT_APP_CLIENT_ID}
                     buttonText="Login"
                     onSuccess={loginOauth}
                     // onFailure={loginOauth}

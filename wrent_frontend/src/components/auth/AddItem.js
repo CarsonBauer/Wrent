@@ -70,7 +70,12 @@ export default function AddItem() {
     const classes = useStyles();
     const [user, setUser] = useState("");
     const [name, setName] = useState("");
+    const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
+    const [image, setImage] = useState(null);
+
+    var id = null;
+    var url = null;
 
     useEffect(() => {
         const getUser = async () => { 
@@ -95,31 +100,102 @@ export default function AddItem() {
         setDescription(event.target.value);
     }
 
+    const handleLocationChange = (event) => {
+        setLocation(event.target.value);
+    }
+
+    const handleImageChange = (event) => {
+        setImage(event.target.files[0])
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!name || !description) {
             alert('One of the required fields is empty');
         } else {
-            postItem();
+            geocode().then(
+                (res) => { 
+                    if (res == 200) {
+                        postImage().then(
+                            () => { 
+                                postItem().then((res) => {
+                                    if (res['statusCode'] != 201) {
+                                        alert("Unable to post item.")
+                                    }
+                                })
+                            }) 
+                    }
+                })
+        }
+    }
+
+    const postImage = async () => {
+        const fd = new FormData();
+        fd.append('ownerId', user);
+        fd.append('image', image);
+        const res = await fetch('/images', {
+            method: 'POST',
+            body: fd
+        })
+        const res_json = await res.json();
+        if (res_json['statusCode'] == 200) {
+            url = res_json['data']
+        } else {
+            url = "No image"
+        }
+    }
+
+    const postLocation = async (lt, lg) => {
+        const res = await fetch('/locations', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+            },
+            body: JSON.stringify(
+                {
+                    lat: lt,
+                    lon: lg
+                }
+            )
+        })
+        var res_json = await res.json();
+        return res_json['data']
+    }
+
+    const geocode = async () => {
+        const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${process.env.REACT_APP_API_KEY}`)
+        const res_json = await res.json()
+        if (res_json['status'] == "ZERO_RESULTS") {
+            alert("Location does not exist");
+            return 500
+        } else {
+            var lat = res_json.results[0].geometry.location.lat
+            var lng = res_json.results[0].geometry.location.lng
+            id = await postLocation(lat, lng)
+            return 200
         }
     }
 
     const postItem = async () => {
-        await fetch('/items', {
+        const res = await fetch('/items', {
             method: 'POST',
             headers: {
               'Content-type': 'application/json',
               'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
             },
             body: JSON.stringify({
-                'location': 1,
+                'location': id,
                 'ownerId': user,
                 'name': name.toString(),
                 'description': description.toString(),
-                'imageURL': "placeholderURL",
+                'imageURL': url.toString(),
                 'rating': 1
             })
         })
+
+        const res_json = await res.json();
+        return res_json;
     }
 
     return (
@@ -152,7 +228,7 @@ export default function AddItem() {
                                 autoComplete="description"
                                 autoFocus
                         />
-                    <TextField
+                    <TextField onChange={handleLocationChange}
                                variant="outlined"
                                margin="normal"
                                required
@@ -163,12 +239,20 @@ export default function AddItem() {
                                autoComplete="location"
                                autoFocus
                         />
-                    <ImageUploader 
+                    <br />
+                    <br />
+                    {/* <ImageUploader 
                         withIcon={true}
                         buttonText='Choose images'
-                        // onChange={this.onDrop}
+                        onChange={onDrop}
                         imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                        maxFileSize={5242880} />
+                        maxFileSize={5242880} /> */}
+                    <input type="file"
+                        name="file"
+                        placeholder="Upload an image"
+                        onChange={handleImageChange} />
+                    <br />
+                    <br />
                     <Button
                         onClick={handleSubmit}
                         type="submit"
