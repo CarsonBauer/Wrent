@@ -63,34 +63,25 @@ export default function Home() {
     return data
   }
 
-  const fetchItems = async () => {
-    const res = await fetch('/items', {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json'
-      }
-    })
-    const data = await res.json();
-    console.log(JSON.stringify(data));
-    return data
-  };
-
-  fetchItems();
-
-
-
-
-
-
-
-
+  // const fetchItems = async () => {
+  //   const res = await fetch('/items', {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     }
+  //   })
+  //   const data = await res.json();
+  //   console.log(JSON.stringify(data));
+  //   return data
+  // };
 
   return (
     <div className={classes.root}>
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
         <WrentLogo />
       </Grid>
-      <Grid container spacing={1} alignItems="flex-end">
+      <Grid container spacing={3} direction="row" alignItems="center">
+        <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
             <SearchRounded />
           </Grid>
