@@ -106,6 +106,7 @@ export default function ItemPage(props) {
 
     var id = item['id'];
     var description = item['description'];
+    var url = item['imageURL'];
     var ownerId = item['ownerId'];
     var name = item['name'];
     var rating = item['rating'];
@@ -133,7 +134,8 @@ export default function ItemPage(props) {
                         <Typography variant='body1'>{description}</Typography>
                     </Grid>
                     <Grid item className={classes.imageContainer}>
-                        <img className = {classes.image} src={Image} class="img-Rounded"></img>
+                        {/* <img className = {classes.image} src={Image} class="img-Rounded"></img> */}
+                        <img className = {classes.image} width='40%' height='40%' src={url} class="img-Rounded"></img>
                     </Grid>
                 </Grid>
 

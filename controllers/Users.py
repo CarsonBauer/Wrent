@@ -32,6 +32,7 @@ def login():
 
     if user.password == auth['password']:
         token = create_access_token({
+            "id": user.id,
             "userName": user.userName,
             "email": user.email,
             "permission": Permissions.get_permission(user.permission).permission
@@ -281,6 +282,7 @@ def verify_oauth():
                 Users.post_user_noLoc(user.name, user.password, user.email, 
                 user.userName, user.permission, True)
             res = create_access_token({
+                "id": user.id,
                 "userName": user.userName,
                 "email": user.email,
                 "permission": Permissions.get_permission(user.permission).permission
