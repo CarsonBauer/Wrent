@@ -17,6 +17,11 @@ import WrentLogo from './wrentLogo';
 import {useState, useEffect} from 'react'
 import AfterReturnCode from './AfterReturnCode';
 import ImageUploader from 'react-images-upload';
+import {getUser} from '../helpers/UserController';
+import Authorization from './Authorization';
+import {postLocation} from '../helpers/LocationController';
+import {postItem} from '../helpers/ItemController';
+import {postImage} from '../helpers/ImageController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -68,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddItem() {
 
     const classes = useStyles();
-    const [user, setUser] = useState("");
+    const [user, setUser] = useState(null);
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
@@ -77,19 +82,9 @@ export default function AddItem() {
     var id = null;
     var url = null;
 
-    useEffect(() => {
-        const getUser = async () => { 
-        const res = await fetch('/users/get', {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
-            }
-        });
-        const res_json = await res.json();
-        setUser(res_json['id'])
-        }
-        getUser()
+    useEffect(async () => {
+        const res = await getUser();
+        setUser(res['id']);
     }, [])
 
     const handleNameChange = (event) => {
@@ -115,10 +110,10 @@ export default function AddItem() {
         } else {
             geocode().then(
                 (res) => { 
-                    if (res == 200) {
-                        postImage().then(
-                            () => { 
-                                postItem().then((res) => {
+                    if (res != "NO_POST") {
+                        postImage(user, image).then(
+                            (res) => {
+                                postItem(id, user, name, description, res, 1).then((res) => {
                                     if (res['statusCode'] != 201) {
                                         alert("Unable to post item.")
                                     }
@@ -129,76 +124,19 @@ export default function AddItem() {
         }
     }
 
-    const postImage = async () => {
-        const fd = new FormData();
-        fd.append('ownerId', user);
-        fd.append('image', image);
-        const res = await fetch('/images', {
-            method: 'POST',
-            body: fd
-        })
-        const res_json = await res.json();
-        if (res_json['statusCode'] == 200) {
-            url = res_json['data']
-        } else {
-            url = "No image"
-        }
-    }
-
-    const postLocation = async (lt, lg) => {
-        const res = await fetch('/locations', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
-            },
-            body: JSON.stringify(
-                {
-                    lat: lt,
-                    lon: lg
-                }
-            )
-        })
-        var res_json = await res.json();
-        return res_json['data']
-    }
-
     const geocode = async () => {
-        const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${process.env.REACT_APP_API_KEY}`)
-        const res_json = await res.json()
-        if (res_json['status'] == "ZERO_RESULTS") {
-            alert("Location does not exist");
-            return 500
+        const res = await postLocation(location);
+        if (res != "ZERO_RESULTS") {
+            id = res;
+            return "OK"
         } else {
-            var lat = res_json.results[0].geometry.location.lat
-            var lng = res_json.results[0].geometry.location.lng
-            id = await postLocation(lat, lng)
-            return 200
+            alert("Location does not exist.");
+            return "NO_POST"
         }
-    }
-
-    const postItem = async () => {
-        const res = await fetch('/items', {
-            method: 'POST',
-            headers: {
-              'Content-type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
-            },
-            body: JSON.stringify({
-                'location': id,
-                'ownerId': user,
-                'name': name.toString(),
-                'description': description.toString(),
-                'imageURL': url.toString(),
-                'rating': 1
-            })
-        })
-
-        const res_json = await res.json();
-        return res_json;
     }
 
     return (
+        <Authorization>
         <Container component="main" maxWidth="xs=12">
             <CssBaseline />
             <Paper className={classes.paper}>
@@ -241,12 +179,6 @@ export default function AddItem() {
                         />
                     <br />
                     <br />
-                    {/* <ImageUploader 
-                        withIcon={true}
-                        buttonText='Choose images'
-                        onChange={onDrop}
-                        imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                        maxFileSize={5242880} /> */}
                     <input type="file"
                         name="file"
                         placeholder="Upload an image"
@@ -266,5 +198,6 @@ export default function AddItem() {
                 </form>
             </Paper>
         </Container>
+        </Authorization>
     );
 }
