@@ -28,18 +28,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        marginTop: theme.spacing(8),
-        display: 'block',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: theme.spacing(3),
-        marginLeft: -theme.spacing(3),
-        width: '100%',
-    },
-    media: {
-        height: 100,
-    },
+
+
 }));
 
 export default function UserProfile() {
