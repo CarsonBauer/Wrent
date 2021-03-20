@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import WrentLogo from './wrentLogo';
+import {postLocation} from '../helpers/LocationController';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -86,34 +87,23 @@ export default function SignUp() {
         } else if (password != confPassword) {
             alert('Your passwords are different.');
         } else {
-            geocode().then(() => { postUser() })
+            geocode().then((res) => { 
+                if (res != "NO_POST") {
+                    postUser() 
+                }
+            })
         }
     }
 
-    const postLocation = async (lt, lg) => {
-        const res = await fetch('/locations', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
-            },
-            body: JSON.stringify(
-                {
-                    lat: lt,
-                    lon: lg
-                }
-            )
-        })
-        var res_json = await res.json();
-        return res_json['data']
-    }
-
     const geocode = async () => {
-        const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${process.env.REACT_APP_API_KEY}`)
-        const res_json = await res.json()
-        var lat = res_json.results[0].geometry.location.lat
-        var lng = res_json.results[0].geometry.location.lng
-        id = await postLocation(lat, lng)
+        const res = await postLocation(location);
+        if (res != "ZERO_RESULTS") {
+            id = res;
+            return "OK"
+        } else {
+            alert("Location does not exist.");
+            return "NO_POST"
+        }
     }
 
     const postUser = async () => {

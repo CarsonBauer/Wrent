@@ -14,6 +14,9 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import Image from './img/background.jpg';
 import GoogleMap from "../auth/GoogleMap";
+import {getUser} from "../helpers/UserController"
+import {fetchItem} from "../helpers/ItemController"
+import {fetchLocation} from "../helpers/LocationController"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,10 +70,12 @@ export default function ItemPage(props) {
 
     const [item, setItem] = useState({});
     const [location, setLocation] = useState({});
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const getItem = async () => {
-          const itemFromServer = await fetchItem()
+        //   const itemFromServer = await fetchItem()
+          const itemFromServer = await fetchItem(props.params['id'])
           setItem(itemFromServer)
           return itemFromServer['location']
         }
@@ -81,27 +86,24 @@ export default function ItemPage(props) {
         }
         getItem().then((res) => { getLocation(res) })
       }, [])
-    
-      const fetchItem = async () => {
-        const res = await fetch('/items/'+props.params['id'], {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json'
-          }
-        })
-        const data = await res.json();
-        return data
-      }
 
-      const fetchLocation = async (loc) => {
-          const res = await fetch('/locations/'+loc, {
-              method: 'GET',
+      useEffect(async () => {
+        const res = await getUser();
+        setUser(res['id']);
+    }, [])
+
+      const createRental = async () => {
+          await fetch('/rentals', {
+              method: 'POST',
               headers: {
-                  'Content-type': 'application/json'
-              }
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+              },
+              body: JSON.stringify({
+                  "renterId": user,
+                  "itemId": item['id']
+              })
           })
-          const data = await res.json();
-          return data
       }
 
     var id = item['id'];
@@ -123,7 +125,7 @@ export default function ItemPage(props) {
                 </Grid>
 
                 <Grid container direction="row" justify='flex-start' alignItems="center">
-                    <Button className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button>
+                    <Button onClick={createRental} className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button>
                     <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
                     <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>Find Item</Button>
                 </Grid>
