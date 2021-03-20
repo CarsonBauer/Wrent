@@ -87,12 +87,12 @@ def update_permission(id):
                     data=str("Restricted access")), 401
 
 @controllers.route('/permissions', methods=['POST'])
-@jwt_required(optional=False)
+#@jwt_required(optional=False)
 def post_permission():
 
-    data = get_jwt_identity()
+    #data = get_jwt_identity()
 
-    if data['permission'] == "Admin":
+    #if data['permission'] == "Admin":
         try:
             args = request.get_json()
 
@@ -110,11 +110,11 @@ def post_permission():
                         message="Success",
                         statusCode=201,
                         data=permission), 201
-    else:
-        return jsonify(isError=True,
-                    message="You are Unauthorized",
-                    statusCode=401,
-                    data=str("Restricted access")), 401
+    # else:
+    #     return jsonify(isError=True,
+    #                 message="You are Unauthorized",
+    #                 statusCode=401,
+    #                 data=str("Restricted access")), 401
 
 @controllers.route('/permissions/<int:id>', methods=['DELETE'])
 @jwt_required(optional=False)

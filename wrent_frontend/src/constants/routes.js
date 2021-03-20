@@ -8,6 +8,7 @@ import ItemPage from "../components/Item/ItemPage";
 import UpdatePassword from "../components/auth/UpdatePassword";
 import AddItem from "../components/auth/AddItem";
 import Map from "../components/auth/Map";
+import UserProfile from "../components/auth/UserProfile";
 export const routes = [
 
   {
@@ -35,6 +36,12 @@ export const routes = [
     component: SignIn,
   },
   {
+    path: "/userprofile",
+    private: false,
+    name: "UserProfile",
+    component: UserProfile,
+  },
+  {
     path: "/signup",
     private: false,
     component: SignUp,
@@ -59,6 +66,7 @@ export const routes = [
     path: "/",
     private: false,
     component: Home
-  }
+  },
+
 ]
 
