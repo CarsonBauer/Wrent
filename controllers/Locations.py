@@ -81,7 +81,7 @@ def update_location(id):
                        data=f"{lat},{lon}"), 201
 
 @controllers.route('/locations', methods=['POST'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def post_location():
     try:
         args = request.get_json()

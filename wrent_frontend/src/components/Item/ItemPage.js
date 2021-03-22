@@ -12,8 +12,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
+import FormControl from "@material-ui/core/FormControl";
 import Image from './img/background.jpg';
 import GoogleMap from "../auth/GoogleMap";
+import {getUser} from "../helpers/UserController"
+import {fetchItem} from "../helpers/ItemController"
+import {fetchLocation} from "../helpers/LocationController"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,12 +37,12 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
     imageContainer: {
-        width: '50%',
-        maxHeight: '300px',
+        width: '60%',
+        height: '400px',
         marginTop: theme.spacing(3),
     },
     image: {
-        maxHeight: '300px'
+        maxHeight: '100%'
     },
     ownerData: {
         maxHeight: '300px',
@@ -67,10 +71,12 @@ export default function ItemPage(props) {
 
     const [item, setItem] = useState({});
     const [location, setLocation] = useState({});
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const getItem = async () => {
-          const itemFromServer = await fetchItem()
+        //   const itemFromServer = await fetchItem()
+          const itemFromServer = await fetchItem(props.params['id'])
           setItem(itemFromServer)
           return itemFromServer['location']
         }
@@ -81,27 +87,24 @@ export default function ItemPage(props) {
         }
         getItem().then((res) => { getLocation(res) })
       }, [])
-    
-      const fetchItem = async () => {
-        const res = await fetch('/items/'+props.params['id'], {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json'
-          }
-        })
-        const data = await res.json();
-        return data
-      }
 
-      const fetchLocation = async (loc) => {
-          const res = await fetch('/locations/'+loc, {
-              method: 'GET',
+      useEffect(async () => {
+        const res = await getUser();
+        setUser(res['id']);
+    }, [])
+
+      const createRental = async () => {
+          await fetch('/rentals', {
+              method: 'POST',
               headers: {
-                  'Content-type': 'application/json'
-              }
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+              },
+              body: JSON.stringify({
+                  "renterId": user,
+                  "itemId": item['id']
+              })
           })
-          const data = await res.json();
-          return data
       }
 
     var id = item['id'];
@@ -112,48 +115,47 @@ export default function ItemPage(props) {
     var rating = item['rating'];
 
     return (
-        <Container component="main" maxWidth="xs=12">
+        <Container component="main" maxWidth="lg">
             <CssBaseline />
             <Paper className={classes.paper}>
                 
-                <Grid container direction="row" justify='flex-start' alignItems="center">
+                <Grid container direction="row" justify='center' alignItems="center">
                     <Typography variant='h3'>
                         {name}
                     </Typography>
                 </Grid>
 
-                <Grid container direction="row" justify='flex-start' alignItems="center">
+                <Grid container direction="row" justify='center' alignItems="center">
+                    <Grid item className={classes.imageContainer} justify='center' alignItems="center">
+                        {/* <img className = {classes.image} src={Image} class="img-Rounded"></img> */}
+                        <img className = {classes.image} width='100%' height='90%' src={url} class="img-Rounded"></img>
+                    </Grid>
+                </Grid>
+
+                <Grid container direction="row" justify='center' alignItems="center">
                     <Button className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button>
                     <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
-                    <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>Find Item</Button>
+                    <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>View On Map</Button>
                 </Grid>
 
-                <Grid container direction="row" justify='flex-start' alignItems="flex-start">
-                    <Grid item className={classes.description}>
-                        
+                <Grid container direction="row" justify='center' alignItems="center">
+
+                    <Grid item className={classes.description} justify='center' alignItems="flex-start">
                         <Typography variant='body1'>{description}</Typography>
                     </Grid>
-                    <Grid item className={classes.imageContainer}>
-                        {/* <img className = {classes.image} src={Image} class="img-Rounded"></img> */}
-                        <img className = {classes.image} width='40%' height='40%' src={url} class="img-Rounded"></img>
-                    </Grid>
-                </Grid>
 
-                <Grid container direction='row' justify='flex-start' alignItems="flex-start">
                     <Grid className={classes.ownerData} item justify='center' alignItems='center'>
-                        <Grid container direction='row' justify='flex-start' alignItems="flex-start">
+                        <Grid container direction='row' justify='center' alignItems="flex-start">
                             <Typography variant='h5'>Owner Info</Typography>
                         </Grid>
-                        <Grid container direction='row' justify='flex-start' alignItems="flex-start">
+                        <Grid container direction='row' justify='center' alignItems="flex-start">
                             <Grid item>
                                 <Avatar>JD</Avatar>
                                 <Typography variant='h6'>John Doe <Button variant='text' color='secondary'>Contact Owner</Button></Typography>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid Item>
-                    <Typography variant='h5'>Map</Typography>
-                    </Grid>
+
                 </Grid>
                 
                 <Grid container direction='row' justify='center' alignItems="center">
@@ -161,8 +163,11 @@ export default function ItemPage(props) {
                 </Grid>
 
                 <Grid container direction='row' justify='center' alignItems="center">
-                    <Grid item className={classes.reviwplaceholder}></Grid>
+                    <FormControl fullWidth>
+                        <TextField id="outlined-basic" label="Enter Review" variant="outlined" />
+                    </FormControl>
                 </Grid>
+                
                 
             </Paper>
         </Container>
