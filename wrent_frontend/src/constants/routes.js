@@ -8,19 +8,26 @@ import ItemPage from "../components/Item/ItemPage";
 import UpdatePassword from "../components/auth/UpdatePassword";
 import AddItem from "../components/auth/AddItem";
 import Map from "../components/auth/Map";
+import RentalHistory from "../components/History/RentalHistory";
 import UserProfile from "../components/auth/UserProfile";
 export const routes = [
 
   {
     path: "/map/:lat/:lon",
     private: false,
-    name: "Map",
+    // name: "Map",
     component: Map
+  },
+  {
+    path: "/rentalHistory",
+    private: false,
+    name: "History",
+    component: RentalHistory
   },
   {
     path: "/item/:id",
     private: false,
-    name: "Item",
+    // name: "Item",
     component: ItemPage,
   },
   {

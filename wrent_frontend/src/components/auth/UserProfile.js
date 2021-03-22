@@ -26,6 +26,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
+import {getUser} from '../helpers/UserController';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -53,14 +54,17 @@ export default function UserProfile() {
     }
 
     const [items, setItems] = useState([]);
-    const [users, setUsers] = useState([]);
+    // const [users, setUsers] = useState([]);
+    const [users, setUser] = useState({});
 
-    useEffect(() => {
-        const getUsers = async () => {
-            const usersFromServer = await fetchUsers()
-            setUsers(usersFromServer)
-        }
-        getUsers()
+    useEffect(async () => {
+        // const getUsers = async () => {
+        //     const usersFromServer = await fetchUsers()
+        //     setUsers(usersFromServer)
+        // }
+        // getUsers()
+        const res = await getUser();
+        setUser(res);
     }, [])
 
     const fetchUsers = async () => {
@@ -123,6 +127,7 @@ export default function UserProfile() {
                 <br />
                 <br />
                 <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: 'black', borderRadius: '5px', padding: '8px', paddingLeft: '80px', }} component="h1" variant="h5">
+                    {/* UserName :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name} */}
                     UserName :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name}
                 </Typography>
                 <br />
