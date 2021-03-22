@@ -17,6 +17,7 @@ import { Redirect } from 'react-router';
 import GoogleLogin from 'react-google-login';
 import plusIcon from '../../../src/plusIcon.png';
 import userImage from '../../../src/userImage.png';
+import userBackground from '../../../src/userBackground.jpg';
 import Map from './Map';
 import GoodMap from './GoogleMap';
 import Item from './../home/Item';
@@ -26,6 +27,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -70,9 +72,10 @@ export default function UserProfile() {
             <Paper style={{ width: '300%', color: '#4E4BA6', backgroundColor: 'white', borderRadius: '5px', padding: '40px', marginLeft: '-400px', }} className="paper">
                 <img src={userImage} style={{ width: "20%", border: '1px solid black', borderRadius: '100px', marginLeft: '90px' }} alt="UserImage" />
 
-                <img src={plusIcon} style={{ width: "4%", border: '1px solid black', borderRadius: '5px', marginLeft: '-8px' }} alt="plusIcon" />
+                <img src={plusIcon} style={{ width: "4%", border: '1px solid ', borderRadius: '5px', marginLeft: '-8px' }} alt="plusIcon" />
                 <div style={{ paddingLeft: '15px', paddingTop: '30px', fontSize: '30px', color: 'black', float: 'right', width: "40%", border: '20px solid black', borderRadius: '5px', marginRight: '60px' }}>
                     this is section for items and map
+                    <GoogleMap lat={0} lon={0} />
                     <CardActionArea>
                         <CardMedia
                             title="Item for rent"
