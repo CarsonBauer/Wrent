@@ -41,8 +41,9 @@ const Page = ({route}) => {
   return (
     <>
       
-      {<Navigation route={route}/>}
+      
       <main className={classes.content}>
+      {<Navigation route={route}/>}
         <Container maxWidth="xl" className={classes.container}>
           <PageBody params={params}/>
           <Box pt={4}>
