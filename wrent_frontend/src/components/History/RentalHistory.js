@@ -35,12 +35,7 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    fetch(motd)
-      .then((res) => res.text())
-      .then((post) => setMessage(post))
-      .catch((err) => console.error(err));
-  });
+
 
 //   useEffect(async () => {
 //     const getUser = async () => {
