@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import card from "@material-ui/core/card";
+import Card from "@material-ui/core/card";
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function item(){
+export default function item({id, name, description}){
 
     const classes = useStyles;
 
@@ -44,14 +44,14 @@ export default function item(){
                     />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            Item
+                            {name}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
-                            This is a tile to represent an item to rent
+                            {description}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color="primary">
+                        <Button href={"/item/"+id} size="small" color="primary">
                         Learn More
                         </Button>
                         <Button size="small" color="primary">

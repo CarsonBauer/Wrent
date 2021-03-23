@@ -5,21 +5,20 @@ import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import Background from '../../img/background.jpg';
+import Background from '../../img/background.png';
 import {useParams, withRouter} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-    },
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-        backgroundImage: `url(${Background})`
-    }
-
+  container: {
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+  content: {
+    flexGrow: 1,
+    height: '100vh',
+    overflow: 'auto',
+    backgroundImage: `url(${Background})`
+  }
 }));
 
 function Copyright() {
@@ -36,22 +35,24 @@ function Copyright() {
 }
 
 const Page = ({route}) => {
-    const PageBody = route.component;
-    const params = useParams();
-    const classes = useStyles();
-    return (
-        <>
-            {<Navigation route={route}/>}
-            <main className={classes.content}>
-                <Container maxWidth="xl" className={classes.container}>
-                    <PageBody params={params}/>
-                    <Box pt={4}>
-                        <Copyright/>
-                    </Box>
-                </Container>
-            </main>
-        </>
-    );
+  const PageBody = route.component;
+  const params = useParams();
+  const classes = useStyles();
+  return (
+    <>
+      
+      
+      <main className={classes.content}>
+      {<Navigation route={route}/>}
+        <Container maxWidth="xl" className={classes.container}>
+          <PageBody params={params}/>
+          <Box pt={4}>
+            <Copyright/>
+          </Box>
+        </Container>
+      </main>
+    </>
+  );
 };
 
 export default Page;

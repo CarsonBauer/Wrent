@@ -1,6 +1,6 @@
-from flask import jsonify, request
+from flask import Flask, jsonify, request
 from controllers import *
-from models import Items
+from models import Items, Images
 import jwt
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -8,7 +8,6 @@ from flask_jwt_extended import (
 )
 
 @controllers.route('/items', methods=['GET'])
-@jwt_required(optional=False)
 def get_items():
 
     items = Items.query.all()
@@ -31,7 +30,6 @@ def get_items():
 
 
 @controllers.route('/items/<int:id>', methods=['GET'])
-@jwt_required(optional=False)
 def get_item(id):
     try:
         item = Items.query.get(id)
@@ -43,6 +41,7 @@ def get_item(id):
                        data=str("Not Found")), 404
         else:
             data = {
+                'id': item.id,
                 'location': item.location,
                 'ownerId': item.ownerId,
                 'name': item.name,
@@ -65,7 +64,7 @@ def update_item(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
         try:
 
             args = request.get_json()
@@ -133,7 +132,7 @@ def delete_item(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == Items.get_item(id).ownerId:
         try:
 
             if not Items.get_item(id):

@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from controllers import *
 from models import Rentals
+from models import Items
 import jwt
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -56,7 +57,7 @@ def update_rental(renterId, itemId):
 
         data = get_jwt_identity()
 
-        if Permissions.get_permission(data['permission']).permission == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
+        if data['permission'] == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
             try:
                 args = request.get_json()
 
@@ -114,7 +115,7 @@ def delete_rental(renterId, itemId):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
+    if data['permission'] == "Admin": #or Users.query.filter_by(email=data['email']).first().id == renterId:
         try:
 
             if not Rentals.get_rental(renterId, itemId):
@@ -140,3 +141,31 @@ def delete_rental(renterId, itemId):
                     message="You are Unauthorized",
                     statusCode=401,
                     data=str("Restricted access")), 401
+
+@controllers.route('/rentals/<int:renterId>', methods=['GET'])
+@jwt_required(optional=False)
+def get_rental_renterId(renterId):
+    try:
+        rentals = Rentals.query.filter_by(renterId=renterId)
+        lst = list()
+        retList = list()
+        
+        for rental in rentals:
+                item = Items.query.filter_by(id=rental.itemId).first()
+                retList.append({
+                    'id': item.id,
+                    'location': item.location,
+                    'ownerId': item.ownerId,
+                    'name': item.name,
+                    'description': item.description,
+                    'imageURL': item.imageURL,
+                    'rating': item.rating
+                })
+
+    except Exception as e:
+        return jsonify(isError=True,
+                       message="Error",
+                       statusCode=500,
+                       data=str("Internal Server Error")), 500
+    else:
+        return jsonify(retList)

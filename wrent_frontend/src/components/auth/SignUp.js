@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import WrentLogo from './wrentLogo';
+import {postLocation} from '../helpers/LocationController';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,45 +41,68 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-    const classes = useStyles();
+    const classes = useStyles();   
 
-    var firstName = "";
-    var lastName = "";
-    var userName = "";
-    var email = "";
-    var location = "";
-    var password = "";
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [location, setLocation] = useState("");
+    const [password, setPassword] = useState("");
+    const [confPassword, setConfPassword] = useState("");
+    var id = null;
 
     const handleFirstNameChange = (event) => {
-        firstName = event.target.value;
+        setFirstName(event.target.value);
     }
 
     const handleLastNameChange = (event) => {
-        lastName = event.target.value;
+        setLastName(event.target.value);
     }
 
     const handleUserNameChange = (event) => {
-        userName = event.target.value;
+        setUserName(event.target.value);
     }
 
     const handleEmailChange = (event) => {
-        email = event.target.value;
+        setEmail(event.target.value);
     }
 
     const handleLocationChange = (event) => {
-        location = event.target.value;
+        setLocation(event.target.value);
     }
 
     const handlePasswordChange = (event) => {
-        password = event.target.value;
+        setPassword(event.target.value);
+    }
+
+    const handleConfPasswordChange = (event) => {
+        setConfPassword(event.target.value);
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!firstName || !lastName || !userName || !email || !location || !password) {
+        if (!firstName || !lastName || !userName || !email || !location || !password || !confPassword) {
             alert('One of the required fields is empty');
+        } else if (password != confPassword) {
+            alert('Your passwords are different.');
         } else {
-            postUser();
+            geocode().then((res) => { 
+                if (res != "NO_POST") {
+                    postUser() 
+                }
+            })
+        }
+    }
+
+    const geocode = async () => {
+        const res = await postLocation(location);
+        if (res != "ZERO_RESULTS") {
+            id = res;
+            return "OK"
+        } else {
+            alert("Location does not exist.");
+            return "NO_POST"
         }
     }
 
@@ -92,13 +116,13 @@ export default function SignUp() {
                 'name': firstName.toString() + " " + lastName.toString(),
                 'password': password.toString(),
                 'email': email.toString(),
-                'location': 1,
+                'location': id,
                 'userName': userName.toString(),
-                'permission': 1
+                'permission': "User"
             })
         })
     }
-
+    
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -175,6 +199,18 @@ export default function SignUp() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField onChange={handleConfPasswordChange}
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="confpassword"
+                                label="Confirm Password"
+                                type="confpassword"
+                                id="confpassword"
+                                autoComplete="confirm-password"
                             />
                         </Grid>
                         <Grid item xs={12}>

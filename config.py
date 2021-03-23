@@ -12,3 +12,6 @@ SECRET_KEY = 'my precious'
 
 # Connect to the database
 SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+
+# Client id for google oauth
+CLIENT_ID = os.environ['CLIENT_ID']

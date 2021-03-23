@@ -60,7 +60,7 @@ def update_comment(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == Comments.get_comment(id).posterId:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == Comments.get_comment(id).posterId:
         try:
 
             args = request.get_json()
@@ -122,7 +122,7 @@ def delete_comment(id):
 
     data = get_jwt_identity()
 
-    if Permissions.get_permission(data['permission']).permission == "Admin" or Users.query.filter_by(email=data['email']).first().id == Comments.get_comment(id).posterId:
+    if data['permission'] == "Admin" or Users.query.filter_by(email=data['email']).first().id == Comments.get_comment(id).posterId:
         try:
 
             if not Comments.get_comment(id):
