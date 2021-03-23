@@ -18,7 +18,8 @@ import GoogleMap from "../auth/GoogleMap";
 import {getUser} from "../helpers/UserController"
 import {fetchItem} from "../helpers/ItemController"
 import {fetchLocation} from "../helpers/LocationController"
-
+import Authorization from "../auth/Authorization"
+import {getRentalItem} from "../helpers/RentalController"
 
 const useStyles = makeStyles((theme) => ({
       paper: {
@@ -72,6 +73,7 @@ export default function ItemPage(props) {
     const [item, setItem] = useState({});
     const [location, setLocation] = useState({});
     const [user, setUser] = useState(null);
+    const [rented, setRented] = useState(false);
 
     useEffect(() => {
         const getItem = async () => {
@@ -85,13 +87,33 @@ export default function ItemPage(props) {
             setLocation(locFromServer)
             return locFromServer
         }
-        getItem().then((res) => { getLocation(res) })
+        const fetchUser = async () => {
+            const res = await getUser();
+            setUser(res['id']);
+            return res['id'];
+        }
+        const fetchRental = async (u) => {
+            console.log(u + " " + props.params['id'])
+            const rental = await getRentalItem(u, props.params['id'])
+            if (rental['statusCode'] == 200) {
+                setRented(true)
+            }
+        }
+        getItem().then((res) => { getLocation(res).then(() => { fetchUser().then((res) => { fetchRental(res) }) }) })
       }, [])
 
-      useEffect(async () => {
-        const res = await getUser();
-        setUser(res['id']);
-    }, [])
+    //   useEffect(async () => {
+    //     const res = await getUser();
+    //     setUser(res['id']);
+    // }, [])
+
+    // useEffect(async () => {
+        // const rental = await getRentalItem(user, item['id'])
+        // // const rental_json = await rental.json()
+        // if (rental['status'] == 200) {
+        //     setRented(true)
+    //     }
+    // })
 
       const createRental = async () => {
           await fetch('/rentals', {
@@ -105,6 +127,7 @@ export default function ItemPage(props) {
                   "itemId": item['id']
               })
           })
+          setRented(true)
       }
 
     var id = item['id'];
@@ -115,6 +138,7 @@ export default function ItemPage(props) {
     var rating = item['rating'];
 
     return (
+        <Authorization>
         <Container component="main" maxWidth="lg">
             <CssBaseline />
             <Paper className={classes.paper}>
@@ -133,7 +157,10 @@ export default function ItemPage(props) {
                 </Grid>
 
                 <Grid container direction="row" justify='center' alignItems="center">
-                    <Button className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button>
+                    <>
+                    {!rented ? <Button onClick={createRental} className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button> : 
+                    <Button className={classes.rentButton} variant='contained' color='Primary'>Request Refund</Button>}
+                    </>
                     <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
                     <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>View On Map</Button>
                 </Grid>
@@ -171,5 +198,6 @@ export default function ItemPage(props) {
                 
             </Paper>
         </Container>
+        </Authorization>
     );
 }
