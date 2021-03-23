@@ -32,6 +32,7 @@ export default function Home() {
   const classes = useStyles();
   const [message, setMessage] = useState("loading...");
   const [items, setItems] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
     fetch(motd)
@@ -39,10 +40,6 @@ export default function Home() {
       .then((post) => setMessage(post))
       .catch((err) => console.error(err));
   });
-
-  // const items = fetch('/items', {method: 'GET'})
-  // .then(res => res.json())
-  // .then(jwt => {console.log(jwt)});
 
   useEffect(() => {
     const getItems = async () => {
@@ -84,55 +81,6 @@ export default function Home() {
                           </Grid>
                         ))}
         </>
-        {/* <Grid item xs={2}>
-          <Item/>
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} direction="row" alignItems="center" justify="center">
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item />
-        </Grid>
-        <Grid item xs={2}>
-          <Item/>
-        </Grid> */}
       </Grid>
     </div>
   );
