@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,12 +10,12 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
+import SvgIcon from "@material-ui/core/SvgIcon";
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
-import { Redirect } from 'react-router';
+import {Redirect} from 'react-router';
 import GoogleLogin from 'react-google-login';
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     errorPaper: {
         marginTop: theme.spacing(2),
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -42,17 +42,18 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(8)
-
+        marginTop: theme.spacing(4)
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(0, 0, 1),
     },
+    footer: {
+        margin: theme.spacing(1,0,0)
+    }
 }));
 
 export default function SignIn() {
     const classes = useStyles();
-    const [error] = useState();
     console.log("rendering");
 
     const [email, setEmail] = useState("");
@@ -72,7 +73,7 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = async () => { 
+    const login = async () => {
         const res = await fetch('/users/login', {
             method: 'POST',
             headers: {
@@ -98,7 +99,7 @@ export default function SignIn() {
 
     const loginOauth = async (res) => {
         var id_token = res.tokenId;
-        const tkn = await fetch('/users/oauth', {
+        fetch('/users/oauth', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -108,55 +109,58 @@ export default function SignIn() {
                     'id_token': id_token.toString()
                 }
             )
-        }).catch(err => setFailure(true));
-
-        var data = await tkn.json();
-
-        if (data['statusCode'] != 200) {
-            setFailure(true);
-        } else {
-            localStorage.setItem('user-jwt', data['access_token']);
-        }
+        }).then(res => res.json())
+            .then((result) => console.log(result))
+            .catch(err => setFailure(err));
+        //
+        // var data = await tkn.json();
+        //
+        // if (data['statusCode'] != 200) {
+        //     console.log("failed!");
+        //     setFailure(true);
+        // } else {
+        //     localStorage.setItem('user-jwt', data['access_token']);
+        // }
     }
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <Paper className={classes.paper}>
 
-                <WrentLogo className={classes.avatar} />
+                <WrentLogo className={classes.avatar}/>
 
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
 
-                {error && <Paper className={classes.errorPaper}>{error.message}</Paper>}
+                {failure && <Paper className={classes.errorPaper}>{"Login failure, please create an account"}</Paper>}
 
                 <form className={classes.form} noValidate>
                     <TextField onChange={handleEmailChange}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
+                               variant="outlined"
+                               margin="normal"
+                               required
+                               fullWidth
+                               id="email"
+                               label="Email Address"
+                               name="email"
+                               autoComplete="email"
+                               autoFocus
                     />
                     <TextField onChange={handlePasswordChange}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
+                               variant="outlined"
+                               margin="normal"
+                               required
+                               fullWidth
+                               name="password"
+                               label="Password"
+                               type="password"
+                               id="password"
+                               autoComplete="current-password"
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
+                        control={<Checkbox value="remember" color="primary"/>}
                         label="Remember me"
                     />
                     <Button
@@ -169,7 +173,23 @@ export default function SignIn() {
                     >
                         Sign In
                     </Button>
-                    <Grid container>
+                    <GoogleLogin
+                        clientId={process.env.REACT_APP_CLIENT_ID}
+                        buttonText="Login"
+                        render={renderProps => (
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                                color="primary"
+                                className={classes.submit}>Google Login
+                            </Button>
+                        )}
+                        onSuccess={loginOauth}
+                        onFailure={loginOauth}
+                    />
+                    <Grid container className={classes.footer}>
                         <Grid item xs>
                             <Link href="./forgotpassword" variant="body2">
                                 Forgot password?
@@ -181,19 +201,7 @@ export default function SignIn() {
                             </Link>
                         </Grid>
                     </Grid>
-                    <br />
-
-                    <GoogleLogin 
-                    clientId={process.env.REACT_APP_CLIENT_ID}
-                    buttonText="Login"
-                    onSuccess={loginOauth}
-                    // onFailure={loginOauth}
-                    />
-                    <br />
-                    <br />
-                    <>
-                        {failure && <font color='red'>Unable to login</font>}
-                    </>
+                    <br/>
                 </form>
             </Paper>
         </Container>

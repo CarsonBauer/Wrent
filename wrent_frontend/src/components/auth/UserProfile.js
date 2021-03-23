@@ -17,6 +17,7 @@ import { Redirect } from 'react-router';
 import GoogleLogin from 'react-google-login';
 import plusIcon from '../../../src/plusIcon.png';
 import userImage from '../../../src/userImage.png';
+import userBackground from '../../../src/userBackground.jpg';
 import Map from './Map';
 import GoodMap from './GoogleMap';
 import Item from './../home/Item';
@@ -26,31 +27,22 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
-import {getUser} from '../helpers/UserController';
+import { getUser } from '../helpers/UserController';
+
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        marginTop: theme.spacing(8),
-        display: 'block',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: theme.spacing(3),
-        marginLeft: -theme.spacing(3),
-        width: '100%',
-    },
-    media: {
-        height: 100,
-    },
+
+
 }));
 
 export default function UserProfile() {
 
     function changeBackground(e) {
-        e.target.style.background = '#4E4BA6';
+        e.target.style.background = '#997cb3';
     }
 
     function changeBackground2(e) {
-        e.target.style.background = 'black';
+        e.target.style.background = '#679ece';
     }
 
     const [items, setItems] = useState([]);
@@ -81,12 +73,13 @@ export default function UserProfile() {
     return (
         <Container component="main" maxWidth="xs">
             <br />
-            <Paper style={{ width: '300%', color: '#4E4BA6', backgroundColor: 'white', borderRadius: '5px', padding: '40px', marginLeft: '-400px', }} className="paper">
-                <img src={userImage} style={{ width: "20%", border: '1px solid black', borderRadius: '100px', marginLeft: '90px' }} alt="UserImage" />
+            <Paper style={{ border: '10px solid #6f6cb2', width: '300%', color: '#4E4BA6', backgroundColor: 'white', borderRadius: '5px', padding: '40px', marginLeft: '-400px', }} className="paper">
+                <img src={userImage} style={{ width: "10%", border: '1px solid black', borderRadius: '100px', marginLeft: '90px' }} alt="UserImage" />
 
-                <img src={plusIcon} style={{ width: "4%", border: '1px solid black', borderRadius: '5px', marginLeft: '-8px' }} alt="plusIcon" />
-                <div style={{ paddingLeft: '15px', paddingTop: '30px', fontSize: '30px', color: 'black', float: 'right', width: "40%", border: '20px solid black', borderRadius: '5px', marginRight: '60px' }}>
-                    this is section for items and map
+                <img src={plusIcon} style={{ width: "2%", border: '1px solid ', borderRadius: '5px', marginLeft: '-8px' }} alt="plusIcon" />
+                <div style={{ paddingLeft: '15px', fontSize: '30px', color: 'black', float: 'right', width: "40%", border: '10px #4E4BA6', borderRadius: '5px', marginRight: '60px' }}>
+                    This is section for items and map
+                    
                     <CardActionArea>
                         <CardMedia
                             title="Item for rent"
@@ -121,29 +114,20 @@ export default function UserProfile() {
                 </>
                 <br />
                 <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '37%', borderTop: '10px', borderBottom: '10px', fontSize: '30px', color: 'white', backgroundColor: 'black', borderRadius: '5px', padding: '5px', textAlign: 'center' }} component="h1" variant="h5">
+                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '37%', borderTop: '10px', borderBottom: '10px', fontSize: '25px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '5px', textAlign: 'center' }} component="h1" variant="h5">
                     User Profile
                 </Typography>
                 <br />
                 <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: 'black', borderRadius: '5px', padding: '8px', paddingLeft: '80px', }} component="h1" variant="h5">
+                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '8px', paddingLeft: '80px',textAlign: 'center' }} component="h1" variant="h5">
                     {/* UserName :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name} */}
-                    UserName :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name}
-                </Typography>
-                <br />
-                <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ hright: '10%', width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: 'black', borderRadius: '5px', padding: '8px', paddingLeft: '80px', }} component="h1" variant="h5">
+                    User Name :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name}
                     {users.lastName} &nbsp; &nbsp;&nbsp;&nbsp; {users.firstName}
                 </Typography>
                 <br />
                 <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: 'black', borderRadius: '5px', padding: '8px', paddingLeft: '80px', }} component="h1" variant="h5">
+                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '8px', paddingLeft: '80px', textAlign: 'center'}} component="h1" variant="h5">
                     Email :  &nbsp; &nbsp;&nbsp;&nbsp; {users.email}
-                </Typography>
-                <br />
-                <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: 'black', borderRadius: '5px', padding: '8px', paddingLeft: '80px', }} component="h1" variant="h5">
-                    Location :  &nbsp; &nbsp;&nbsp;&nbsp; {users.location}
                 </Typography>
                 <br />
                 <br />
