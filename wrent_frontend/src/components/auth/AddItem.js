@@ -78,6 +78,7 @@ export default function AddItem() {
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
+    const [tags, setTags] = useState([]);
 
     var id = null;
     var url = null;
@@ -177,6 +178,14 @@ export default function AddItem() {
                                autoComplete="location"
                                autoFocus
                         />
+                    <br />
+                    <br />
+                    <div>
+                        <button>Add Tag</button>
+                        &nbsp;
+                        &nbsp;
+                        <TextField />
+                    </div>
                     <br />
                     <br />
                     <input type="file"

@@ -269,5 +269,38 @@ class Images(Base):
         db_session.add(Images(data=sent_image, name=sent_name, itemId=sent_itemId))
         db_session.commit()
 
+class Tags(Base):
+    __tablename__ = "Tags"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(300), nullable=False, unique=True)
+
+    def __init__(self, name):
+        self.name = name
+    
+    def post_tag(sent_name):
+        db_session.add(Tags(name=sent_name))
+        db_session.commit()
+
+class TagItems(Base):
+    __tablename__ = "TagItems"
+
+    tagId = Column(Integer, ForeignKey("Tags.id", ondelete="CASCADE"), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+
+    __table_args__ = (
+        PrimaryKeyConstraint(
+            tagId, itemId,
+        ),
+    )
+
+    def __init__(self, tagId, itemId):
+        self.tagId = tagId
+        self.itemId = itemId
+
+    def post_tagItem(sent_tagId, sent_itemId):
+        db_session.add(TagItems(tagId=sent_tagId, itemId=sent_itemId))
+        db_session.commit()
+
 # Create tables.
 Base.metadata.create_all(bind=engine)

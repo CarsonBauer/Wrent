@@ -49,7 +49,10 @@ def get_rental(renterId, itemId):
                        statusCode=500,
                        data=str("Internal Server Error")), 500
     else:
-        return jsonify(data)
+        return jsonify(isError=False,
+                       message="Success",
+                       statusCode=200,
+                       data=data), 200
 
 @controllers.route('/rentals/<int:renterId>/<int:itemId>', methods=['PUT'])
 @jwt_required(optional=False)

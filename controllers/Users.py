@@ -139,7 +139,7 @@ def update_user(id):
 
 @controllers.route('/users', methods=['POST'])
 def post_user():
-    #try:
+    try:
         args = request.get_json()
         
         name = args['name']
@@ -159,12 +159,12 @@ def post_user():
                         statusCode=400,
                         data=str("username or email already exists")), 400
 
-    # except Exception as e:
-    #     return jsonify(isError=True,
-    #                    message="Error",
-    #                    statusCode=500,
-    #                    data=str("User addition error")), 500
-    # else:
+    except Exception as e:
+        return jsonify(isError=True,
+                       message="Error",
+                       statusCode=500,
+                       data=str("User addition error")), 500
+    else:
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
