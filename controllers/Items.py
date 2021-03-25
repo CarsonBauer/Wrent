@@ -113,7 +113,7 @@ def post_item():
         imageURL = args['imageURL']
         rating = args['rating']
 
-        Items.post_item(location, ownerId, name, description, imageURL, rating)
+        res = Items.post_item(location, ownerId, name, description, imageURL, rating)
 
     except Exception as e:
         return jsonify(isError=True,
@@ -124,7 +124,7 @@ def post_item():
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
-                       data=name), 201
+                       data=res), 201
 
 @controllers.route('/items/<int:id>', methods=['DELETE'])
 @jwt_required(optional=False)

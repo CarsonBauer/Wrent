@@ -92,7 +92,9 @@ class Items(Base):
     def post_item(sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
         new_item = Items(location=sent_location, ownerId=sent_ownerId, name=sent_name, description=sent_description, imageURL=sent_imageURL, rating=sent_rating)
         db_session.add(new_item)
+        db_session.flush()
         db_session.commit()
+        return new_item.id
 
     def delete_item(sent_id):
         del_item = db_session.query(Items).get(sent_id)
