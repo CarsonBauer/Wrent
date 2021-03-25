@@ -22,6 +22,8 @@ import Authorization from './Authorization';
 import {postLocation} from '../helpers/LocationController';
 import {postItem} from '../helpers/ItemController';
 import {postImage} from '../helpers/ImageController';
+import {postTag} from '../helpers/TagController';
+import {postTagItem} from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -78,6 +80,8 @@ export default function AddItem() {
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
+    const [tags, setTags] = useState([]);
+    const [tag, setTag] = useState("");
 
     var id = null;
     var url = null;
@@ -109,19 +113,26 @@ export default function AddItem() {
             alert('One of the required fields is empty');
         } else {
             geocode().then(
-                (res) => { 
+                async (res) => { 
                     if (res != "NO_POST") {
-                        postImage(user, image).then(
-                            (res) => {
-                                postItem(id, user, name, description, res, 1).then((res) => {
+                        await postImage(user, image).then(
+                            async (res) => {
+                                await postItem(id, user, name, description, res, 1).then((res) => {
                                     if (res['statusCode'] != 201) {
                                         alert("Unable to post item.")
                                     }
-                                })
+                                    return res
+                                }).then(async (res) => { await postTags(res) })
                             }) 
                     }
                 })
         }
+    }
+
+    const postTags = async (item) => {
+        tags.map((tag, i) => {
+            postTag(tag.name).then(async (res) => { await postTagItem(item.data, res.data) })
+        })
     }
 
     const geocode = async () => {
@@ -177,6 +188,30 @@ export default function AddItem() {
                                autoComplete="location"
                                autoFocus
                         />
+                    <br />
+                    <br />
+                    <div>
+                        <TextField onChange={(event) => { setTag(event.target.value) }} />
+                        &nbsp;
+                        &nbsp;
+                        <Button onClick={() => { 
+                            setTags([...tags, {'name': tag}])}}>Add Tag</Button>
+                    </div>
+                    <br />
+                    <br />
+                    <div>
+                        {tags.map((tag, i) => (
+                                <div>
+                                    <text value={tag.id}>
+                                    {tag.name}
+                                    </text>
+                                    &nbsp;
+                                    &nbsp;
+                                    <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} size="small" color="secondary">Delete</Button>
+                                    <br/>
+                                </div>
+                            ))}
+                    </div>
                     <br />
                     <br />
                     <input type="file"

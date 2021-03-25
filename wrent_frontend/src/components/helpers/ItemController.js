@@ -63,3 +63,17 @@ export async function postItem(id, user, name, description, url, rating) {
   const res_json = await res.json();
   return res_json;
 }
+
+export async function getItemsFromTag(id) {
+  const res = await fetch('/items/tags', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      'id': id
+    })
+  })
+  const data = await res.json();
+  return data;
+}

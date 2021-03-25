@@ -92,7 +92,9 @@ class Items(Base):
     def post_item(sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
         new_item = Items(location=sent_location, ownerId=sent_ownerId, name=sent_name, description=sent_description, imageURL=sent_imageURL, rating=sent_rating)
         db_session.add(new_item)
+        db_session.flush()
         db_session.commit()
+        return new_item.id
 
     def delete_item(sent_id):
         del_item = db_session.query(Items).get(sent_id)
@@ -267,6 +269,39 @@ class Images(Base):
 
     def post_image(sent_image, sent_name, sent_itemId):
         db_session.add(Images(data=sent_image, name=sent_name, itemId=sent_itemId))
+        db_session.commit()
+
+class Tags(Base):
+    __tablename__ = "Tags"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(300), nullable=False, unique=True)
+
+    def __init__(self, name):
+        self.name = name
+    
+    def post_tag(sent_name):
+        db_session.add(Tags(name=sent_name))
+        db_session.commit()
+
+class TagItems(Base):
+    __tablename__ = "TagItems"
+
+    tagId = Column(Integer, ForeignKey("Tags.id", ondelete="CASCADE"), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+
+    __table_args__ = (
+        PrimaryKeyConstraint(
+            tagId, itemId,
+        ),
+    )
+
+    def __init__(self, tagId, itemId):
+        self.tagId = tagId
+        self.itemId = itemId
+
+    def post_tagItem(sent_tagId, sent_itemId):
+        db_session.add(TagItems(tagId=sent_tagId, itemId=sent_itemId))
         db_session.commit()
 
 # Create tables.

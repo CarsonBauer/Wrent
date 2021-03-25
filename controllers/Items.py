@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from controllers import *
-from models import Items, Images
+from models import Items, Images, Rentals, TagItems
 import jwt
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
@@ -113,7 +113,7 @@ def post_item():
         imageURL = args['imageURL']
         rating = args['rating']
 
-        Items.post_item(location, ownerId, name, description, imageURL, rating)
+        res = Items.post_item(location, ownerId, name, description, imageURL, rating)
 
     except Exception as e:
         return jsonify(isError=True,
@@ -124,7 +124,7 @@ def post_item():
         return jsonify(isError=False,
                        message="Success",
                        statusCode=201,
-                       data=name), 201
+                       data=res), 201
 
 @controllers.route('/items/<int:id>', methods=['DELETE'])
 @jwt_required(optional=False)
@@ -158,3 +158,47 @@ def delete_item(id):
                     message="You are Unauthorized",
                     statusCode=401,
                     data=str("Restricted access")), 401
+
+@controllers.route('/items/available', methods=['GET'])
+def get_available_items():
+
+    items = Items.query.all()
+    lst = list()
+
+    for item in items:
+        if not Rentals.query.filter_by(itemId=item.id).first():
+            lst.append(
+                {
+                    'id': item.id,
+                    'location': item.location,
+                    'ownerId': item.ownerId,
+                    'name': item.name,
+                    'description': item.description,
+                    'imageURL': item.imageURL,
+                    'rating': item.rating
+                }
+            )
+
+    return jsonify(lst)
+
+@controllers.route('/items/tags', methods=['POST'])
+def get_items_from_tag():
+    args = request.get_json()
+    items = TagItems.query.filter_by(tagId=args['id'])
+    lst = list()
+
+    for i in items:
+        item = Items.get_item(i.itemId)
+        lst.append(
+                {
+                    'id': item.id,
+                    'location': item.location,
+                    'ownerId': item.ownerId,
+                    'name': item.name,
+                    'description': item.description,
+                    'imageURL': item.imageURL,
+                    'rating': item.rating
+                }
+            )
+
+    return jsonify(lst)

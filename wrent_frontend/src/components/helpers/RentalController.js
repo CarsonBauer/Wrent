@@ -23,3 +23,15 @@ export async function getRentalItems(id) {
     const data = await res.json();
     return data
 }
+
+export async function getRentalItem(renterId, itemId) {
+    const res = await fetch(`/rentals/${renterId}/${itemId}`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+        }
+    })
+    const data = await res.json();
+    return data
+}

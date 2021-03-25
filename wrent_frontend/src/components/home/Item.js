@@ -12,7 +12,7 @@ import Link from '@material-ui/core/Link';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
 import { CallMissedSharp } from "@material-ui/icons";
 import Paper from "@material-ui/core/Paper";
-import Img from "./Icon.png";
+//import Img from "./Icon.png";
 
 const useStyles = makeStyles({
     root:{
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-export default function item({id, name, description}){
+export default function item({id, name, description, img, userid}){
 
     const classes = useStyles;
 
@@ -38,7 +38,7 @@ export default function item({id, name, description}){
                     <CardMedia 
 
                         className={classes.media}
-                        src={Img}
+                        src={img}
                         component="img"
                         title="Item for rent"
                     />
@@ -54,7 +54,7 @@ export default function item({id, name, description}){
                         <Button href={"/item/"+id} size="small" color="primary">
                         Learn More
                         </Button>
-                        <Button size="small" color="primary">
+                        <Button href={"/userprofile/"+userid} size="small" color="primary">
                         Renter profile
                         </Button>
                     </CardActions>

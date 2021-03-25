@@ -110,7 +110,10 @@ export default function SignIn() {
                 }
             )
         }).then(res => res.json())
-            .then((result) => console.log(result))
+            .then((result) => {
+                console.log(result);
+                localStorage.setItem('user-jwt', result['access_token']);
+            })
             .catch(err => setFailure(err));
         //
         // var data = await tkn.json();

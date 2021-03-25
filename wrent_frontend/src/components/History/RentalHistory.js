@@ -34,6 +34,7 @@ export default function Home() {
   const classes = useStyles();
   const [items, setItems] = useState([]);
   const [user, setUser] = useState(null);
+  const [searchText, setSearchText] = useState("");
 
 
 //   useEffect(async () => {
@@ -65,11 +66,18 @@ export default function Home() {
             <SearchRounded />
           </Grid>
           <Grid item>
-            <TextField id="input-with-icon-grid" label="Search..." />
+            <TextField id="input-with-icon-grid" label="Search..." 
+            onChange={(event) => { setSearchText(event.target.value) }} />
           </Grid>
         </Grid>
         <>
-          {items.map((item, i) => (
+          {items.filter((item) => {
+            if (searchText == "") {
+              return item
+            } else if (item.name.toLowerCase().includes(searchText.toLowerCase())) {
+              return item
+            }
+          }).map((item, i) => (
                           <Grid item xs={2}>
                             <Item id={item.id} name={item.name} description={item.desc}/>
                           </Grid>

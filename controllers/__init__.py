@@ -8,3 +8,5 @@ from .Comments import *
 from .Rentals import *
 from .TempCodes import *
 from .Images import *
+from .Tags import *
+from .TagItems import *
