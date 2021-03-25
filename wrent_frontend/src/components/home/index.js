@@ -117,7 +117,7 @@ export default function Home() {
             }
           }).map((item, i) => (
                           <Grid item xs={2}>
-                            <Item id={item.id} name={item.name} description={item.desc}/>
+                            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId}/>
                           </Grid>
                         ))}
         </>
