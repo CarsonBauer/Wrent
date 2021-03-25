@@ -80,7 +80,7 @@ export default function Home() {
         <>
           {items.map((item, i) => (
                           <Grid item xs={2}>
-                            <Item id={item.id} name={item.name} description={item.desc}/>
+                            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId}/>
                           </Grid>
                         ))}
         </>
@@ -132,7 +132,8 @@ export default function Home() {
         </Grid>
         <Grid item xs={2}>
           <Item/>
-        </Grid> */}
+        </Grid> 
+      </Grid>*/}
       </Grid>
     </div>
   );
