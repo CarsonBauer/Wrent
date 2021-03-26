@@ -115,7 +115,7 @@ export default function AddItem() {
             geocode().then(
                 async (res) => { 
                     if (res != "NO_POST") {
-                        await postImage(user, image).then(
+                        await postImage(image).then(
                             async (res) => {
                                 await postItem(id, user, name, description, res, 1).then((res) => {
                                     if (res['statusCode'] != 201) {

@@ -99,7 +99,7 @@ export default function SignIn() {
 
     const loginOauth = async (res) => {
         var id_token = res.tokenId;
-        fetch('/users/oauth', {
+        const tkn = await fetch('/users/oauth', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -109,18 +109,19 @@ export default function SignIn() {
                     'id_token': id_token.toString()
                 }
             )
-        }).then(res => res.json())
-            .then((result) => console.log(result))
-            .catch(err => setFailure(err));
-        //
-        // var data = await tkn.json();
-        //
-        // if (data['statusCode'] != 200) {
-        //     console.log("failed!");
-        //     setFailure(true);
-        // } else {
-        //     localStorage.setItem('user-jwt', data['access_token']);
-        // }
+        })
+        // .then(res => res.json())
+        //     .then((result) => console.log(result))
+        //     .catch(err => setFailure(err));
+        
+        var data = await tkn.json();
+        
+        if (data['statusCode'] != 200) {
+            console.log("failed!");
+            setFailure(true);
+        } else {
+            localStorage.setItem('user-jwt', data['access_token']);
+        }
     }
 
     return (

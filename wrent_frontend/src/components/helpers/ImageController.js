@@ -16,9 +16,8 @@
 //     }
 // }
 
-export async function postImage(user, image) {
+export async function postImage(image) {
     const fd = new FormData();
-    fd.append('ownerId', user);
     fd.append('image', image);
     const res = await fetch('/images', {
         method: 'POST',
