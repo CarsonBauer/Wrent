@@ -34,16 +34,15 @@ def get_image(name):
 def upload_image():
     try:
         file = request.files['image']
-        data = request.form.to_dict()
-        name = str(uuid.uuid4)
+        name = str(uuid.uuid4())
         url = "/images/"+name
-        if not file or not data:
+        if not file:
             return jsonify(isError=True,
                         message="Error",
                         statusCode=500,
                         data=str("No image")), 500
         else:
-            Images.post_image(file.read(), name, data['ownerId'])
+            Images.post_image(file.read(), name)
 
     except Exception as e:
             return jsonify(isError=True,

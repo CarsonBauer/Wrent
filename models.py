@@ -259,16 +259,16 @@ class Images(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(300), nullable=False)
-    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+    # itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
     data = Column(LargeBinary, nullable=False)
 
-    def __init__(self, data, name, itemId):
+    def __init__(self, data, name):
         self.data = data
         self.name = name
-        self.itemId = itemId
+        # self.itemId = itemId
 
-    def post_image(sent_image, sent_name, sent_itemId):
-        db_session.add(Images(data=sent_image, name=sent_name, itemId=sent_itemId))
+    def post_image(sent_image, sent_name):
+        db_session.add(Images(data=sent_image, name=sent_name))
         db_session.commit()
 
 class Tags(Base):

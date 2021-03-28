@@ -278,8 +278,8 @@ def verify_oauth():
             user = Users.query.filter_by(email=email).first()
             if not user:
                 perm = Permissions.query.filter_by(permission="User").first()
-                user = Users(token['name'], "oauthUser", email, email, perm.id, True)
-                Users.post_user_noLoc(user.name, user.password, user.email, 
+                user = Users(token['name'], "oauthUser", email, None, email, perm.id, True)
+                Users.post_user(user.name, user.password, user.email, user.location,
                 user.userName, user.permission, True)
             res = create_access_token({
                 "id": user.id,
