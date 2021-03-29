@@ -15,6 +15,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
 import {Redirect} from 'react-router';
+import {useHistory} from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,13 +49,14 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0, 0, 1),
     },
     footer: {
-        margin: theme.spacing(1,0,0)
+        margin: theme.spacing(1, 0, 0)
     }
 }));
 
 export default function SignIn() {
     const classes = useStyles();
     console.log("rendering");
+    let history = useHistory()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -73,8 +75,8 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = async () => {
-        const res = await fetch('/users/login', {
+    const login = () => {
+        fetch('/users/login', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -85,127 +87,132 @@ export default function SignIn() {
                     'password': password.toString()
                 }
             )
+        })
+            .then(res => res.json())
+            .then((result) => {
+                if (result['statusCode'] != 200) {
+                    setFailure(true);
+                } else {
+                    setFailure(false);
+                    localStorage.setItem('user-jwt', result['access_token']);
+                    history.push("/");
+                }
+            }).catch(err => setFailure(true));
+}
+
+const loginOauth = (res) => {
+    var id_token = res.tokenId;
+    fetch('/users/oauth', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                'id_token': id_token.toString()
+            }
+        )
+
+    })
+        .then(res => res.json())
+        .then((result) => {
+            if (result['statusCode'] != 200) {
+                console.log("failed!");
+                setFailure(true);
+            } else {
+                setFailure(false);
+                localStorage.setItem('user-jwt', result['access_token']);
+                history.push("/");
+            }
         }).catch(err => setFailure(true));
 
-        var data = await res.json();
+    // .then(res => res.json())
+    //     .then((result) => console.log(result))
+    //     .catch(err => setFailure(err));
 
-        if (data['statusCode'] != 200) {
-            setFailure(true);
-        } else {
-            setFailure(false);
-            localStorage.setItem('user-jwt', data['access_token']);
-        }
-    }
+}
 
-    const loginOauth = async (res) => {
-        var id_token = res.tokenId;
-        const tkn = await fetch('/users/oauth', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    'id_token': id_token.toString()
-                }
-            )
+return (
+    <Container component="main" maxWidth="xs">
+        <CssBaseline/>
+        <Paper className={classes.paper}>
 
-        })
-        // .then(res => res.json())
-        //     .then((result) => console.log(result))
-        //     .catch(err => setFailure(err));
-        
-        var data = await tkn.json();
-        
-        if (data['statusCode'] != 200) {
-            console.log("failed!");
-            setFailure(true);
-        } else {
-            localStorage.setItem('user-jwt', data['access_token']);
-        }
-    }
+            <WrentLogo className={classes.avatar}/>
 
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline/>
-            <Paper className={classes.paper}>
+            <Typography component="h1" variant="h5">
+                Sign in
+            </Typography>
 
-                <WrentLogo className={classes.avatar}/>
+            {failure && <Paper className={classes.errorPaper}>{"Login failure, please create an account"}</Paper>}
 
-                <Typography component="h1" variant="h5">
-                    Sign in
-                </Typography>
-
-                {failure && <Paper className={classes.errorPaper}>{"Login failure, please create an account"}</Paper>}
-
-                <form className={classes.form} noValidate>
-                    <TextField onChange={handleEmailChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               id="email"
-                               label="Email Address"
-                               name="email"
-                               autoComplete="email"
-                               autoFocus
-                    />
-                    <TextField onChange={handlePasswordChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               name="password"
-                               label="Password"
-                               type="password"
-                               id="password"
-                               autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="Remember me"
-                    />
-                    <Button
-                        onClick={handleSubmit}
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        Sign In
-                    </Button>
-                    <GoogleLogin
-                        clientId={process.env.REACT_APP_CLIENT_ID}
-                        buttonText="Login"
-                        render={renderProps => (
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                onClick={renderProps.onClick}
-                                disabled={renderProps.disabled}
-                                color="primary"
-                                className={classes.submit}>Google Login
-                            </Button>
-                        )}
-                        onSuccess={loginOauth}
-                        onFailure={loginOauth}
-                    />
-                    <Grid container className={classes.footer}>
-                        <Grid item xs>
-                            <Link href="./forgotpassword" variant="body2">
-                                Forgot password?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
+            <form className={classes.form} noValidate>
+                <TextField onChange={handleEmailChange}
+                           variant="outlined"
+                           margin="normal"
+                           required
+                           fullWidth
+                           id="email"
+                           label="Email Address"
+                           name="email"
+                           autoComplete="email"
+                           autoFocus
+                />
+                <TextField onChange={handlePasswordChange}
+                           variant="outlined"
+                           margin="normal"
+                           required
+                           fullWidth
+                           name="password"
+                           label="Password"
+                           type="password"
+                           id="password"
+                           autoComplete="current-password"
+                />
+                <FormControlLabel
+                    control={<Checkbox value="remember" color="primary"/>}
+                    label="Remember me"
+                />
+                <Button
+                    onClick={handleSubmit}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Sign In
+                </Button>
+                <GoogleLogin
+                    clientId={process.env.REACT_APP_CLIENT_ID}
+                    buttonText="Login"
+                    render={renderProps => (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            onClick={renderProps.onClick}
+                            disabled={renderProps.disabled}
+                            color="primary"
+                            className={classes.submit}>Google Login
+                        </Button>
+                    )}
+                    onSuccess={loginOauth}
+                    onFailure={loginOauth}
+                />
+                <Grid container className={classes.footer}>
+                    <Grid item xs>
+                        <Link href="./forgotpassword" variant="body2">
+                            Forgot password?
+                        </Link>
                     </Grid>
-                    <br/>
-                </form>
-            </Paper>
-        </Container>
-    );
+                    <Grid item>
+                        <Link href="/signup" variant="body2">
+                            {"Don't have an account? Sign Up"}
+                        </Link>
+                    </Grid>
+                </Grid>
+                <br/>
+            </form>
+        </Paper>
+    </Container>
+);
 }
