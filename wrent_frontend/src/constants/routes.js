@@ -33,7 +33,7 @@ export const routes = [
   {
     path: "/addItem",
     private: false,
-    name: "AddItem",
+    name: "Add Item",
     component: AddItem
   },
   {

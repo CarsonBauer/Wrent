@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,11 +10,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
-import {Redirect} from 'react-router';
+import { Redirect } from 'react-router';
 import GoogleLogin from 'react-google-login';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0, 0, 1),
     },
     footer: {
-        margin: theme.spacing(1,0,0)
+        margin: theme.spacing(1, 0, 0)
     }
 }));
 
@@ -128,10 +128,10 @@ export default function SignIn() {
 
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline/>
+            <CssBaseline />
             <Paper className={classes.paper}>
 
-                <WrentLogo className={classes.avatar}/>
+                <WrentLogo className={classes.avatar} />
 
                 <Typography component="h1" variant="h5">
                     Sign in
@@ -141,29 +141,29 @@ export default function SignIn() {
 
                 <form className={classes.form} noValidate>
                     <TextField onChange={handleEmailChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               id="email"
-                               label="Email Address"
-                               name="email"
-                               autoComplete="email"
-                               autoFocus
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
                     />
                     <TextField onChange={handlePasswordChange}
-                               variant="outlined"
-                               margin="normal"
-                               required
-                               fullWidth
-                               name="password"
-                               label="Password"
-                               type="password"
-                               id="password"
-                               autoComplete="current-password"
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
+                        control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
                     <Button
@@ -186,7 +186,7 @@ export default function SignIn() {
                                 onClick={renderProps.onClick}
                                 disabled={renderProps.disabled}
                                 color="primary"
-                                className={classes.submit}>Google Login
+                                className={classes.submit}>Login with Google
                             </Button>
                         )}
                         onSuccess={loginOauth}
@@ -194,17 +194,17 @@ export default function SignIn() {
                     />
                     <Grid container className={classes.footer}>
                         <Grid item xs>
-                            <Link href="./forgotpassword" variant="body2">
-                                Forgot password?
+                            <Link textColor="red" href="./forgotpassword" variant="body2">
+                                <p style={{ color: 'red' }}>Forgot password?</p>
                             </Link>
                         </Grid>
                         <Grid item>
                             <Link href="/signup" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                                <p style={{ color: 'red' }}>{"Don't have an account? Sign Up"}</p>
                             </Link>
                         </Grid>
                     </Grid>
-                    <br/>
+                    <br />
                 </form>
             </Paper>
         </Container>

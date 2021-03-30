@@ -14,11 +14,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import WrentLogo from './wrentLogo';
-import {postLocation} from '../helpers/LocationController';
+import { postLocation } from '../helpers/LocationController';
 
 
 const useStyles = makeStyles((theme) => ({
-      paper: {
+    paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(5),
         marginLeft: -theme.spacing(3),
         width: '450px',
-      },
+    },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-    const classes = useStyles();   
+    const classes = useStyles();
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -87,9 +87,9 @@ export default function SignUp() {
         } else if (password != confPassword) {
             alert('Your passwords are different.');
         } else {
-            geocode().then((res) => { 
+            geocode().then((res) => {
                 if (res != "NO_POST") {
-                    postUser() 
+                    postUser()
                 }
             })
         }
@@ -110,7 +110,7 @@ export default function SignUp() {
         await fetch('/users', {
             method: 'POST',
             headers: {
-              'Content-type': 'application/json'
+                'Content-type': 'application/json'
             },
             body: JSON.stringify({
                 'name': firstName.toString() + " " + lastName.toString(),
@@ -122,7 +122,7 @@ export default function SignUp() {
             })
         })
     }
-    
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -213,12 +213,7 @@ export default function SignUp() {
                                 autoComplete="confirm-password"
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
-                            />
-                        </Grid>
+
                     </Grid>
                     <Button onClick={handleSubmit}
                         type="submit"
@@ -232,8 +227,8 @@ export default function SignUp() {
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link href="/login" variant="body2">
-                                Already have an account? Sign in
-              </Link>
+                                <p style={{ margin: 0, color: 'red' }}>Already have an account? Sign in</p>
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>
