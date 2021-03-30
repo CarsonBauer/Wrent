@@ -9,12 +9,13 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Markdown from "./Markdown";
 import motd from "./motd.md";
 import { makeStyles } from "@material-ui/core/styles";
-import { ControlCamera, SearchRounded } from "@material-ui/icons";
+import { CenterFocusStrong, ControlCamera, KeyboardArrowLeft, SearchRounded } from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Item from "./Item";
 import WrentLogo from "../auth/wrentLogo"
-import {fetchTags} from "../helpers/TagController"
-import {getItemsFromTag} from "../helpers/ItemController"
+import { fetchTags } from "../helpers/TagController"
+import { getItemsFromTag } from "../helpers/ItemController"
+import { sizing } from '@material-ui/system';
 
 
 import ReactDOM from "react-dom";
@@ -30,6 +31,61 @@ const useStyles = makeStyles((theme) => ({
   markdown: {
     padding: theme.spacing(2),
   },
+  SearchRounded: {
+    width: "40%",
+    height: "35%",
+    marginLeft: 40,
+    marginRight: -190,
+    paddingRight: 0,
+    borderRight: 0,
+
+  },
+  item: {
+    margin: 0,
+    padding: 0,
+    border: 0,
+  }
+  ,
+  TextField: {
+    width: "500%",
+    backgroundColor: "white",
+    color: "white",
+    marginLeft: -190,
+    marginLeft: 0,
+    marginBottom: 10,
+    paddingLeft: 0,
+    borderLeft: -190,
+
+
+  },
+  select: {
+    minHeight: 50,
+    width: "10%",
+
+    inlineSize: 1000,
+    size: 1100,
+    height: "200%",
+    backgroundColor: "white",
+    color: "white",
+    marginLeft: 900,
+    marginBottom: 10,
+    paddingLeft: -100,
+    borderLeft: 0,
+    float: "right"
+  },
+  option: {
+    width: "20%",
+    size: 1100,
+    height: "200%",
+    backgroundColor: "white",
+    color: "white",
+    marginLeft: 1000,
+    marginBottom: 20,
+    paddingLeft: 0,
+    borderLeft: 0,
+    float: "right"
+  },
+
 }));
 
 export default function Home() {
@@ -91,20 +147,21 @@ export default function Home() {
       <Grid container spacing={3} direction="row" alignItems="center">
         <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
-            <SearchRounded />
+            <SearchRounded className={classes.SearchRounded} />
           </Grid>
           <Grid item>
-            <TextField id="input-with-icon-grid" label="Search..." 
-            onChange={(event) => { setSearchText(event.target.value) }} />
+            <TextField className={classes.TextField} id="input-with-icon-grid" label="Search..."
+              onChange={(event) => { setSearchText(event.target.value) }} />
           </Grid>
+
           <Grid item>
-            <select name="tags" id="tags" onChange={handleTagSelect}>
-              <option value="" />
+            <select className={classes.select} name="tags" id="tags" onChange={handleTagSelect}>
+              <option value="Default" selected disabled />
               {tags.map((tag, i) => (
-                            <option value={tag.id}>
-                              {tag.name}
-                            </option>
-                          ))}
+                <option value={tag.id}>
+                  {tag.name}
+                </option>
+              ))}
             </select>
           </Grid>
         </Grid>
@@ -116,12 +173,12 @@ export default function Home() {
               return item
             }
           }).map((item, i) => (
-                          <Grid item xs={2}>
-                            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId}/>
-                          </Grid>
-                        ))}
+            <Grid item xs={2}>
+              <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId} />
+            </Grid>
+          ))}
         </>
       </Grid>
-    </div>
+    </div >
   );
 }
