@@ -148,7 +148,7 @@ export default function Home() {
         <WrentLogo />
       </Grid>
       <Grid container spacing={3} direction="row" alignItems="center">
-        <Grid container spacing={1} alignItems="flex-end">
+        <Grid container spacing={1} alignItems="center"  justify="center">
           <Grid item>
             <SearchRounded className={classes.SearchRounded} />
           </Grid>
@@ -158,7 +158,7 @@ export default function Home() {
           </Grid>
 
           <Grid item>
-            <select className={classes.select} name="tags" id="tags" onChange={handleTagSelect}>
+            <select className={classes.select} name="tags" id="tags" label="filter" onChange={handleTagSelect}>
               <option value="Default" selected disabled />
               {tags.map((tag, i) => (
                 <option value={tag.id}>
