@@ -16,13 +16,11 @@ import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 345,
+        //width: "100%",
+        height: 500
     },
     media: {
-        maxHeight: 20,
-    },
-    paper: {
-        maxWidth: 345,
+        height: 20,
     },
 
 });
@@ -33,10 +31,11 @@ export default function item({ id, name, description, img, userid }) {
 
     return (
 
-        <Paper className={classes.paper}>
-            <card className={CallMissedSharp.root}>
+        <Paper className={classes.root}>
+            <card>
+            <Button href={"/item/" + id}>
                 <CardActionArea>
-                    <Button href={"/item/" + id}>
+                    
                         <CardMedia
 
                             className={classes.media}
@@ -44,7 +43,7 @@ export default function item({ id, name, description, img, userid }) {
                             component="img"
                             title="Item for rent"
                         />
-                    </Button>
+                    
                     <CardContent>
                         <Typography textAlign="center" gutterBottom variant="h5" component="h2">
                             {name}
@@ -54,7 +53,7 @@ export default function item({ id, name, description, img, userid }) {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button href={"/item/" + id} size="small" color="primary">
+                        <Button href={"/item/" + id} variant="contained" size="small" color="primary">
                             Learn More
                         </Button>
                         <Button href={"/userprofile/" + userid} size="small" color="primary">
@@ -62,6 +61,7 @@ export default function item({ id, name, description, img, userid }) {
                         </Button>
                     </CardActions>
                 </CardActionArea>
+                </Button>
             </card>
         </Paper>
 

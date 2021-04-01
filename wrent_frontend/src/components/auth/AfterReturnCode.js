@@ -143,7 +143,7 @@ export default function AfterReturnCode({ email }) {
                             color="primary"
                             className={classes.submit}
                         >
-                            Back to Sign In
+                            Return to Sign In
           </Button>
                     </Grid>
                 </form>

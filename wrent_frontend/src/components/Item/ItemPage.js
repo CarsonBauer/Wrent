@@ -20,6 +20,8 @@ import { fetchItem } from "../helpers/ItemController"
 import { fetchLocation } from "../helpers/LocationController"
 import Authorization from "../auth/Authorization"
 import { getRentalItem } from "../helpers/RentalController"
+import { CenterFocusStrong } from '@material-ui/icons';
+import { Hidden } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -41,9 +43,14 @@ const useStyles = makeStyles((theme) => ({
         width: '60%',
         height: '400px',
         marginTop: theme.spacing(3),
+        justify: 'center',
+        overflow: 'hidden',
+        alignItems: 'center',
     },
     image: {
-        maxHeight: '100%'
+        maxHeight: '100%',
+        justify: 'center',
+        alignItems: 'center',
     },
     ownerData: {
         maxHeight: '300px',
@@ -152,14 +159,14 @@ export default function ItemPage(props) {
                     <Grid container direction="row" justify='center' alignItems="center">
                         <Grid item className={classes.imageContainer} justify='center' alignItems="center">
                             {/* <img className = {classes.image} src={Image} class="img-Rounded"></img> */}
-                            <img className={classes.image} width='100%' height='90%' src={url} class="img-Rounded"></img>
+                            <img className={classes.image} height='90%' src={url} class="img-Rounded"></img>
                         </Grid>
                     </Grid>
 
                     <Grid container direction="row" justify='center' alignItems="center">
                         <>
                             {!rented ? <Button onClick={createRental} className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button> :
-                                <Button className={classes.rentButton} variant='contained' color='Primary'>Request Refund</Button>}
+                                <Button className={classes.rentButton} variant='contained' color='Primary'>Refund</Button>}
                         </>
                         <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
                         <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>View On Map</Button>
@@ -184,18 +191,6 @@ export default function ItemPage(props) {
                         </Grid>
 
                     </Grid>
-
-                    <Grid container direction='row' justify='center' alignItems="center">
-                        <Typography variant='h5'>Reviews</Typography>
-                    </Grid>
-
-                    <Grid container direction='row' justify='center' alignItems="center">
-                        <FormControl fullWidth>
-                            <TextField id="outlined-basic" label="Enter Review" variant="outlined" />
-                        </FormControl>
-                    </Grid>
-
-
                 </Paper>
             </Container>
         </Authorization>

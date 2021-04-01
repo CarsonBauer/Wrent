@@ -27,6 +27,7 @@ import { postTagItem } from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
+        width: "80%",
         marginTop: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
@@ -148,12 +149,12 @@ export default function AddItem() {
 
     return (
         <Authorization>
-            <Container component="main" maxWidth="xs=12">
+            <Grid Container component="main" direction="row" alignContent="center" alignItems="center" justify="center">
                 <CssBaseline />
                 <Paper className={classes.paper}>
                     <Typography component="h1" variant="h5">
                         Post Item for Rent
-                </Typography>
+                    </Typography>
                     <form className={classes.form} noValidate>
                         <TextField onChange={handleNameChange}
                             variant="outlined"
@@ -237,7 +238,7 @@ export default function AddItem() {
                         </div>
                     </form>
                 </Paper>
-            </Container>
+            </Grid>
         </Authorization >
     );
 }

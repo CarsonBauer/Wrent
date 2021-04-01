@@ -45,7 +45,7 @@ export const routes = [
   {
     path: "/userprofile",
     private: false,
-    name: "UserProfile",
+    name: "Profile",
     component: UserProfile,
   },
   {

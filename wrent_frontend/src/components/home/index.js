@@ -42,12 +42,22 @@ const useStyles = makeStyles((theme) => ({
     borderRight: 0,
 
   },
-  item: {
-    margin: 0,
-    padding: 0,
-    border: 0,
+  items: {
+    width: "80%",
   }
   ,
+
+  item: {
+    width: "20%",
+    
+  }
+  ,
+
+  itemcontainer: {
+    marginTop: 10,
+  }
+  ,
+
   TextField: {
     width: "50%",
     //backgroundColor: "white",
@@ -146,7 +156,7 @@ export default function Home() {
   }
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} alignItems="center">
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
         <WrentLogo />
       </Grid>
@@ -174,7 +184,8 @@ export default function Home() {
 
         </Grid>
       </Grid>
-      <Grid container spacing={3} direction="row" alignItems="center">
+      <Grid container justify="center" className={classes.itemcontainer} >
+      <Grid container spacing={3} className={classes.items} direction="row" alignItems="flex-start" justify="flex-start">
         {items.filter((item) => {
           if (searchText == "") {
             return item
@@ -183,7 +194,7 @@ export default function Home() {
           }
         }).map((item, i) => (
 
-          <Grid item xs={2} >
+          <Grid item className={classes.item} >
 
             <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId} />
 
@@ -191,7 +202,7 @@ export default function Home() {
 
         ))}
       </Grid>
-      
+      </Grid>
     </div >
   );
 }
