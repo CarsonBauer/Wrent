@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     //marginLeft: -190,
     //marginLeft: 0,
     marginBottom: 10,
+    marginTop: 10,
     //paddingLeft: 0,
     //borderLeft: -190,
 
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
   select: {
     //minHeight: 50,
-    //width: "10%",
+    width: "10%",
     //inlineSize: 1000,
     //size: 1100,
     //height: "200%",
@@ -70,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     //color: "white",
     //marginLeft: 900,
     marginBottom: 10,
+    marginTop: 10,
     //paddingLeft: -100,
     //borderLeft: 0,
     //float: "right"
@@ -150,17 +152,14 @@ export default function Home() {
       </Grid>
       <Grid container spacing={3} direction="column" alignItems="center">
         <Grid container spacing={1} alignItems="flex-end"  justify="center">
-          <Grid item>
-            
-          </Grid>
-          <Grid item>
-            <SearchRounded className={classes.SearchRounded} />
-            <TextField variant="filled" id="input-with-icon-grid" label="Search..."
+          
+          <Grid item className={classes.TextField}>
+            <TextField fullWidth variant="filled" id="input-with-icon-grid" label="Search..."
               onChange={(event) => { setSearchText(event.target.value) }} />
           </Grid>
 
           <Grid item className={classes.select}>
-            <FormControl variant="filled">
+            <FormControl fullWidth variant="filled">
               <InputLabel>Filter</InputLabel>
               <Select  name="tags" id="tags" onChange={handleTagSelect}>
               <option value="Default" selected disabled />
@@ -172,6 +171,7 @@ export default function Home() {
               </Select>
             </FormControl>
           </Grid>
+
         </Grid>
       </Grid>
       <Grid container spacing={3} direction="row" alignItems="center">
