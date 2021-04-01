@@ -208,7 +208,7 @@ export default function SignUp() {
                                 fullWidth
                                 name="confpassword"
                                 label="Confirm Password"
-                                type="confpassword"
+                                type="password"
                                 id="confpassword"
                                 autoComplete="confirm-password"
                             />
