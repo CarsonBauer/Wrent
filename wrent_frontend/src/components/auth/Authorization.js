@@ -13,7 +13,7 @@ class Authorization extends Component {
     async componentDidMount() {
         const jwt = localStorage.getItem('user-jwt');
         if (!jwt) {
-            this.props.history.push('/Login');
+            this.props.history.push('/login');
         }
 
         const res = await fetch('/users/get', {
@@ -24,7 +24,7 @@ class Authorization extends Component {
             }
           }).catch(err => {
             localStorage.removeItem('user-jwt');
-            this.props.history.push('/Login');
+            this.props.history.push('/login');
           });
 
           var res_json = await res.json();
@@ -35,7 +35,7 @@ class Authorization extends Component {
             })
           } else {
             localStorage.removeItem('user-jwt');
-            this.props.history.push('/Login');
+            this.props.history.push('/login');
           }
     }
 

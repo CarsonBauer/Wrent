@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import WrentLogo from './wrentLogo';
@@ -33,6 +33,14 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         padding: theme.spacing(6),
+    },
+    successPaper: {
+        marginTop: theme.spacing(2),
+        padding: theme.spacing(2),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: '#e2baff',
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -80,6 +88,7 @@ export default function AddItem() {
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
+    const [success, setSuccess] = useState(null);
     const [image, setImage] = useState(null);
     const [tags, setTags] = useState([]);
     const [tag, setTag] = useState("");
@@ -116,23 +125,25 @@ export default function AddItem() {
             geocode().then(
                 async (res) => {
                     if (res != "NO_POST") {
-                        await postImage(user, image).then(
+                        await postImage(image).then(
                             async (res) => {
                                 await postItem(id, user, name, description, res, 1).then((res) => {
                                     if (res['statusCode'] != 201) {
-                                        alert("Unable to post item.")
+                                        setSuccess("Unable to post item")
                                     }
                                     return res
                                 }).then(async (res) => { await postTags(res) })
                             })
                     }
-                })
+                }).then(setSuccess("Item posted successfully!"))
         }
     }
 
     const postTags = async (item) => {
         tags.map((tag, i) => {
-            postTag(tag.name).then(async (res) => { await postTagItem(item.data, res.data) })
+            postTag(tag.name).then(async (res) => {
+                await postTagItem(item.data, res.data)
+            })
         })
     }
 
@@ -151,10 +162,14 @@ export default function AddItem() {
         <Authorization>
             <Grid Container component="main" direction="row" alignContent="center" alignItems="center" justify="center">
                 <CssBaseline />
+
                 <Paper className={classes.paper}>
                     <Typography component="h1" variant="h5">
                         Post Item for Rent
                     </Typography>
+      
+                    {success &&
+                    <Paper className={classes.successPaper}>{success}</Paper>}
                     <form className={classes.form} noValidate>
                         <TextField onChange={handleNameChange}
                             variant="outlined"

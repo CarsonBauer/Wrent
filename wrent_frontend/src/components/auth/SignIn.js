@@ -15,6 +15,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
 import { Redirect } from 'react-router';
+import {useHistory} from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const classes = useStyles();
     console.log("rendering");
+    let history = useHistory()
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -73,8 +75,8 @@ export default function SignIn() {
         event.preventDefault();
     }
 
-    const login = async () => {
-        const res = await fetch('/users/login', {
+    const login = () => {
+        fetch('/users/login', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -85,46 +87,50 @@ export default function SignIn() {
                     'password': password.toString()
                 }
             )
+        })
+            .then(res => res.json())
+            .then((result) => {
+                if (result['statusCode'] != 200) {
+                    setFailure(true);
+                } else {
+                    setFailure(false);
+                    localStorage.setItem('user-jwt', result['access_token']);
+                    history.push("/");
+                }
+            }).catch(err => setFailure(true));
+}
+
+const loginOauth = (res) => {
+    var id_token = res.tokenId;
+    fetch('/users/oauth', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                'id_token': id_token.toString()
+            }
+        )
+
+    })
+        .then(res => res.json())
+        .then((result) => {
+            if (result['statusCode'] != 200) {
+                console.log("failed!");
+                setFailure(true);
+            } else {
+                setFailure(false);
+                localStorage.setItem('user-jwt', result['access_token']);
+                history.push("/");
+            }
         }).catch(err => setFailure(true));
 
-        var data = await res.json();
+    // .then(res => res.json())
+    //     .then((result) => console.log(result))
+    //     .catch(err => setFailure(err));
 
-        if (data['statusCode'] != 200) {
-            setFailure(true);
-        } else {
-            setFailure(false);
-            localStorage.setItem('user-jwt', data['access_token']);
-        }
-    }
-
-    const loginOauth = async (res) => {
-        var id_token = res.tokenId;
-        fetch('/users/oauth', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(
-                {
-                    'id_token': id_token.toString()
-                }
-            )
-        }).then(res => res.json())
-            .then((result) => {
-                console.log(result);
-                localStorage.setItem('user-jwt', result['access_token']);
-            })
-            .catch(err => setFailure(err));
-        //
-        // var data = await tkn.json();
-        //
-        // if (data['statusCode'] != 200) {
-        //     console.log("failed!");
-        //     setFailure(true);
-        // } else {
-        //     localStorage.setItem('user-jwt', data['access_token']);
-        // }
-    }
+}
 
     return (
         <Container component="main" maxWidth="xs">
