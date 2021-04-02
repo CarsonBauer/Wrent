@@ -33,7 +33,7 @@ export const routes = [
   {
     path: "/addItem",
     private: false,
-    name: "AddItem",
+    name: "Add Item",
     component: AddItem
   },
   {
@@ -45,7 +45,7 @@ export const routes = [
   {
     path: "/userprofile",
     private: false,
-    name: "UserProfile",
+    name: "Profile",
     component: UserProfile,
   },
   {

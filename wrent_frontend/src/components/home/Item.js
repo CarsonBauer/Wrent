@@ -15,50 +15,53 @@ import Paper from "@material-ui/core/Paper";
 //import Img from "./Icon.png";
 
 const useStyles = makeStyles({
-    root:{
-        maxWidth: 345,
+    root: {
+        //width: "100%",
+        height: 500
     },
     media: {
-        height: 100,
+        height: 20,
     },
-    paper:{
-        maxWidth: 345,
-    }
+
 });
 
-export default function item({id, name, description, img, userid}){
+export default function item({ id, name, description, img, userid }) {
 
     const classes = useStyles;
 
-    return(
+    return (
 
-        <Paper className={classes.paper}>
-            <card className={CallMissedSharp.root}>
+        <Paper className={classes.root}>
+            <card>
+            <Button href={"/item/" + id}>
                 <CardActionArea>
-                    <CardMedia 
+                    
+                        <CardMedia
 
-                        className={classes.media}
-                        src={img}
-                        component="img"
-                        title="Item for rent"
-                    />
+                            className={classes.media}
+                            src={img}
+                            component="img"
+                            title="Item for rent"
+                        />
+                    
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
+                        <Typography textAlign="center" gutterBottom variant="h5" component="h2">
                             {name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
+                        <Typography textAlign="center" variant="body2" color="textSecondary" component="p">
                             {description}
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button href={"/item/"+id} size="small" color="primary">
-                        Learn More
+                        <Button href={"/item/" + id} variant="contained" size="small" color="primary">
+                            Learn More
                         </Button>
-                        <Button href={"/userprofile/"+userid} size="small" color="primary">
-                        Renter profile
+                        <Button href={"/userprofile/" + userid} size="small" color="primary">
+                            Renter profile
                         </Button>
                     </CardActions>
                 </CardActionArea>
+                </Button>
             </card>
         </Paper>
 

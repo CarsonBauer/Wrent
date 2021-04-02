@@ -28,6 +28,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
 import { getUser } from '../helpers/UserController';
+import { fetchItem } from "../helpers/ItemController"
+import { fetchLocation } from "../helpers/LocationController"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function UserProfile() {
+export default function UserProfile(props) {
 
     function changeBackground(e) {
         e.target.style.background = '#997cb3';
@@ -46,15 +48,28 @@ export default function UserProfile() {
     }
 
     const [items, setItems] = useState([]);
+    const [item, setItem] = useState({});
     // const [users, setUsers] = useState([]);
     const [users, setUser] = useState({});
 
+    const [location, setLocation] = useState({});
+
+    useEffect(() => {
+        const getItem = async () => {
+            //   const itemFromServer = await fetchItem()
+            const itemFromServer = await fetchItem(props.params['id'])
+            setItem(itemFromServer)
+            return itemFromServer['location']
+        }
+        const getLocation = async (loc) => {
+            const locFromServer = await fetchLocation(loc)
+            setLocation(locFromServer)
+            return locFromServer
+        }
+        getItem().then((res) => { getLocation(res) })
+    }, [])
+
     useEffect(async () => {
-        // const getUsers = async () => {
-        //     const usersFromServer = await fetchUsers()
-        //     setUsers(usersFromServer)
-        // }
-        // getUsers()
         const res = await getUser();
         setUser(res);
     }, [])
@@ -70,6 +85,16 @@ export default function UserProfile() {
         return data
     }
 
+
+
+
+
+
+
+
+
+
+
     return (
         <Container component="main" maxWidth="xs">
             <br />
@@ -78,21 +103,13 @@ export default function UserProfile() {
 
                 <img src={plusIcon} style={{ width: "2%", border: '1px solid ', borderRadius: '5px', marginLeft: '-8px' }} alt="plusIcon" />
                 <div style={{ paddingLeft: '15px', fontSize: '30px', color: 'black', float: 'right', width: "40%", border: '10px #4E4BA6', borderRadius: '5px', marginRight: '60px' }}>
-                    This is section for items and map
-                    
-                    <CardActionArea>
-                        <CardMedia
-                            title="Item for rent"
-                        />
-                        <CardActions>
-                            <Button size="small" color="primary">
-                                Learn More
-                        </Button>
-                            <Button size="small" color="primary">
-                                Renter profile
-                        </Button>
-                        </CardActions>
-                    </CardActionArea>
+                    <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '80%', borderTop: '10px', borderBottom: '10px', fontSize: '25px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '5px', textAlign: 'center' }} component="h1" variant="h5">
+                        Map
+                </Typography>
+                    <br />
+                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+                    <Button href={`/map/${location['lat']}/${location['lon']}`} >View On Map</Button>
+
                     <br />
                     <br />
                     <br />
@@ -119,14 +136,14 @@ export default function UserProfile() {
                 </Typography>
                 <br />
                 <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '8px', paddingLeft: '80px',textAlign: 'center' }} component="h1" variant="h5">
+                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '8px', paddingLeft: '80px', textAlign: 'center' }} component="h1" variant="h5">
                     {/* UserName :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name} */}
                     User Name :  &nbsp; &nbsp;&nbsp;&nbsp; {users.name}
                     {users.lastName} &nbsp; &nbsp;&nbsp;&nbsp; {users.firstName}
                 </Typography>
                 <br />
                 <br />
-                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '8px', paddingLeft: '80px', textAlign: 'center'}} component="h1" variant="h5">
+                <Typography onMouseOut={changeBackground2} onMouseOver={changeBackground} style={{ width: '30%', borderTop: '10px', borderBottom: '10px', fontSize: '20px', color: 'white', backgroundColor: '#679ece', borderRadius: '5px', padding: '8px', paddingLeft: '80px', textAlign: 'center' }} component="h1" variant="h5">
                     Email :  &nbsp; &nbsp;&nbsp;&nbsp; {users.email}
                 </Typography>
                 <br />
