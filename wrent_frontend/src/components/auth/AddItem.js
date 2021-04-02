@@ -14,19 +14,20 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import WrentLogo from './wrentLogo';
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import AfterReturnCode from './AfterReturnCode';
 import ImageUploader from 'react-images-upload';
-import {getUser} from '../helpers/UserController';
+import { getUser } from '../helpers/UserController';
 import Authorization from './Authorization';
-import {postLocation} from '../helpers/LocationController';
-import {postItem} from '../helpers/ItemController';
-import {postImage} from '../helpers/ImageController';
-import {postTag} from '../helpers/TagController';
-import {postTagItem} from '../helpers/TagItemController';
+import { postLocation } from '../helpers/LocationController';
+import { postItem } from '../helpers/ItemController';
+import { postImage } from '../helpers/ImageController';
+import { postTag } from '../helpers/TagController';
+import { postTagItem } from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
+        width: "80%",
         marginTop: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
@@ -131,9 +132,7 @@ export default function AddItem() {
                                         setSuccess("Unable to post item")
                                     }
                                     return res
-                                }).then(async (res) => {
-                                    await postTags(res)
-                                })
+                                }).then(async (res) => { await postTags(res) })
                             })
                     }
                 }).then(setSuccess("Item posted successfully!"))
@@ -161,62 +160,62 @@ export default function AddItem() {
 
     return (
         <Authorization>
-            <Container component="main" maxWidth="xs=12">
-                <CssBaseline/>
+            <Grid Container component="main" direction="row" alignContent="center" alignItems="center" justify="center">
+                <CssBaseline />
+
                 <Paper className={classes.paper}>
                     <Typography component="h1" variant="h5">
                         Post Item for Rent
                     </Typography>
+      
                     {success &&
                     <Paper className={classes.successPaper}>{success}</Paper>}
                     <form className={classes.form} noValidate>
                         <TextField onChange={handleNameChange}
-                                   variant="outlined"
-                                   margin="normal"
-                                   required
-                                   fullWidth
-                                   id="name"
-                                   label="Name"
-                                   name="name"
-                                   autoComplete="name"
-                                   autoFocus
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="name"
+                            label="Name"
+                            name="name"
+                            autoComplete="name"
+                            autoFocus
                         />
                         <TextField onChange={handleDescriptionChange}
-                                   variant="outlined"
-                                   margin="normal"
-                                   required
-                                   fullWidth
-                                   id="description"
-                                   label="Description"
-                                   name="description"
-                                   autoComplete="description"
-                                   autoFocus
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="description"
+                            label="Description"
+                            name="description"
+                            autoComplete="description"
+                            autoFocus
                         />
                         <TextField onChange={handleLocationChange}
-                                   variant="outlined"
-                                   margin="normal"
-                                   required
-                                   fullWidth
-                                   id="location"
-                                   label="Location"
-                                   name="location"
-                                   autoComplete="location"
-                                   autoFocus
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="location"
+                            label="Location"
+                            name="location"
+                            autoComplete="location"
+                            autoFocus
                         />
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div>
-                            <TextField onChange={(event) => {
-                                setTag(event.target.value)
-                            }}/>
-                            &nbsp;
-                            &nbsp;
-                            <Button onClick={() => {
-                                setTags([...tags, {'name': tag}])
+                            <TextField onChange={(event) => { setTag(event.target.value) }} />
+                        &nbsp;
+                        &nbsp;
+                        <Button onClick={() => {
+                                setTags([...tags, { 'name': tag }])
                             }}>Add Tag</Button>
                         </div>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div>
                             {tags.map((tag, i) => (
                                 <div>
@@ -225,34 +224,36 @@ export default function AddItem() {
                                     </text>
                                     &nbsp;
                                     &nbsp;
-                                    <Button onClick={() => {
-                                        setTags(tags.filter((t) => t.name !== tag.name))
-                                    }} size="small" color="secondary">Delete</Button>
-                                    <br/>
+                                    <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} size="small" color="secondary">Delete</Button>
+                                    <br />
                                 </div>
                             ))}
                         </div>
-                        <br/>
-                        <br/>
-                        <input type="file"
-                               name="file"
-                               placeholder="Upload an image"
-                               onChange={handleImageChange}/>
-                        <br/>
-                        <br/>
-                        <Button
-                            onClick={handleSubmit}
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                        >
-                            Post
-                        </Button>
+                        <br />
+                        <br />
+                        <input type="file" style={{ fontSize: '24px', marginLeft: '525px', marginRight: '10px', }}
+                            name="file"
+                            placeholder="Upload an image"
+                            onChange={handleImageChange} />
+                        <br />
+                        <br />
+                        <div style={{ marginLeft: '625px' }}>
+                            <Button
+                                onClick={handleSubmit}
+                                type="submit"
+                                minWidth="50%"
+                                center
+
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Post
+                    </Button>
+                        </div>
                     </form>
                 </Paper>
-            </Container>
-        </Authorization>
+            </Grid>
+        </Authorization >
     );
 }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,11 +10,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import SvgIcon from "@material-ui/core/SvgIcon";
 import Container from '@material-ui/core/Container';
 import WrentLogo from './wrentLogo';
-import {Redirect} from 'react-router';
+import { Redirect } from 'react-router';
 import {useHistory} from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
@@ -132,87 +132,87 @@ const loginOauth = (res) => {
 
 }
 
-return (
-    <Container component="main" maxWidth="xs">
-        <CssBaseline/>
-        <Paper className={classes.paper}>
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Paper className={classes.paper}>
 
-            <WrentLogo className={classes.avatar}/>
+                <WrentLogo className={classes.avatar} />
 
-            <Typography component="h1" variant="h5">
-                Sign in
-            </Typography>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
 
-            {failure && <Paper className={classes.errorPaper}>{"Login failure, please create an account"}</Paper>}
+                {failure && <Paper className={classes.errorPaper}>{"Login failure, please create an account"}</Paper>}
 
-            <form className={classes.form} noValidate>
-                <TextField onChange={handleEmailChange}
-                           variant="outlined"
-                           margin="normal"
-                           required
-                           fullWidth
-                           id="email"
-                           label="Email Address"
-                           name="email"
-                           autoComplete="email"
-                           autoFocus
-                />
-                <TextField onChange={handlePasswordChange}
-                           variant="outlined"
-                           margin="normal"
-                           required
-                           fullWidth
-                           name="password"
-                           label="Password"
-                           type="password"
-                           id="password"
-                           autoComplete="current-password"
-                />
-                <FormControlLabel
-                    control={<Checkbox value="remember" color="primary"/>}
-                    label="Remember me"
-                />
-                <Button
-                    onClick={handleSubmit}
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                >
-                    Sign In
-                </Button>
-                <GoogleLogin
-                    clientId={process.env.REACT_APP_CLIENT_ID}
-                    buttonText="Login"
-                    render={renderProps => (
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            onClick={renderProps.onClick}
-                            disabled={renderProps.disabled}
-                            color="primary"
-                            className={classes.submit}>Google Login
-                        </Button>
-                    )}
-                    onSuccess={loginOauth}
-                    onFailure={loginOauth}
-                />
-                <Grid container className={classes.footer}>
-                    <Grid item xs>
-                        <Link href="./forgotpassword" variant="body2">
-                            Forgot password?
-                        </Link>
+                <form className={classes.form} noValidate>
+                    <TextField onChange={handleEmailChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                    />
+                    <TextField onChange={handlePasswordChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                    />
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" />}
+                        label="Remember me"
+                    />
+                    <Button
+                        onClick={handleSubmit}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Sign In
+                    </Button>
+                    <GoogleLogin
+                        clientId={process.env.REACT_APP_CLIENT_ID}
+                        buttonText="Login"
+                        render={renderProps => (
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                                color="primary"
+                                className={classes.submit}>Login with Google
+                            </Button>
+                        )}
+                        onSuccess={loginOauth}
+                        onFailure={loginOauth}
+                    />
+                    <Grid container className={classes.footer}>
+                        <Grid item xs>
+                            <Link textColor="red" href="./forgotpassword" variant="body2">
+                                <p style={{ color: 'red' }}>Forgot password?</p>
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="/signup" variant="body2">
+                                <p style={{ color: 'red' }}>{"Don't have an account? Sign Up"}</p>
+                            </Link>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Link href="/signup" variant="body2">
-                            {"Don't have an account? Sign Up"}
-                        </Link>
-                    </Grid>
-                </Grid>
-                <br/>
-            </form>
-        </Paper>
-    </Container>
-);
+                    <br />
+                </form>
+            </Paper>
+        </Container>
+    );
 }
