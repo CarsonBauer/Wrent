@@ -20,6 +20,7 @@ import {fetchItem} from "../helpers/ItemController"
 import {fetchLocation} from "../helpers/LocationController"
 import Authorization from "../auth/Authorization"
 import {getRentalItem} from "../helpers/RentalController"
+import { PayPalButton } from "react-paypal-button-v2";
 
 const useStyles = makeStyles((theme) => ({
       paper: {
@@ -158,11 +159,18 @@ export default function ItemPage(props) {
 
                 <Grid container direction="row" justify='center' alignItems="center">
                     <>
-                    {!rented ? <Button onClick={createRental} className={classes.rentButton} variant='contained' color='Primary'>Rent Item</Button> : 
-                    <Button className={classes.rentButton} variant='contained' color='Primary'>Request Refund</Button>}
+                    {!rented ? 
+                    <PayPalButton 
+                        amount = {1}
+                        currency = {'USD'}
+                        onSuccess = { createRental }
+                        options={{
+                            clientId: process.env.REACT_APP_PAYPAL_CLIENT
+                        }}
+                    />
+                    : 
+                    <Button className={classes.rentButton} variant='contained' color='Primary'>Refund</Button>}
                     </>
-                    <Button className={classes.rentButton} variant='outlined' color='secondary'>Add To Cart</Button>
-                    <Button href={`/map/${location['lat']}/${location['lon']}`} className={classes.rentButton}>View On Map</Button>
                 </Grid>
 
                 <Grid container direction="row" justify='center' alignItems="center">
@@ -183,9 +191,16 @@ export default function ItemPage(props) {
                         </Grid>
                     </Grid>
 
+                    <Grid container direction="row" justify='left' alignItems="center">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <Button href={`/map/${location['lat']}/${location['lon']}`} variant="contained" color="primary">Map</Button>
+                    </Grid>
+
                 </Grid>
                 
-                <Grid container direction='row' justify='center' alignItems="center">
+                {/* <Grid container direction='row' justify='center' alignItems="center">
                     <Typography variant='h5'>Reviews</Typography>
                 </Grid>
 
@@ -193,7 +208,7 @@ export default function ItemPage(props) {
                     <FormControl fullWidth>
                         <TextField id="outlined-basic" label="Enter Review" variant="outlined" />
                     </FormControl>
-                </Grid>
+                </Grid> */}
                 
                 
             </Paper>
