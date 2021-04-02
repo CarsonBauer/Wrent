@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import WrentLogo from './wrentLogo';
-import {useState} from 'react'
+import { useState } from 'react'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AfterReturnCode({email}) {
+export default function AfterReturnCode({ email }) {
     const classes = useStyles();
     var code = "";
     const [password, setPassword] = useState('test');
@@ -65,15 +65,15 @@ export default function AfterReturnCode({email}) {
         const res = await fetch(`/tempcodes/check`, {
             method: 'POST',
             headers: {
-              'Content-type': 'application/json'
+                'Content-type': 'application/json'
             },
             body: JSON.stringify(
-              {
-                'email': email.toString(),
-                'code': code.toString()
-             }
+                {
+                    'email': email.toString(),
+                    'code': code.toString()
+                }
             )
-          })
+        })
         var data = await res.json();
         localStorage.setItem('user-jwt', data['access_token'])
     }
@@ -118,7 +118,7 @@ export default function AfterReturnCode({email}) {
                             className={classes.submit}
                             onClick={handleSubmit}
                         >
-                            Enter Code
+                            Submit Code
                         </Button>
                     </Grid>
                     {/* <div>&nbsp;&nbsp;</div>
@@ -143,11 +143,11 @@ export default function AfterReturnCode({email}) {
                             color="primary"
                             className={classes.submit}
                         >
-                            Back To sign In
+                            Return to Sign In
           </Button>
                     </Grid>
                 </form>
-            {/* </div> */}
+                {/* </div> */}
             </Paper>
         </Container>
     );

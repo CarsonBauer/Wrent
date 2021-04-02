@@ -37,7 +37,6 @@ export default function Home() {
   const [searchText, setSearchText] = useState("");
 
 
-
 //   useEffect(async () => {
 //     const getUser = async () => {
 //         const userRes = await getUser();
