@@ -196,7 +196,7 @@ export default function Home() {
 
           <Grid item className={classes.item} >
 
-            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId} />
+            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL} userid={item.ownerId} price={item.price} />
 
           </Grid>
 

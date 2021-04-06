@@ -26,14 +26,6 @@ import { postTag } from '../helpers/TagController';
 import { postTagItem } from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
-    // paper: {
-    //     width: "80%",
-    //     marginTop: theme.spacing(0),
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     alignItems: 'center',
-    //     padding: theme.spacing(6),
-    // },
     paper: {
         marginTop: theme.spacing(0),
         display: 'flex',
@@ -99,6 +91,7 @@ export default function AddItem() {
     const [image, setImage] = useState(null);
     const [tags, setTags] = useState([]);
     const [tag, setTag] = useState("");
+    const [price, setPrice] = useState(null);
 
     var id = null;
     var url = null;
@@ -124,17 +117,21 @@ export default function AddItem() {
         setImage(event.target.files[0])
     }
 
+    const handlePriceChange = (event) => {
+        setPrice(event.target.value);
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!name || !description) {
-            alert('One of the required fields is empty');
+        if (!name || !description || !price || price <= 0) {
+            alert('One of the required fields is empty or unacceptable');
         } else {
             geocode().then(
                 async (res) => {
                     if (res != "NO_POST") {
                         await postImage(image).then(
                             async (res) => {
-                                await postItem(id, user, name, description, res, 1).then((res) => {
+                                await postItem(id, user, name, description, res, 1, price).then((res) => {
                                     if (res['statusCode'] != 201) {
                                         setSuccess("Unable to post item")
                                     }
@@ -209,6 +206,16 @@ export default function AddItem() {
                             label="Location"
                             name="location"
                             autoComplete="location"
+                            autoFocus
+                        />
+                        <TextField onChange={handlePriceChange}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            id="price"
+                            label="Price"
+                            name="price"
+                            autoComplete="price"
                             autoFocus
                         />
                         <br />

@@ -85,7 +85,6 @@ export default function ItemPage(props) {
 
     useEffect(() => {
         const getItem = async () => {
-            //   const itemFromServer = await fetchItem()
             const itemFromServer = await fetchItem(props.params['id'])
             setItem(itemFromServer)
             return itemFromServer['location']
@@ -109,19 +108,6 @@ export default function ItemPage(props) {
         }
         getItem().then((res) => { getLocation(res).then(() => { fetchUser().then((res) => { fetchRental(res) }) }) })
     }, [])
-
-    //   useEffect(async () => {
-    //     const res = await getUser();
-    //     setUser(res['id']);
-    // }, [])
-
-    // useEffect(async () => {
-    // const rental = await getRentalItem(user, item['id'])
-    // // const rental_json = await rental.json()
-    // if (rental['status'] == 200) {
-    //     setRented(true)
-    //     }
-    // })
 
     const createRental = async () => {
         await fetch('/rentals', {
@@ -159,19 +145,18 @@ export default function ItemPage(props) {
 
                     <Grid container direction="row" justify='center' alignItems="center">
                         <Grid item className={classes.imageContainer} justify='center' alignItems="center">
-                            {/* <img className = {classes.image} src={Image} class="img-Rounded"></img> */}
                             <img className={classes.image} width='100%' height='90%' src={url} class="img-Rounded"></img>
                         </Grid>
                     </Grid>
 
 
                 <Grid container direction="row" justify='center' alignItems="center">
-                    
+
                     <Grid container direction="row" justify='center' alignItems="center">
                         <>
                         {!rented ? 
                         <PayPalButton 
-                            amount = {1}
+                            amount = {item.price}
                             currency = {'USD'}
                             onSuccess = { createRental }
                             options={{
@@ -183,8 +168,18 @@ export default function ItemPage(props) {
                         </>
                     </Grid>
 
-                    <Grid container direction="row" justify='center' alignItems="center">
+                    <Grid container direction="row" justify='left' alignItems="center">
+                        <>
+                        {item.price &&
+                            <Typography textAlign="center" variant="body2" color="textSecondary" component="p">
+                                Price: ${item.price.toFixed(2)}
+                            </Typography>
+                        }
+                        </>
+                    </Grid>
 
+                    <Grid container direction="row" justify='center' alignItems="center">
+                        
                         <Grid item className={classes.description} justify='center' alignItems="flex-start">
                             <Typography variant='body1'>{description}</Typography>
                         </Grid>
