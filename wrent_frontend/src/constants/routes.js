@@ -10,6 +10,7 @@ import AddItem from "../components/auth/AddItem";
 import Map from "../components/auth/Map";
 import RentalHistory from "../components/History/RentalHistory";
 import UserProfile from "../components/auth/UserProfile";
+import Dashboard from "../components/AdminPage/Dashboard";
 export const routes = [
 
   {
@@ -68,6 +69,12 @@ export const routes = [
     path: "/afterreturncode",
     private: false,
     component: AfterReturnCode,
+  },
+  {
+    path: "/adminPage",
+    private: false,
+    name: "Admin Page",
+    component: Dashboard
   },
   {
     path: "/",
