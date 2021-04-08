@@ -16,23 +16,30 @@ import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles({
     root: {
-        //width: "100%",
-        height: 500
+        width: "100%",
+        height: "100%"
+
     },
     media: {
-        height: 20,
+        maxHeight: 140,
+        minHeight: 140
     },
+    title: {
+        height: 70,
+        overflow: "hidden",
+        textOverflow: "ellipsis"
+    }
 
 });
 
-export default function item({ id, name, description, img, userid }) {
+export default function Item({ id, name, description, img, userid }) {
 
-    const classes = useStyles;
+    const classes = useStyles();
 
     return (
 
-        <Paper className={classes.root}>
-            <card>
+        <Paper>
+            <Card className={classes.root}>
             <Button href={"/item/" + id}>
                 <CardActionArea>
                     
@@ -45,11 +52,8 @@ export default function item({ id, name, description, img, userid }) {
                         />
                     
                     <CardContent>
-                        <Typography textAlign="center" gutterBottom variant="h5" component="h2">
+                        <Typography className={classes.title} textAlign="center" gutterBottom variant="h5" component="h2">
                             {name}
-                        </Typography>
-                        <Typography textAlign="center" variant="body2" color="textSecondary" component="p">
-                            {description}
                         </Typography>
                     </CardContent>
                     <CardActions>
@@ -62,7 +66,7 @@ export default function item({ id, name, description, img, userid }) {
                     </CardActions>
                 </CardActionArea>
                 </Button>
-            </card>
+            </Card>
         </Paper>
 
     );
