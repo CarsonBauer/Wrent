@@ -77,20 +77,22 @@ class Items(Base):
     description = Column(String(500), nullable=False)
     imageURL = Column(String(120))
     rating = Column(Float)
+    price = Column(Float)
 
-    def __init__(self, location, ownerId, name, description, imageURL, rating):
+    def __init__(self, location, ownerId, name, description, imageURL, rating, price):
         self.location = location
         self.ownerId = ownerId
         self.name = name
         self.description = description
         self.imageURL = imageURL
         self.rating = rating
+        self.price = price
 
     def get_item(sent_id):
         return db_session.query(Items).get(sent_id)
 
-    def post_item(sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
-        new_item = Items(location=sent_location, ownerId=sent_ownerId, name=sent_name, description=sent_description, imageURL=sent_imageURL, rating=sent_rating)
+    def post_item(sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating, sent_price):
+        new_item = Items(location=sent_location, ownerId=sent_ownerId, name=sent_name, description=sent_description, imageURL=sent_imageURL, rating=sent_rating, price=sent_price)
         db_session.add(new_item)
         db_session.flush()
         db_session.commit()
@@ -101,7 +103,7 @@ class Items(Base):
         db_session.delete(del_item)
         db_session.commit()
 
-    def update_item(sent_id, sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating):
+    def update_item(sent_id, sent_location, sent_ownerId, sent_name, sent_description, sent_imageURL, sent_rating, sent_price):
         updated_item = db_session.query(Items).get(sent_id)
         updated_item.location=sent_location
         updated_item.ownerId=sent_ownerId
@@ -109,6 +111,7 @@ class Items(Base):
         updated_item.description=sent_description
         updated_item.imageURL=sent_imageURL
         updated_item.rating=sent_rating
+        update_item.price=sent_price
         db_session.commit()
 
 class Rentals(Base):
@@ -259,13 +262,11 @@ class Images(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(300), nullable=False)
-    # itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
     data = Column(LargeBinary, nullable=False)
 
     def __init__(self, data, name):
         self.data = data
         self.name = name
-        # self.itemId = itemId
 
     def post_image(sent_image, sent_name):
         db_session.add(Images(data=sent_image, name=sent_name))

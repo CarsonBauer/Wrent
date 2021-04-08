@@ -94,7 +94,10 @@ def get_user(id):
                        statusCode=404,
                        data=str("Not Found")), 404
     else:
-        return jsonify(data)
+        return jsonify(isError=False,
+                       message="Sucess",
+                       statusCode=200,
+                       data=data)
 
 @controllers.route('/users/<int:id>', methods=['PUT'])
 @jwt_required(optional=False)
