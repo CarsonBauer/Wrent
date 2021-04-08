@@ -44,3 +44,14 @@ export async function getItemsFromTag(id) {
   const data = await res.json();
   return data;
 }
+
+export async function fetchAvailableItems() {
+  const res = await fetch('/items/available', {
+      method: 'GET',
+      headers: {
+          'Content-type': 'application/json'
+      }
+  })
+  const data = await res.json();
+  return data
+}

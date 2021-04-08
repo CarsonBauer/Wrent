@@ -14,19 +14,19 @@ const useStyles = makeStyles({
     },
 });
 
-export default function Deposits() {
+export default function Deposits({users, admins, rentals, items}) {
     const classes = useStyles();
     return (
         <React.Fragment>
             <Typography component="p" variant="h5" >Statistics</Typography>
             <br />
-            <Typography component="p" variant="h8" >Number Of Users: 1538</Typography>
+            <Typography component="p" variant="h8" >Number Of Users: {users}</Typography>
             <br />
-            <Typography component="p" variant="h8">Number of Admin : 1538</Typography>
+            <Typography component="p" variant="h8">Number of Admin : {admins}</Typography>
             <br />
-            <Typography component="p" variant="h8">Rented : 1538</Typography>
+            <Typography component="p" variant="h8">Rented : {rentals}</Typography>
             <br />
-            <Typography component="p" variant="h8">Not Rented: 1538</Typography>
+            <Typography component="p" variant="h8">Not Rented: {items}</Typography>
         </React.Fragment >
     );
 }
