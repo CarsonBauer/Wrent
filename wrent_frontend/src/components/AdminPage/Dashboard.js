@@ -118,6 +118,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function MenuCollapse(open, handleDrawerClose, handleDrawerOpen){
+    if (open){
+        return <IconButton onClick={handleDrawerClose}><ChevronLeftIcon /></IconButton>;
+    }
+    else{
+        return <IconButton onClick={handleDrawerOpen}><ChevronRightIcon /></IconButton>;
+    }
+}
+
 export default function Dashboard() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -162,12 +171,7 @@ export default function Dashboard() {
             >
                 <div className={classes.toolbarIcon}>
                     
-                    {if (open){
-                        <IconButton onClick={handleDrawerClose}><ChevronLeftIcon /></IconButton>
-                    }
-                    else{
-                        <IconButton onClick={handleDrawerOpen}><ChevronRightIcon /></IconButton>
-                    }}
+                    {MenuCollapse(open, handleDrawerClose, handleDrawerOpen)}
                     
                 </div>
                 <Divider />
