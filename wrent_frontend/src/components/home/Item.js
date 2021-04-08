@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 
 });
 
-export default function item({ id, name, description, img, userid, price }) {
+export default function Item({ id, name, description, img, userid, price }) {
 
     const classes = useStyles();
 
@@ -56,7 +56,7 @@ export default function item({ id, name, description, img, userid, price }) {
                             {name}
                         </Typography>
                         <Typography textAlign="center" variant="body2" color="textSecondary" component="p">
-                            ${price.toFixed(2)}
+                            ${price ? price.toFixed(2) : 0.00}
                         </Typography>
                     </CardContent>
                     <CardActions>
