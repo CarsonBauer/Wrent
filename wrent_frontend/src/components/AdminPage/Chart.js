@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
 import Title from './Title';
 
 // Generate Sales Data
@@ -27,7 +27,7 @@ export default function Chart() {
         <React.Fragment>
             <Title>Today</Title>
             <ResponsiveContainer>
-                <LineChart
+                <AreaChart
                     data={data}
                     margin={{
                         top: 16,
@@ -36,6 +36,12 @@ export default function Chart() {
                         left: 24,
                     }}
                 >
+                    <defs>
+                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+                        </linearGradient>
+                    </defs>
                     <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
                     <YAxis stroke={theme.palette.text.secondary}>
                         <Label
@@ -44,10 +50,11 @@ export default function Chart() {
                             style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
                         >
                             Rent
-            </Label>
+                        </Label>
                     </YAxis>
-                    <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
-                </LineChart>
+                    <Tooltip/>
+                    <Area type="monotone" dataKey="amount" stroke="#8884d8" fill="url(#colorUv)" dot={false} />
+                </AreaChart>
             </ResponsiveContainer>
         </React.Fragment>
     );

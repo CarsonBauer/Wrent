@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
@@ -121,6 +122,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function MenuCollapse(open, handleDrawerClose, handleDrawerOpen){
+    if (open){
+        return <IconButton onClick={handleDrawerClose}><ChevronLeftIcon /></IconButton>;
+    }
+    else{
+        return <IconButton onClick={handleDrawerOpen}><ChevronRightIcon /></IconButton>;
+    }
+}
+
 export default function Dashboard() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
@@ -155,7 +165,7 @@ export default function Dashboard() {
         <Authorization>
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+            {/*<AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
                         edge="start"
@@ -175,7 +185,7 @@ export default function Dashboard() {
                         </Badge>
                     </IconButton>
                 </Toolbar>
-            </AppBar>
+            </AppBar>*/}
             <Drawer
                 variant="permanent"
                 classes={{
@@ -184,9 +194,9 @@ export default function Dashboard() {
                 open={open}
             >
                 <div className={classes.toolbarIcon}>
-                    <IconButton onClick={handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
+                    
+                    {MenuCollapse(open, handleDrawerClose, handleDrawerOpen)}
+                    
                 </div>
                 <Divider />
                 <List>{mainListItems}</List>
