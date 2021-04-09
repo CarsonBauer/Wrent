@@ -16,19 +16,20 @@ const useStyles = makeStyles({
     },
 });
 
-const data01 = [
-    {
-      "name": "Rented",
-      "value": 500
-    },
-    {
-      "name": "not rented",
-      "value": 300
-    }
-  ];
-
-export default function Deposits() {
+export default function Deposits({rentals, items}) {
     const classes = useStyles();
+
+    const data01 = [
+      {
+        "name": "Rented",
+        "value": rentals
+      },
+      {
+        "name": "not rented",
+        "value": items
+      }
+    ];
+
     return (
       <>
         <Title>Items</Title>

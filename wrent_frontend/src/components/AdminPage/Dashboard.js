@@ -216,11 +216,7 @@ export default function Dashboard() {
                         {/* Recent Deposits */}
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
-                                <Deposits users={users.length} admins={users.filter((user) => {
-                                    if (user.permission == 1) {
-                                        return user
-                                    }
-                                }).length} rentals={rentals.length} items={items.length} />
+                                <Deposits rentals={rentals.length} items={items.length} />
                             </Paper>
                         </Grid>
                         {/* Recent Orders */}
