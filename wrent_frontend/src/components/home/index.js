@@ -1,10 +1,5 @@
 import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import motd from "./motd.md";
@@ -17,9 +12,6 @@ import Item from "./Item";
 import WrentLogo from "../auth/wrentLogo";
 import {fetchTags} from "../helpers/TagController";
 import {getItemsFromTag} from "../helpers/ItemController";
-import {sizing} from '@material-ui/system';
-
-
 import ReactDOM from "react-dom";
 import Authorization from "../auth/Authorization";
 import {MenuList} from "@material-ui/core";
