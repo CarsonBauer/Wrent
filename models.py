@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean, LargeBinary
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, PrimaryKeyConstraint, Boolean, LargeBinary, DateTime
 from config import SQLALCHEMY_DATABASE_URI
+import datetime
 
 engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -119,6 +120,7 @@ class Rentals(Base):
 
     renterId = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
     itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
 
     __table_args__ = (
         PrimaryKeyConstraint(
