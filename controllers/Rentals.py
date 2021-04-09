@@ -178,7 +178,7 @@ def get_rental_renterId(renterId):
         return jsonify(retList)
 
 @controllers.route('/rentals/recent', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_recent_rentals():
     rentals = Rentals.query.all()
     lst = list()
@@ -193,7 +193,7 @@ def get_recent_rentals():
                 {
                     'renterId': rental.renterId,
                     'itemId': rental.itemId,
-                    'time': rental.date.hour*100+rental.date.minute+rental.date.second
+                    'time': rental.date.hour
                 }
             )
 
