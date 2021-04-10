@@ -63,32 +63,34 @@ export default function Home() {
       <Grid container xs={12} spacing={3} direction="column" alignItems="center">
         <WrentLogo />
       </Grid>
+
       <Grid container spacing={3} direction="column" alignItems="center">
-                <Grid container spacing={1} alignItems="flex-end" justify="center">
+        <Grid container spacing={1} alignItems="flex-end" justify="center">
 
-                    <Grid item className={classes.TextField}>
-                        <TextField fullWidth variant="filled" id="input-with-icon-grid" label="Search..."
-                                   onChange={(event) => {
-                                       setSearchText(event.target.value)
-                                   }}/>
-                    </Grid>
+          <Grid item className={classes.TextField}>
+              <TextField fullWidth variant="filled" id="input-with-icon-grid" label="Search..."
+                          onChange={(event) => {
+                              setSearchText(event.target.value)
+                          }}/>
+          </Grid>
 
-                    {/*<Grid item className={classes.select}>
-                        <FormControl fullWidth variant="filled">
-                            <InputLabel>Filter</InputLabel>
-                            <Select name="tags" id="tags" onChange={handleTagSelect}>
-                                <option value="Default" selected disabled/>
-                                {tags.map((tag, i) => (
-                                    <MenuItem value={tag.id}>
-                                        {tag.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                      </Grid>*/}
+          {/*<Grid item className={classes.select}>
+              <FormControl fullWidth variant="filled">
+                  <InputLabel>Filter</InputLabel>
+                  <Select name="tags" id="tags" onChange={handleTagSelect}>
+                      <option value="Default" selected disabled/>
+                      {tags.map((tag, i) => (
+                          <MenuItem value={tag.id}>
+                              {tag.name}
+                          </MenuItem>
+                      ))}
+                  </Select>
+              </FormControl>
+            </Grid>*/}
 
-                </Grid>
-            </Grid>
+        </Grid>
+      </Grid>
+
       <Grid container spacing={3} direction="row" alignItems="center">
         <>
           {items.filter((item) => {
