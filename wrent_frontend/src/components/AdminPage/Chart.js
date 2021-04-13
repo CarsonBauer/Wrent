@@ -13,6 +13,7 @@ export default function Chart() {
     const theme = useTheme();
 
     const [data, setData] = React.useState([]);
+    const [showGraph, setShowGraph] = React.useState(false);
 
     React.useEffect(async () => {
         var i
@@ -23,9 +24,12 @@ export default function Chart() {
         res.forEach(element => {
             data[element.time].amount = data[element.time].amount+1
         })
+        setShowGraph(true)
     }, [])
 
     return (
+        <>
+        {showGraph &&
         <React.Fragment>
             <Title>Today</Title>
             <ResponsiveContainer>
@@ -59,5 +63,7 @@ export default function Chart() {
                 </AreaChart>
             </ResponsiveContainer>
         </React.Fragment>
+        }
+        </>
     );
 }

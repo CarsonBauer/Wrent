@@ -25,7 +25,7 @@ export default function Deposits({rentals, items}) {
         "value": rentals
       },
       {
-        "name": "not rented",
+        "name": "Not Rented",
         "value": items
       }
     ];

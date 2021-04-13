@@ -23,7 +23,8 @@ def get_items():
                 'description': item.description,
                 'imageURL': item.imageURL,
                 'rating': item.rating,
-                'price': item.price
+                'price': item.price,
+                'date': item.date
             }
         )
 
@@ -49,7 +50,8 @@ def get_item(id):
                 'description': item.description,
                 'imageURL': item.imageURL,
                 'rating': item.rating,
-                'price': item.price
+                'price': item.price,
+                'date': item.date
             }
 
     except Exception as e:
@@ -180,7 +182,8 @@ def get_available_items():
                     'description': item.description,
                     'imageURL': item.imageURL,
                     'rating': item.rating,
-                    'price': item.price
+                    'price': item.price,
+                    'date': item.date.timestamp()
                 }
             )
 
@@ -203,7 +206,8 @@ def get_items_from_tag():
                     'description': item.description,
                     'imageURL': item.imageURL,
                     'rating': item.rating,
-                    'price': item.price
+                    'price': item.price,
+                    'date': item.date.timestamp()
                 }
             )
 

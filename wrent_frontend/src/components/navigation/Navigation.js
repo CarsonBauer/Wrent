@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,7 +11,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import {routes} from "../../constants/routes";
 import logo from "../home/Icon.png";
-
+import { getAdminStatus, getUser } from "../helpers/UserController"
 
 // stolen from: https://github.com/sneas/react-nested-routes-example
 
@@ -61,6 +61,20 @@ const Navigation = ({route}) => {
     const classes = useStyles();
     const history = useHistory();
     const [value, setValue] = React.useState(history.location.pathname);
+    const [isAdmin, setIsAdmin] = React.useState(false)
+    const [loggedIn, setLoggedIn] = React.useState(false)
+
+    useEffect(async () => {
+
+        const lgRes = await getUser();
+        if (lgRes.msg == 'OK') {
+            setLoggedIn(true)
+        }
+
+        const adminRes = await getAdminStatus();
+        setIsAdmin(adminRes.isAdmin)
+    }, [])
+
     const handleChange = (event, newValue) => {
         event.preventDefault();
         setValue(newValue)
@@ -77,10 +91,15 @@ const Navigation = ({route}) => {
                     </Typography>
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"
                           className={classes.tabs}>
-                        {routes.map((route, i) => (
+                        {/* {routes.map((route, i) => (
                             typeof (route.name) !== "undefined" ?
                                 <Tab label={route.name} value={route.path}/> : null
-                        ))}
+                        ))} */}
+                        <Tab label="History" value="/rentalHistory" />
+                        <Tab label="Add Rental" value="/addItem" />
+                        <Tab label="Login" value="/login" />
+                        {loggedIn && <Tab label="Profile" value="/userprofile" />}
+                        {isAdmin && <Tab label="Admin Dashboard" value="/adminPage" />}
                     </Tabs>
                 </Toolbar>
             </AppBar>

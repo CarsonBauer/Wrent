@@ -157,7 +157,7 @@ export default function Home() {
             <Grid container justify="center" className={classes.itemcontainer}>
                 <Grid container spacing={3} className={classes.items} direction="row" alignItems="flex-start"
                       justify="flex-start">
-                    {items.filter((item) => {
+                    {items.sort((a,b) => { return -(a.date - b.date) }).filter((item) => {
                         if (searchText == "") {
                             return item
                         } else if (item.name.toLowerCase().includes(searchText.toLowerCase())) {

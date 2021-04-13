@@ -45,3 +45,15 @@ export async function getRecentRentals() {
     const data = await res.json();
     return data
 }
+
+export async function getRecentItems() {
+    const res = await fetch(`/rentals/items/recent`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+        }
+    })
+    const data = await res.json();
+    return data
+}

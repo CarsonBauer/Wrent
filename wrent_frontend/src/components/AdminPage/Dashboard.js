@@ -23,7 +23,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
-import { getUsers } from '../helpers/UserController';
+import { getUsers, getAdminStatus } from '../helpers/UserController';
 import { getRentals } from '../helpers/RentalController';
 import { fetchAvailableItems } from '../helpers/ItemController';
 import Authorization from '../auth/Authorization';
@@ -137,32 +137,50 @@ export default function Dashboard() {
     const [users, setUsers] = React.useState([]);
     const [rentals, setRentals] = React.useState([]);
     const [items, setItems] = React.useState([]);
+    const [isAdmin, setIsAdmin] = React.useState(false);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    // const handleDrawerOpen = () => {
+    //     setOpen(true);
+    // };
+    // const handleDrawerClose = () => {
+    //     setOpen(false);
+    // };
+
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     useEffect(async () => {
-        const res = await getUsers();
-        setUsers(res);
+        const res = await getAdminStatus();
+        setIsAdmin(res.isAdmin)
+        if (res.isAdmin) {
+            const userRes = await getUsers();
+            setUsers(userRes);
+
+            const rentalRes = await getRentals();
+            setRentals(rentalRes);
+
+            const avRes = await fetchAvailableItems();
+            setItems(avRes);
+        }
     }, [])
 
-    useEffect(async () => {
-        const res = await getRentals();
-        setRentals(res);
-    }, [])
+    // useEffect(async () => {
+    //     const res = await getUsers();
+    //     setUsers(res);
+    // }, [])
 
-    useEffect(async () => {
-        const res = await fetchAvailableItems();
-        setItems(res);
-    }, [])
+    // useEffect(async () => {
+    //     const res = await getRentals();
+    //     setRentals(res);
+    // }, [])
+
+    // useEffect(async () => {
+    //     const res = await fetchAvailableItems();
+    //     setItems(res);
+    // }, [])
 
     return (
-        <Authorization>
+        <>
+        {isAdmin &&
         <div className={classes.root}>
             <CssBaseline />
             {/*<AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -186,7 +204,7 @@ export default function Dashboard() {
                     </IconButton>
                 </Toolbar>
             </AppBar>*/}
-            <Drawer
+            {/* <Drawer
                 variant="permanent"
                 classes={{
                     paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -202,7 +220,7 @@ export default function Dashboard() {
                 <List>{mainListItems}</List>
                 <Divider />
                 <List>{secondaryListItems}</List>
-            </Drawer>
+            </Drawer> */}
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
@@ -231,7 +249,7 @@ export default function Dashboard() {
                     </Box>
                 </Container>
             </main>
-        </div>
-        </Authorization>
+        </div>}
+        </>
     );
 }
