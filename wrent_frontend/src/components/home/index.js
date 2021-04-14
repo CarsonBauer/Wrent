@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
+import Pagination from "@material-ui/lab/Pagination";
 import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
@@ -9,7 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import motd from "./motd.md";
 import {makeStyles} from "@material-ui/core/styles";
-import {CenterFocusStrong, ControlCamera, KeyboardArrowLeft, SearchRounded} from "@material-ui/icons";
+import {CenterFocusStrong, ControlCamera, FolderOpenRounded, KeyboardArrowLeft, SearchRounded} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -20,7 +21,7 @@ import {getItemsFromTag} from "../helpers/ItemController";
 import {sizing} from '@material-ui/system';
 import ReactDOM from "react-dom";
 import Authorization from "../auth/Authorization";
-import {MenuList} from "@material-ui/core";
+import {MenuList, TablePagination} from "@material-ui/core";
 import { fetchAvailableItems } from "../helpers/ItemController";
 
 window.$token = ''
@@ -96,9 +97,12 @@ export default function Home() {
     const classes = useStyles();
     const [message, setMessage] = useState("loading...");
     const [items, setItems] = useState([]);
+    const [itemsToShow, setItemsToShow] = useState([]);
     const [tags, setTags] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [open, setOpen] = useState(false);
+    const [itemNumber, setItemNumber] = useState(0);
+    const [tagText, setTagText] = useState("");
 
     useEffect(() => {
         getItems().then(getTags())
@@ -107,6 +111,8 @@ export default function Home() {
     const getItems = async () => {
         const itemsFromServer = await fetchAvailableItems()
         setItems(itemsFromServer)
+        setItemsToShow(itemsFromServer)
+        setItemNumber(itemsFromServer.length)
     }
 
     const getTags = async () => {
@@ -116,11 +122,59 @@ export default function Home() {
 
     const handleTagSelect = async (event) => {
         if (event.target.value != "") {
+            setTagText(event.target.value)
             const res = await getItemsFromTag(event.target.value);
-            setItems(res);
+            setItemsToShow(res.filter((item) => {
+                if (searchText == "") {
+                    return item
+                } else if (item.name.toLowerCase().includes(searchText.toLowerCase())) {
+                    return item
+                }
+            }));
+            setItemNumber(res.length)
         } else {
             getItems();
         }
+    }
+
+    const handleSearchChange = async (event) => {
+        
+        var res = []
+
+        if (tagText != "") {
+            res = await getItemsFromTag(tagText);
+        } else {
+            res = items
+        }
+
+        var i = res.filter((item) => {
+            if (event.target.value == "") {
+                return item
+            } else if (item.name.toLowerCase().includes(event.target.value.toLowerCase())) {
+                return item
+            }
+        })
+
+        setSearchText(event.target.value)
+        setItemsToShow(i)
+        setItemNumber(i.length)
+    }
+
+    const handlePageChange = (event, page) => {
+        var start = 8*(page-1)
+        var stop = 8*page
+        
+        var lst = []
+
+        var i
+        for (i = 0; i < items.length; i++) {
+            if (i == start) {
+                lst.push(items[i])
+            } else if (i > start && i < stop) {
+                lst.push(items[i])
+            }
+        }
+        setItemsToShow(lst)
     }
 
     return (
@@ -133,9 +187,8 @@ export default function Home() {
 
                     <Grid item className={classes.TextField}>
                         <TextField fullWidth variant="filled" id="input-with-icon-grid" label="Search..."
-                                   onChange={(event) => {
-                                       setSearchText(event.target.value)
-                                   }}/>
+                                   onChange={handleSearchChange}
+                                        />
                     </Grid>
 
                     <Grid item className={classes.select}>
@@ -157,23 +210,22 @@ export default function Home() {
             <Grid container justify="center" className={classes.itemcontainer}>
                 <Grid container spacing={3} className={classes.items} direction="row" alignItems="flex-start"
                       justify="flex-start">
-                    {items.sort((a,b) => { return -(a.date - b.date) }).filter((item) => {
-                        if (searchText == "") {
-                            return item
-                        } else if (item.name.toLowerCase().includes(searchText.toLowerCase())) {
-                            return item
-                        }
-                    }).map((item, i) => (
+                        {itemsToShow.sort((a,b) => { return -(a.date - b.date) }).map((item, i) => (
+                            <>
+                            {i < 8 &&
+                            <Grid item xs={12} sm={3} className={classes.item}>
 
-                        <Grid item xs={12} sm={3} className={classes.item}>
+                                <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL}
+                                    userid={item.ownerId} price={item.price}/>
 
-                            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL}
-                                  userid={item.ownerId} price={item.price}/>
-
-                        </Grid>
-
-                    ))}
+                            </Grid>}
+                            </>
+                        ))}
                 </Grid>
+            </Grid>
+
+            <Grid container justify="center" className={classes.itemcontainer}>
+                <Pagination count={Math.floor(itemNumber/8) + 1} onChange={handlePageChange} />
             </Grid>
         </div>
     );
