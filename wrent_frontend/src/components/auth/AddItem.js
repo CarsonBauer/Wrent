@@ -27,7 +27,7 @@ import { postTagItem } from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        width: "80%",
+        //width: "80%",
         marginTop: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
@@ -45,38 +45,22 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
+        alignItems: 'center',
+        flexDirection: 'column',
     },
     description: {
-        width: '50%',
+        //marginTop: theme.spacing(3),
+    },
+
+    main: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    container: {
+        width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
-    },
-    imageContainer: {
-        width: '50%',
-        maxHeight: '300px',
-        marginTop: theme.spacing(3),
-    },
-    image: {
-        maxHeight: '300px'
-    },
-    ownerData: {
-        maxHeight: '300px',
-        width: '50%'
-    },
-    rentButton: {
-        width: '12%',
-        height: '50px'
-    },
-    leftCol: {
-        maxHeight: '300px',
-        width: '50%'
-    },
-    rightCol: {
-        width: '50%',
-        maxHeight: '300px',
-    },
-    reviwplaceholder: {
-        width: '50%',
-        height: '300px',
+        alignItems: 'center',
+        flexDirection: 'column',
     },
 }));
 
@@ -159,8 +143,10 @@ export default function AddItem() {
     }
 
     return (
+        <Grid Container className={classes.main} direction="row" alignItems="center" justify="center">
         <Authorization>
-            <Grid Container component="main" direction="row" alignContent="center" alignItems="center" justify="center">
+            
+            <Grid container className={classes.container} direction="row" alignItems="center" justify="center">
                 <CssBaseline />
 
                 <Paper className={classes.paper}>
@@ -183,6 +169,7 @@ export default function AddItem() {
                             autoFocus
                         />
                         <TextField onChange={handleDescriptionChange}
+                            className={classes.description}
                             variant="outlined"
                             margin="normal"
                             required
@@ -204,56 +191,48 @@ export default function AddItem() {
                             autoComplete="location"
                             autoFocus
                         />
-                        <br />
-                        <br />
                         <div>
                             <TextField onChange={(event) => { setTag(event.target.value) }} />
-                        &nbsp;
-                        &nbsp;
-                        <Button onClick={() => {
+
+                            <Button onClick={() => {
                                 setTags([...tags, { 'name': tag }])
                             }}>Add Tag</Button>
                         </div>
-                        <br />
-                        <br />
+
                         <div>
                             {tags.map((tag, i) => (
                                 <div>
                                     <text value={tag.id}>
                                         {tag.name}
                                     </text>
-                                    &nbsp;
-                                    &nbsp;
                                     <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} size="small" color="secondary">Delete</Button>
-                                    <br />
                                 </div>
                             ))}
                         </div>
-                        <br />
-                        <br />
+
                         <input type="file" style={{ fontSize: '24px', marginLeft: '525px', marginRight: '10px', }}
                             name="file"
                             placeholder="Upload an image"
                             onChange={handleImageChange} />
-                        <br />
-                        <br />
-                        <div style={{ marginLeft: '625px' }}>
+
+                        <div>
                             <Button
                                 onClick={handleSubmit}
                                 type="submit"
                                 minWidth="50%"
                                 center
-
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
                             >
                                 Post
-                    </Button>
+                            </Button>
                         </div>
                     </form>
                 </Paper>
             </Grid>
+            
         </Authorization >
+        </Grid>
     );
 }
