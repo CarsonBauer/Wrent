@@ -27,7 +27,7 @@ import { postTagItem } from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        //width: "80%",
+        width: "50%",
         marginTop: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         alignItems: 'center',
         flexDirection: 'column',
+        justifyItems: 'center',
     },
     description: {
         //marginTop: theme.spacing(3),
@@ -61,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         alignItems: 'center',
         flexDirection: 'column',
+    },
+    submit: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(3),
+        
     },
 }));
 
@@ -149,86 +155,87 @@ export default function AddItem() {
             <Grid container className={classes.container} direction="row" alignItems="center" justify="center">
                 <CssBaseline />
 
-                <Paper className={classes.paper}>
+                <Paper className={classes.paper} alignItems="center" justify="center">
                     <Typography component="h1" variant="h5">
                         Post Item for Rent
                     </Typography>
       
                     {success &&
                     <Paper className={classes.successPaper}>{success}</Paper>}
-                    <form className={classes.form} noValidate>
-                        <TextField onChange={handleNameChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="name"
-                            label="Name"
-                            name="name"
-                            autoComplete="name"
-                            autoFocus
-                        />
-                        <TextField onChange={handleDescriptionChange}
-                            className={classes.description}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="description"
-                            label="Description"
-                            name="description"
-                            autoComplete="description"
-                            autoFocus
-                        />
-                        <TextField onChange={handleLocationChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="location"
-                            label="Location"
-                            name="location"
-                            autoComplete="location"
-                            autoFocus
-                        />
-                        <div>
-                            <TextField onChange={(event) => { setTag(event.target.value) }} />
+                    
+                    <TextField onChange={handleNameChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                    />
+                    <TextField onChange={handleDescriptionChange}
+                        className={classes.description}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="description"
+                        label="Description"
+                        name="description"
+                        autoComplete="description"
+                        autoFocus
+                    />
+                    <TextField onChange={handleLocationChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="location"
+                        label="Location"
+                        name="location"
+                        autoComplete="location"
+                        autoFocus
+                    />
+                    <Grid container>
+                        <TextField onChange={(event) => { setTag(event.target.value) }} />
 
-                            <Button onClick={() => {
-                                setTags([...tags, { 'name': tag }])
-                            }}>Add Tag</Button>
-                        </div>
+                        <Button onClick={() => {
+                            setTags([...tags, { 'name': tag }])
+                        }}>Add Tag</Button>
+                    </Grid>
 
-                        <div>
-                            {tags.map((tag, i) => (
-                                <div>
-                                    <text value={tag.id}>
-                                        {tag.name}
-                                    </text>
-                                    <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} size="small" color="secondary">Delete</Button>
-                                </div>
-                            ))}
-                        </div>
+                    <Grid container>
+                        {tags.map((tag, i) => (
+                            <div>
+                                <text value={tag.id}>
+                                    {tag.name}
+                                </text>
+                                <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} variant="outlined" size="small" color="secondary">Delete</Button>
+                            </div>
+                        ))}
+                    </Grid>
 
-                        <input type="file" style={{ fontSize: '24px', marginLeft: '525px', marginRight: '10px', }}
-                            name="file"
-                            placeholder="Upload an image"
-                            onChange={handleImageChange} />
+                    <Grid container className={classes.container} alignItems="center">
+                    <input type="file" style={{ fontSize: '24px', border: '1px solid black'}}
+                        name="file"
+                        placeholder="Upload an image"
+                        onChange={handleImageChange} />
+                    </Grid>
 
-                        <div>
-                            <Button
-                                onClick={handleSubmit}
-                                type="submit"
-                                minWidth="50%"
-                                center
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Post
-                            </Button>
-                        </div>
-                    </form>
+                    <Grid container alignItems="center">
+                        <Button
+                            onClick={handleSubmit}
+                            type="submit"
+                            minWidth="50%"
+                            center
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Post
+                        </Button>
+                    </Grid>
                 </Paper>
             </Grid>
             
