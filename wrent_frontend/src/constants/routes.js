@@ -11,6 +11,7 @@ import Map from "../components/auth/Map";
 import RentalHistory from "../components/History/RentalHistory";
 import UserProfile from "../components/auth/UserProfile";
 import Dashboard from "../components/AdminPage/Dashboard";
+import DetailProfile from "../components/auth/DetailProfile";
 export const routes = [
 
   {
@@ -30,6 +31,11 @@ export const routes = [
     private: false,
     // name: "Item",
     component: ItemPage,
+  },
+  {
+    path: "/detailprofile/:userid",
+    private: false,
+    component: DetailProfile,
   },
   {
     path: "/addItem",
