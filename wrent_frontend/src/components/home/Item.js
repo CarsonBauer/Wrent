@@ -12,6 +12,9 @@ import Link from '@material-ui/core/Link';
 import { CardActionArea, requirePropFactory } from "@material-ui/core";
 import { CallMissedSharp } from "@material-ui/icons";
 import Paper from "@material-ui/core/Paper";
+import UserProfile from "../auth/UserProfile";
+
+
 //import Img from "./Icon.png";
 
 const useStyles = makeStyles({
@@ -34,15 +37,19 @@ const useStyles = makeStyles({
 
 export default function Item({ id, name, description, img, userid }) {
 
-    const classes = useStyles();
+    const classes = useStyles()
+
+    const [state, setState] = useState('start')
+
+
 
     return (
 
         <Paper>
             <Card className={classes.root}>
-            <Button href={"/item/" + id}>
-                <CardActionArea>
-                    
+                <Button href={"/item/" + id}>
+                    <CardActionArea>
+
                         <CardMedia
 
                             className={classes.media}
@@ -50,24 +57,24 @@ export default function Item({ id, name, description, img, userid }) {
                             component="img"
                             title="Item for rent"
                         />
-                    
-                    <CardContent>
-                        <Typography className={classes.title} textAlign="center" gutterBottom variant="h5" component="h2">
-                            {name}
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button href={"/item/" + id} variant="contained" size="small" color="primary">
-                            Learn More
+
+                        <CardContent>
+                            <Typography className={classes.title} textAlign="center" gutterBottom variant="h5" component="h2">
+                                {name}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button href={"/item/" + id} variant="contained" size="small" color="primary">
+                                Learn More
                         </Button>
-                        <Button href={"/userprofile/" + userid} size="small" color="primary">
-                            Renter profile
-                        </Button>
-                    </CardActions>
-                </CardActionArea>
+                            <Button href={"/detailprofile/" + userid} size="small" color="primary">
+                                Renter profile
+                            </Button>
+                        </CardActions>
+                    </CardActionArea>
                 </Button>
             </Card>
-        </Paper>
+        </Paper >
 
     );
 
