@@ -14,8 +14,8 @@ import logo from "../home/Icon.png";
 import MenuClosed from "@material-ui/icons/Menu";
 import MenuOpen from "@material-ui/icons/MenuOpen";
 import Drawer from '@material-ui/core/Drawer';
-
-
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 // stolen from: https://github.com/sneas/react-nested-routes-example
 
@@ -61,15 +61,9 @@ function a11yProps(index) {
     };
 }
 
-    const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setState({ ...state, [anchor]: open });
-    };
 const Navigation = ({route}) => {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const history = useHistory();
     const [value, setValue] = React.useState(history.location.pathname);
     const handleChange = (event, newValue) => {
@@ -77,9 +71,15 @@ const Navigation = ({route}) => {
         setValue(newValue)
         history.push(newValue);
     };
-    const [menu, setState] = React.useState({
-        open: false,
-    });
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+    
+      const handleClose = () => {
+        setAnchorEl(null);
+      };
+
     return (
         <nav className="breadcrumbs">
             <AppBar position="static">
@@ -90,12 +90,20 @@ const Navigation = ({route}) => {
                         </Link>
                     </Typography>
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={classes.tabs}>
-                        <React.Fragment>
-                            <Button onClick={toggleDrawer(menu, true)}><MenuClosed/><MenuOpen/></Button>
-                            <Drawer anchor={menu} open={state[anchor]} onClose={toggleDrawer(menu, false)}>
-
-                            </Drawer>
-                        </React.Fragment>
+                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                            <MenuClosed style={{ color: "#ffffff"}}/>
+                        </Button>
+                        <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                        </Menu>
                     </Tabs>
                 </Toolbar>
             </AppBar>
