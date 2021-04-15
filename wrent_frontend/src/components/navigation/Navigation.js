@@ -100,9 +100,11 @@ const Navigation = ({route}) => {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <Link href="/userprofile"><MenuItem onClick={handleClose}>My Profile</MenuItem></Link>
+                            <Link href="/rentalHistory"><MenuItem onClick={handleClose}>History</MenuItem></Link>
+                            <Link href="/addItem"><MenuItem onClick={handleClose}>Add Item</MenuItem></Link>
+                            <Link href="/login"><MenuItem onClick={handleClose}>LogIn / Sign Up</MenuItem></Link>
+                            <Link href="/adminPage"><MenuItem onClick={handleClose}>Stats</MenuItem></Link>
                         </Menu>
                     </Tabs>
                 </Toolbar>
