@@ -11,6 +11,10 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import {routes} from "../../constants/routes";
 import logo from "../home/Icon.png";
+import MenuClosed from "@material-ui/icons/Menu";
+import MenuOpen from "@material-ui/icons/MenuOpen";
+import Drawer from '@material-ui/core/Drawer';
+
 
 
 // stolen from: https://github.com/sneas/react-nested-routes-example
@@ -57,6 +61,13 @@ function a11yProps(index) {
     };
 }
 
+    const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+    };
 const Navigation = ({route}) => {
     const classes = useStyles();
     const history = useHistory();
@@ -66,6 +77,9 @@ const Navigation = ({route}) => {
         setValue(newValue)
         history.push(newValue);
     };
+    const [menu, setState] = React.useState({
+        open: false,
+    });
     return (
         <nav className="breadcrumbs">
             <AppBar position="static">
@@ -75,12 +89,13 @@ const Navigation = ({route}) => {
                             <img className={classes.logo} src={logo} alt="WrentLogo"/>
                         </Link>
                     </Typography>
-                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example"
-                          className={classes.tabs}>
-                        {routes.map((route, i) => (
-                            typeof (route.name) !== "undefined" ?
-                                <Tab label={route.name} value={route.path}/> : null
-                        ))}
+                    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={classes.tabs}>
+                        <React.Fragment>
+                            <Button onClick={toggleDrawer(menu, true)}><MenuClosed/><MenuOpen/></Button>
+                            <Drawer anchor={menu} open={state[anchor]} onClose={toggleDrawer(menu, false)}>
+
+                            </Drawer>
+                        </React.Fragment>
                     </Tabs>
                 </Toolbar>
             </AppBar>
