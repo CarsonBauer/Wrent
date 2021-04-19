@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,6 +23,10 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import { getUsers } from '../helpers/UserController';
+import { getRentals } from '../helpers/RentalController';
+import { fetchAvailableItems } from '../helpers/ItemController';
+import Authorization from '../auth/Authorization';
 
 function Copyright() {
     return (
@@ -130,6 +134,10 @@ function MenuCollapse(open, handleDrawerClose, handleDrawerOpen){
 export default function Dashboard() {
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
+    const [users, setUsers] = React.useState([]);
+    const [rentals, setRentals] = React.useState([]);
+    const [items, setItems] = React.useState([]);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -138,7 +146,23 @@ export default function Dashboard() {
     };
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+    useEffect(async () => {
+        const res = await getUsers();
+        setUsers(res);
+    }, [])
+
+    useEffect(async () => {
+        const res = await getRentals();
+        setRentals(res);
+    }, [])
+
+    useEffect(async () => {
+        const res = await fetchAvailableItems();
+        setItems(res);
+    }, [])
+
     return (
+        <Authorization>
         <div className={classes.root}>
             <CssBaseline />
             {/*<AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -192,7 +216,11 @@ export default function Dashboard() {
                         {/* Recent Deposits */}
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
-                                <Deposits />
+                                <Deposits users={users.length} admins={users.filter((user) => {
+                                    if (user.permission == 1) {
+                                        return user
+                                    }
+                                }).length} rentals={rentals.length} items={items.length} />
                             </Paper>
                         </Grid>
                         {/* Recent Orders */}
@@ -208,5 +236,6 @@ export default function Dashboard() {
                 </Container>
             </main>
         </div>
+        </Authorization>
     );
 }
