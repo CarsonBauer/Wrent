@@ -23,6 +23,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
+import Refunds from './Refunds';
 import { getUsers, getAdminStatus } from '../helpers/UserController';
 import { getRentals } from '../helpers/RentalController';
 import { fetchAvailableItems } from '../helpers/ItemController';
@@ -241,6 +242,11 @@ export default function Dashboard() {
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 <Orders />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Paper className={classes.paper}>
+                                <Refunds />
                             </Paper>
                         </Grid>
                     </Grid>
