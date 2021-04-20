@@ -103,9 +103,20 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function UserProfile(props) {
+export default function DetailProfile(props) {
 
-
+    const userid = props['userid'];
+    async function getDetailUser() {
+        const res = await fetch('/' + userid + '/get', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('user-jwt')}`
+            }
+        });
+        const res_json = await res.json();
+        return res_json;
+    }
 
 
 
@@ -142,7 +153,7 @@ export default function UserProfile(props) {
     }, [])
 
     useEffect(async () => {
-        const res = await getUser();
+        const res = await getDetailUser();
         setUser(res);
     }, [])
 

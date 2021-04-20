@@ -27,6 +27,7 @@ import { postTagItem } from '../helpers/TagItemController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
+        width: "50%",
         marginTop: theme.spacing(0),
         display: 'flex',
         flexDirection: 'column',
@@ -44,38 +45,28 @@ const useStyles = makeStyles((theme) => ({
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
+        alignItems: 'center',
+        flexDirection: 'column',
+        justifyItems: 'center',
     },
     description: {
-        width: '50%',
+        //marginTop: theme.spacing(3),
+    },
+
+    main: {
+        width: '100%',
+        alignItems: 'center',
+    },
+    container: {
+        width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
+        alignItems: 'center',
+        flexDirection: 'column',
     },
-    imageContainer: {
-        width: '50%',
-        maxHeight: '300px',
+    submit: {
+        width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing(3),
-    },
-    image: {
-        maxHeight: '300px'
-    },
-    ownerData: {
-        maxHeight: '300px',
-        width: '50%'
-    },
-    rentButton: {
-        width: '12%',
-        height: '50px'
-    },
-    leftCol: {
-        maxHeight: '300px',
-        width: '50%'
-    },
-    rightCol: {
-        width: '50%',
-        maxHeight: '300px',
-    },
-    reviwplaceholder: {
-        width: '50%',
-        height: '300px',
+        
     },
 }));
 
@@ -163,11 +154,13 @@ export default function AddItem() {
     }
 
     return (
+        <Grid Container className={classes.main} direction="row" alignItems="center" justify="center">
         <Authorization>
-            <Grid Container component="main" direction="row" alignContent="center" alignItems="center" justify="center">
+            
+            <Grid container className={classes.container} direction="row" alignItems="center" justify="center">
                 <CssBaseline />
 
-                <Paper className={classes.paper}>
+                <Paper className={classes.paper} alignItems="center" justify="center">
                     <Typography component="h1" variant="h5">
                         Post Item for Rent
                     </Typography>
@@ -225,49 +218,45 @@ export default function AddItem() {
                         &nbsp;
                         &nbsp;
                         <Button onClick={() => {
-                                setTags([...tags, { 'name': tag }])
-                            }}>Add Tag</Button>
-                        </div>
-                        <br />
-                        <br />
-                        <div>
-                            {tags.map((tag, i) => (
-                                <div>
-                                    <text value={tag.id}>
-                                        {tag.name}
-                                    </text>
-                                    &nbsp;
-                                    &nbsp;
-                                    <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} size="small" color="secondary">Delete</Button>
-                                    <br />
-                                </div>
-                            ))}
-                        </div>
-                        <br />
-                        <br />
-                        <input type="file" style={{ fontSize: '24px', marginLeft: '525px', marginRight: '10px', }}
-                            name="file"
-                            placeholder="Upload an image"
-                            onChange={handleImageChange} />
-                        <br />
-                        <br />
-                        <div style={{ marginLeft: '625px' }}>
-                            <Button
-                                onClick={handleSubmit}
-                                type="submit"
-                                minWidth="50%"
-                                center
+                            setTags([...tags, { 'name': tag }])
+                        }}>Add Tag</Button>
+                    </Grid>
 
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                Post
-                    </Button>
-                        </div>
-                    </form>
+                    <Grid container>
+                        {tags.map((tag, i) => (
+                            <div>
+                                <text value={tag.id}>
+                                    {tag.name}
+                                </text>
+                                <Button onClick={() => { setTags(tags.filter((t) => t.name !== tag.name)) }} variant="outlined" size="small" color="secondary">Delete</Button>
+                            </div>
+                        ))}
+                    </Grid>
+
+                    <Grid container className={classes.container} alignItems="center">
+                    <input type="file" style={{ fontSize: '24px', border: '1px solid black'}}
+                        name="file"
+                        placeholder="Upload an image"
+                        onChange={handleImageChange} />
+                    </Grid>
+
+                    <Grid container alignItems="center">
+                        <Button
+                            onClick={handleSubmit}
+                            type="submit"
+                            minWidth="50%"
+                            center
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Post
+                        </Button>
+                    </Grid>
                 </Paper>
             </Grid>
+            
         </Authorization >
+        </Grid>
     );
 }
