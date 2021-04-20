@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
         justify: 'center',
         overflow: 'hidden',
         alignItems: 'center',
+        //position: 
     },
     image: {
         maxHeight: '100%',

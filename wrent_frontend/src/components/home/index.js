@@ -1,15 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
-import motd from "./motd.md";
 import {makeStyles} from "@material-ui/core/styles";
-import {CenterFocusStrong, ControlCamera, KeyboardArrowLeft, SearchRounded} from "@material-ui/icons";
 import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -25,21 +18,14 @@ import { fetchAvailableItems } from "../helpers/ItemController";
 
 window.$token = ''
 
+/*style defs*/
 const useStyles = makeStyles((theme) => ({
+
     root: {
         flexGrow: 1,
     },
     markdown: {
         padding: theme.spacing(2),
-    },
-    SearchRounded: {
-        width: "40%",
-        height: "35%",
-        marginLeft: 40,
-        marginRight: -190,
-        paddingRight: 0,
-        borderRight: 0,
-
     },
     items: {
         width: "80%",
@@ -52,41 +38,13 @@ const useStyles = makeStyles((theme) => ({
     },
     TextField: {
         width: "50%",
-        //backgroundColor: "white",
-        //color: "white",
-        //marginLeft: -190,
-        //marginLeft: 0,
         marginBottom: 10,
         marginTop: 10,
-        //paddingLeft: 0,
-        //borderLeft: -190,
     },
     select: {
-        //minHeight: 50,
         width: "10%",
-        //inlineSize: 1000,
-        //size: 1100,
-        //height: "200%",
-        //backgroundColor: "white",
-        //color: "white",
-        //marginLeft: 900,
         marginBottom: 10,
         marginTop: 10,
-        //paddingLeft: -100,
-        //borderLeft: 0,
-        //float: "right"
-    },
-    option: {
-        width: "20%",
-        size: 1100,
-        height: "200%",
-        backgroundColor: "white",
-        color: "white",
-        marginLeft: 1000,
-        marginBottom: 20,
-        paddingLeft: 0,
-        borderLeft: 0,
-        float: "right"
     },
 
 }));
@@ -100,6 +58,7 @@ export default function Home() {
     const [searchText, setSearchText] = useState("");
     const [open, setOpen] = useState(false);
 
+    /*call data from backend*/
     useEffect(() => {
         getItems().then(getTags())
     }, [])
@@ -114,6 +73,18 @@ export default function Home() {
         setTags(tagsFromServer)
     }
 
+    const fetchItems = async () => {
+        const res = await fetch('/items/available', {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json'
+            }
+        })
+        const data = await res.json();
+        return data
+    }
+
+    /*handle tag filtering*/
     const handleTagSelect = async (event) => {
         if (event.target.value != "") {
             const res = await getItemsFromTag(event.target.value);
@@ -123,21 +94,28 @@ export default function Home() {
         }
     }
 
+    /*to be rendered*/
     return (
         <div className={classes.root} alignItems="center">
+
+            {/*Logo*/}
             <Grid container xs={12} spacing={3} direction="column" alignItems="center">
                 <WrentLogo/>
             </Grid>
+
+            {/*search containers idk why I need 2 but it doesn't want to style correctly otherwise*/}
             <Grid container spacing={3} direction="column" alignItems="center">
                 <Grid container spacing={1} alignItems="flex-end" justify="center">
 
+                    {/*search bar*/}
                     <Grid item className={classes.TextField}>
                         <TextField fullWidth variant="filled" id="input-with-icon-grid" label="Search..."
                                    onChange={(event) => {
                                        setSearchText(event.target.value)
                                    }}/>
                     </Grid>
-
+                    
+                    {/*Filter drop down*/}
                     <Grid item className={classes.select}>
                         <FormControl fullWidth variant="filled">
                             <InputLabel>Filter</InputLabel>
@@ -154,6 +132,8 @@ export default function Home() {
 
                 </Grid>
             </Grid>
+
+            {/*grid of items filtered by tag and search*/}
             <Grid container justify="center" className={classes.itemcontainer}>
                 <Grid container spacing={3} className={classes.items} direction="row" alignItems="flex-start"
                       justify="flex-start">
