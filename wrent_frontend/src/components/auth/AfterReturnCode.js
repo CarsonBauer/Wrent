@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 import WrentLogo from './wrentLogo';
 import { useState } from 'react'
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -51,6 +52,7 @@ export default function AfterReturnCode({ email }) {
     const classes = useStyles();
     var code = "";
     const [password, setPassword] = useState('test');
+    let history = useHistory()
 
     const handleCodeChange = (event) => {
         code = event.target.value;
@@ -76,6 +78,7 @@ export default function AfterReturnCode({ email }) {
         })
         var data = await res.json();
         localStorage.setItem('user-jwt', data['access_token'])
+        history.push("/updatepassword");
     }
 
     return (

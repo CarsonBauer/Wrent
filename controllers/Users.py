@@ -299,3 +299,13 @@ def verify_oauth():
                         message="Error",
                         statusCode=500,
                         data=str("Internal Server error")), 500
+
+@controllers.route('/users/isAdmin', methods=['GET'])
+@jwt_required(optional=False)
+def isAdmin():
+    data = get_jwt_identity()
+
+    if data['permission'] == "Admin":
+        return jsonify({'isAdmin': True})
+    else:
+        return jsonify({'isAdmin': False})

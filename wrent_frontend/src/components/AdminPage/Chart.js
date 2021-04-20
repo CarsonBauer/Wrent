@@ -2,28 +2,34 @@ import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { AreaChart, Area, XAxis, YAxis, Label, ResponsiveContainer, Tooltip } from 'recharts';
 import Title from './Title';
+import { getRecentRentals } from '../helpers/RentalController';
 
 // Generate Sales Data
 function createData(time, amount) {
     return { time, amount };
 }
 
-const data = [
-    createData('00:00', 0),
-    createData('03:00', 300),
-    createData('06:00', 600),
-    createData('09:00', 800),
-    createData('12:00', 1500),
-    createData('15:00', 2000),
-    createData('18:00', 2400),
-    createData('21:00', 2400),
-    createData('24:00', undefined),
-];
-
 export default function Chart() {
     const theme = useTheme();
 
+    const [data, setData] = React.useState([]);
+    const [showGraph, setShowGraph] = React.useState(false);
+
+    React.useEffect(async () => {
+        var i
+        for (i = 0; i <= 24; i++) {
+            data.push(createData(`${i}`, 0))
+        }
+        const res = await getRecentRentals();
+        res.forEach(element => {
+            data[element.time].amount = data[element.time].amount+1
+        })
+        setShowGraph(true)
+    }, [])
+
     return (
+        <>
+        {showGraph &&
         <React.Fragment>
             <Title>Today</Title>
             <ResponsiveContainer>
@@ -57,5 +63,7 @@ export default function Chart() {
                 </AreaChart>
             </ResponsiveContainer>
         </React.Fragment>
+        }
+        </>
     );
 }

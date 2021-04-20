@@ -79,6 +79,7 @@ class Items(Base):
     imageURL = Column(String(120))
     rating = Column(Float)
     price = Column(Float)
+    date = Column(DateTime, default=datetime.datetime.utcnow)
 
     def __init__(self, location, ownerId, name, description, imageURL, rating, price):
         self.location = location
