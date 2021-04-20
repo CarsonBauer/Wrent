@@ -82,7 +82,6 @@ export default function AddItem() {
     const [image, setImage] = useState(null);
     const [tags, setTags] = useState([]);
     const [tag, setTag] = useState("");
-    const [price, setPrice] = useState(null);
 
     var id = null;
     var url = null;
@@ -108,21 +107,17 @@ export default function AddItem() {
         setImage(event.target.files[0])
     }
 
-    const handlePriceChange = (event) => {
-        setPrice(event.target.value);
-    }
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (!name || !description || !price || price <= 0) {
-            alert('One of the required fields is empty or unacceptable');
+        if (!name || !description) {
+            alert('One of the required fields is empty');
         } else {
             geocode().then(
                 async (res) => {
                     if (res != "NO_POST") {
                         await postImage(image).then(
                             async (res) => {
-                                await postItem(id, user, name, description, res, 1, price).then((res) => {
+                                await postItem(id, user, name, description, res, 1).then((res) => {
                                     if (res['statusCode'] != 201) {
                                         setSuccess("Unable to post item")
                                     }
@@ -167,56 +162,44 @@ export default function AddItem() {
       
                     {success &&
                     <Paper className={classes.successPaper}>{success}</Paper>}
-                    <form className={classes.form} noValidate>
-                        <TextField onChange={handleNameChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="name"
-                            label="Name"
-                            name="name"
-                            autoComplete="name"
-                            autoFocus
-                        />
-                        <TextField onChange={handleDescriptionChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="description"
-                            label="Description"
-                            name="description"
-                            autoComplete="description"
-                            autoFocus
-                        />
-                        <TextField onChange={handleLocationChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="location"
-                            label="Location"
-                            name="location"
-                            autoComplete="location"
-                            autoFocus
-                        />
-                        <TextField onChange={handlePriceChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            id="price"
-                            label="Price"
-                            name="price"
-                            autoComplete="price"
-                            autoFocus
-                        />
-                        <br />
-                        <br />
-                        <div>
-                            <TextField onChange={(event) => { setTag(event.target.value) }} />
-                        &nbsp;
-                        &nbsp;
+                    
+                    <TextField onChange={handleNameChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                    />
+                    <TextField onChange={handleDescriptionChange}
+                        className={classes.description}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="description"
+                        label="Description"
+                        name="description"
+                        autoComplete="description"
+                        autoFocus
+                    />
+                    <TextField onChange={handleLocationChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="location"
+                        label="Location"
+                        name="location"
+                        autoComplete="location"
+                        autoFocus
+                    />
+                    <Grid container>
+                        <TextField onChange={(event) => { setTag(event.target.value) }} />
+
                         <Button onClick={() => {
                             setTags([...tags, { 'name': tag }])
                         }}>Add Tag</Button>
