@@ -3,13 +3,14 @@ from controllers import *
 from models import Rentals
 from models import Items
 import jwt
+import datetime
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
 
 @controllers.route('/rentals', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_rentals():
 
     rentals = Rentals.query.all()
@@ -19,7 +20,8 @@ def get_rentals():
         lst.append(
             {
                 'renterId': rental.renterId,
-                'itemId': rental.itemId
+                'itemId': rental.itemId,
+                'date': rental.date
             }
         )
 
@@ -40,7 +42,8 @@ def get_rental(renterId, itemId):
         else:
             data = {
                 'renterId': rental.renterId,
-                'itemId': rental.itemId
+                'itemId': rental.itemId,
+                'date': rental.date
             }
 
     except Exception as e:
@@ -162,7 +165,8 @@ def get_rental_renterId(renterId):
                     'name': item.name,
                     'description': item.description,
                     'imageURL': item.imageURL,
-                    'rating': item.rating
+                    'rating': item.rating,
+                    'price': item.price
                 })
 
     except Exception as e:
@@ -172,3 +176,25 @@ def get_rental_renterId(renterId):
                        data=str("Internal Server Error")), 500
     else:
         return jsonify(retList)
+
+@controllers.route('/rentals/recent', methods=['GET'])
+@jwt_required(optional=False)
+def get_recent_rentals():
+    rentals = Rentals.query.all()
+    lst = list()
+
+    for rental in rentals:
+
+        current_time = datetime.datetime.utcnow()
+        rental_time = rental.date
+
+        if current_time.date() == rental_time.date():
+            lst.append(
+                {
+                    'renterId': rental.renterId,
+                    'itemId': rental.itemId,
+                    'time': rental.date.hour*100+rental.date.minute+rental.date.second
+                }
+            )
+
+    return jsonify(lst)

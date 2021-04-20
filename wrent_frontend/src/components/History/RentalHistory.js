@@ -39,19 +39,6 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [searchText, setSearchText] = useState("");
 
-
-//   useEffect(async () => {
-//     const getUser = async () => {
-//         const userRes = await getUser();
-//         setUser(userRes['id']);
-//     }
-//     const getItems = async () => {
-//       const itemsFromServer = await rentalItems(user);
-//       setItems(itemsFromServer)
-//     }
-//     getUser()
-//   }, [])
-
   useEffect(async () => {
     const userRes = await getUser();
     const itemsFromServer = await getRentalItems(await userRes['id']);
@@ -101,7 +88,8 @@ export default function Home() {
             }
           }).map((item, i) => (
                           <Grid item xs={2}>
-                            <Item id={item.id} name={item.name} description={item.desc}/>
+                            <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL}
+                                  userid={item.ownerId} price={item.price}/>
                           </Grid>
                         ))}
         </>

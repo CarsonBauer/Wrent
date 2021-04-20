@@ -10,6 +10,11 @@ import Item from "./Item";
 import WrentLogo from "../auth/wrentLogo";
 import {fetchTags} from "../helpers/TagController";
 import {getItemsFromTag} from "../helpers/ItemController";
+import {sizing} from '@material-ui/system';
+import ReactDOM from "react-dom";
+import Authorization from "../auth/Authorization";
+import {MenuList} from "@material-ui/core";
+import { fetchAvailableItems } from "../helpers/ItemController";
 
 window.$token = ''
 
@@ -59,7 +64,7 @@ export default function Home() {
     }, [])
 
     const getItems = async () => {
-        const itemsFromServer = await fetchItems()
+        const itemsFromServer = await fetchAvailableItems()
         setItems(itemsFromServer)
     }
 
@@ -143,7 +148,7 @@ export default function Home() {
                         <Grid item xs={12} sm={3} className={classes.item}>
 
                             <Item id={item.id} name={item.name} description={item.desc} img={item.imageURL}
-                                  userid={item.ownerId}/>
+                                  userid={item.ownerId} price={item.price}/>
 
                         </Grid>
 

@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+.rcw-conversation-container > .rcw-header {
+  background-color: black !important;
+}
+
+.rcw-message > .rcw-message {
+  background-color: black !important;
+}
+
+
+.rcw-launcher {
+  background-color: black !important;
+}

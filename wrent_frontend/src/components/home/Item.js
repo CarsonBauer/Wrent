@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 
 });
 
-export default function Item({ id, name, description, img, userid }) {
+export default function Item({ id, name, description, img, userid, price }) {
 
     const classes = useStyles()
 
@@ -57,15 +57,21 @@ export default function Item({ id, name, description, img, userid }) {
                             component="img"
                             title="Item for rent"
                         />
-
-                        <CardContent>
-                            <Typography className={classes.title} textAlign="center" gutterBottom variant="h5" component="h2">
-                                {name}
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button href={"/item/" + id} variant="contained" size="small" color="primary">
-                                Learn More
+                    
+                    <CardContent>
+                        <Typography className={classes.title} textAlign="center" gutterBottom variant="h5" component="h2">
+                            {name}
+                        </Typography>
+                        <Typography textAlign="center" variant="body2" color="textSecondary" component="p">
+                            ${price ? price.toFixed(2) : 0.00}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button href={"/item/" + id} variant="contained" size="small" color="primary">
+                            Learn More
+                        </Button>
+                        <Button href={"/userprofile/" + userid} size="small" color="primary">
+                            Renter profile
                         </Button>
                             <Button href={"/detailprofile/" + userid} size="small" color="primary">
                                 Renter profile

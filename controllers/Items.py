@@ -22,7 +22,8 @@ def get_items():
                 'name': item.name,
                 'description': item.description,
                 'imageURL': item.imageURL,
-                'rating': item.rating
+                'rating': item.rating,
+                'price': item.price
             }
         )
 
@@ -47,7 +48,8 @@ def get_item(id):
                 'name': item.name,
                 'description': item.description,
                 'imageURL': item.imageURL,
-                'rating': item.rating
+                'rating': item.rating,
+                'price': item.price
             }
 
     except Exception as e:
@@ -75,6 +77,7 @@ def update_item(id):
             description = args['description']
             imageURL = args['imageURL']
             rating = args['rating']
+            price = args['price']
 
             if not Items.get_item(id):
                 return jsonify(isError=True,
@@ -82,7 +85,7 @@ def update_item(id):
                         statusCode=404,
                         data=str("Not Found")), 404
             else:
-                Items.update_item(id, location, ownerId, name, description, imageURL, rating)
+                Items.update_item(id, location, ownerId, name, description, imageURL, rating, price)
 
         except Exception as e:
             return jsonify(isError=True,
@@ -112,8 +115,9 @@ def post_item():
         description = args['description']
         imageURL = args['imageURL']
         rating = args['rating']
+        price = args['price']
 
-        res = Items.post_item(location, ownerId, name, description, imageURL, rating)
+        res = Items.post_item(location, ownerId, name, description, imageURL, rating, price)
 
     except Exception as e:
         return jsonify(isError=True,
@@ -175,7 +179,8 @@ def get_available_items():
                     'name': item.name,
                     'description': item.description,
                     'imageURL': item.imageURL,
-                    'rating': item.rating
+                    'rating': item.rating,
+                    'price': item.price
                 }
             )
 
@@ -197,7 +202,8 @@ def get_items_from_tag():
                     'name': item.name,
                     'description': item.description,
                     'imageURL': item.imageURL,
-                    'rating': item.rating
+                    'rating': item.rating,
+                    'price': item.price
                 }
             )
 
