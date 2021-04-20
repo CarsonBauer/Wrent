@@ -70,12 +70,9 @@ export default function Item({ id, name, description, img, userid, price }) {
                         <Button href={"/item/" + id} variant="contained" size="small" color="primary">
                             Learn More
                         </Button>
-                        <Button href={"/userprofile/" + userid} size="small" color="primary">
+                        <Button href={"/detailprofile/" + userid} size="small" color="primary">
                             Renter profile
                         </Button>
-                            <Button href={"/detailprofile/" + userid} size="small" color="primary">
-                                Renter profile
-                            </Button>
                         </CardActions>
                     </CardActionArea>
                 </Button>

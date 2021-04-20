@@ -167,41 +167,42 @@ export default function AddItem() {
       
                     {success &&
                     <Paper className={classes.successPaper}>{success}</Paper>}
-                    <form className={classes.form} noValidate>
-                        <TextField onChange={handleNameChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="name"
-                            label="Name"
-                            name="name"
-                            autoComplete="name"
-                            autoFocus
-                        />
-                        <TextField onChange={handleDescriptionChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="description"
-                            label="Description"
-                            name="description"
-                            autoComplete="description"
-                            autoFocus
-                        />
-                        <TextField onChange={handleLocationChange}
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="location"
-                            label="Location"
-                            name="location"
-                            autoComplete="location"
-                            autoFocus
-                        />
-                        <TextField onChange={handlePriceChange}
+                    
+                    <TextField onChange={handleNameChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                        autoFocus
+                    />
+                    <TextField onChange={handleDescriptionChange}
+                        className={classes.description}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="description"
+                        label="Description"
+                        name="description"
+                        autoComplete="description"
+                        autoFocus
+                    />
+                    <TextField onChange={handleLocationChange}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="location"
+                        label="Location"
+                        name="location"
+                        autoComplete="location"
+                        autoFocus
+                    />
+                    <TextField onChange={handlePriceChange}
                             variant="outlined"
                             margin="normal"
                             required
@@ -210,13 +211,10 @@ export default function AddItem() {
                             name="price"
                             autoComplete="price"
                             autoFocus
-                        />
-                        <br />
-                        <br />
-                        <div>
-                            <TextField onChange={(event) => { setTag(event.target.value) }} />
-                        &nbsp;
-                        &nbsp;
+                    />
+                    <Grid container>
+                        <TextField onChange={(event) => { setTag(event.target.value) }} />
+
                         <Button onClick={() => {
                             setTags([...tags, { 'name': tag }])
                         }}>Add Tag</Button>
