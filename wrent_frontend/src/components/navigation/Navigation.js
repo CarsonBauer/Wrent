@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {NavLink, useHistory} from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,6 +11,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import {routes} from "../../constants/routes";
 import logo from "../home/Icon.png";
+import { getAdminStatus, getUser } from "../helpers/UserController"
 import MenuClosed from "@material-ui/icons/Menu";
 import MenuOpen from "@material-ui/icons/MenuOpen";
 import Drawer from '@material-ui/core/Drawer';
@@ -66,6 +67,20 @@ const Navigation = ({route}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const history = useHistory();
     const [value, setValue] = React.useState(history.location.pathname);
+    const [isAdmin, setIsAdmin] = React.useState(false)
+    const [loggedIn, setLoggedIn] = React.useState(false)
+
+    useEffect(async () => {
+
+        const lgRes = await getUser();
+        if (lgRes.msg == 'OK') {
+            setLoggedIn(true)
+        }
+
+        const adminRes = await getAdminStatus();
+        setIsAdmin(adminRes.isAdmin)
+    }, [])
+
     const handleChange = (event, newValue) => {
         event.preventDefault();
         setValue(newValue)
@@ -100,11 +115,11 @@ const Navigation = ({route}) => {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                         >
-                            <Link href="/userprofile"><MenuItem onClick={handleClose}>My Profile</MenuItem></Link>
+                            {loggedIn && <Link href="/userprofile"><MenuItem onClick={handleClose}>My Profile</MenuItem></Link>}
                             <Link href="/rentalHistory"><MenuItem onClick={handleClose}>History</MenuItem></Link>
                             <Link href="/addItem"><MenuItem onClick={handleClose}>Add Item</MenuItem></Link>
                             <Link href="/login"><MenuItem onClick={handleClose}>LogIn / Sign Up</MenuItem></Link>
-                            <Link href="/adminPage"><MenuItem onClick={handleClose}>Stats</MenuItem></Link>
+                            {isAdmin && <Link href="/adminPage"><MenuItem onClick={handleClose}>Stats</MenuItem></Link>}
                         </Menu>
                     </Tabs>
                 </Toolbar>

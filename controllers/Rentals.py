@@ -1,7 +1,6 @@
 from flask import jsonify, request
 from controllers import *
-from models import Rentals
-from models import Items
+from models import Items, Users, Rentals
 import jwt
 import datetime
 from flask_jwt_extended import (
@@ -178,7 +177,7 @@ def get_rental_renterId(renterId):
         return jsonify(retList)
 
 @controllers.route('/rentals/recent', methods=['GET'])
-@jwt_required(optional=False)
+# @jwt_required(optional=False)
 def get_recent_rentals():
     rentals = Rentals.query.all()
     lst = list()
@@ -193,7 +192,34 @@ def get_recent_rentals():
                 {
                     'renterId': rental.renterId,
                     'itemId': rental.itemId,
-                    'time': rental.date.hour*100+rental.date.minute+rental.date.second
+                    'time': rental.date.hour
+                }
+            )
+
+    return jsonify(lst)
+
+@controllers.route('/rentals/items/recent', methods=['GET'])
+# @jwt_required(optional=False)
+def get_recent_items():
+    rentals = Rentals.query.all()
+    lst = list()
+
+    for rental in rentals:
+
+        user = Users.query.filter_by(id=rental.renterId).first()
+        item = Items.query.filter_by(id=rental.itemId).first()
+
+        current_time = datetime.datetime.utcnow()
+        rental_time = rental.date
+
+        if current_time.date() == rental_time.date():
+            lst.append(
+                {
+                    'renterId': rental.renterId,
+                    'itemId': rental.itemId,
+                    'date': rental.date,
+                    'userName': user.name,
+                    'price': item.price
                 }
             )
 
