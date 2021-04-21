@@ -16,7 +16,7 @@ def send_code():
     random_string = ''
     email = auth['email']
 
-    if Users.query.filter_by(email=email).first():
+    if Users.query.filter_by(email=email, isOauth=False).first():
         for _ in range(10):
             random_integer = random.randint(97, 97 + 26 - 1)
             flip_bit = random.randint(0, 1)
