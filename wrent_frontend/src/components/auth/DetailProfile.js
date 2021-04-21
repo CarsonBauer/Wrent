@@ -106,8 +106,9 @@ const useStyles = makeStyles((theme) => ({
 export default function DetailProfile(props) {
 
     const userid = props['userid'];
+    console.log(userid);
     async function getDetailUser() {
-        const res = await fetch('/' + userid + '/get', {
+        const res = await fetch('/users/' + userid, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
