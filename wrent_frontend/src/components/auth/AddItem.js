@@ -189,7 +189,7 @@ export default function AddItem() {
                         label="Description"
                         name="description"
                         autoComplete="description"
-                        autoFocus
+
                     />
                     <TextField onChange={handleLocationChange}
                         variant="outlined"
@@ -200,7 +200,7 @@ export default function AddItem() {
                         label="Location"
                         name="location"
                         autoComplete="location"
-                        autoFocus
+
                     />
                     <TextField onChange={handlePriceChange}
                             variant="outlined"
@@ -210,7 +210,7 @@ export default function AddItem() {
                             label="Price"
                             name="price"
                             autoComplete="price"
-                            autoFocus
+
                     />
                     <Grid container>
                         <TextField onChange={(event) => { setTag(event.target.value) }} />
