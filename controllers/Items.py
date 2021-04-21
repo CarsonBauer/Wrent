@@ -197,18 +197,19 @@ def get_items_from_tag():
 
     for i in items:
         item = Items.get_item(i.itemId)
-        lst.append(
-                {
-                    'id': item.id,
-                    'location': item.location,
-                    'ownerId': item.ownerId,
-                    'name': item.name,
-                    'description': item.description,
-                    'imageURL': item.imageURL,
-                    'rating': item.rating,
-                    'price': item.price,
-                    'date': item.date.timestamp()
-                }
-            )
+        if not Rentals.query.filter_by(itemId=item.id).first():
+            lst.append(
+                    {
+                        'id': item.id,
+                        'location': item.location,
+                        'ownerId': item.ownerId,
+                        'name': item.name,
+                        'description': item.description,
+                        'imageURL': item.imageURL,
+                        'rating': item.rating,
+                        'price': item.price,
+                        'date': item.date.timestamp()
+                    }
+                )
 
     return jsonify(lst)

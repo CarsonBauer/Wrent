@@ -308,5 +308,26 @@ class TagItems(Base):
         db_session.add(TagItems(tagId=sent_tagId, itemId=sent_itemId))
         db_session.commit()
 
+class Refunds(Base):
+    __tablename__ = "Refunds"
+
+    id = Column(Integer, primary_key=True)
+    renterId = Column(Integer, ForeignKey("Users.id", ondelete="CASCADE"), nullable=False)
+    itemId = Column(Integer, ForeignKey("Items.id", ondelete="CASCADE"), nullable=False)
+
+    def __init__(self, renterId, itemId):
+        self.renterId = renterId
+        self.itemId = itemId
+
+    def post_refund(sent_renterId, sent_itemId):
+        db_session.add(Refunds(renterId=sent_renterId, itemId=sent_itemId))
+        db_session.commit()
+
+    def delete_refund(sent_id):
+        ref = db_session.query(Refunds).get(sent_id)
+        db_session.delete(ref)
+        db_session.commit()
+
+
 # Create tables.
 Base.metadata.create_all(bind=engine)

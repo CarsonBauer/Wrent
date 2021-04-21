@@ -23,6 +23,7 @@ import {getRentalItem} from "../helpers/RentalController"
 import { PayPalButton } from "react-paypal-button-v2";
 import { CenterFocusStrong } from '@material-ui/icons';
 import { Hidden } from '@material-ui/core';
+import { postRefund } from '../helpers/RefundController';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -125,6 +126,10 @@ export default function ItemPage(props) {
         setRented(true)
     }
 
+    const applyRefund = async () => {
+        await postRefund(user, item.id)
+    }
+
     var id = item['id'];
     var description = item['description'];
     var url = item['imageURL'];
@@ -165,7 +170,7 @@ export default function ItemPage(props) {
                             }}
                         />
                         : 
-                        <Button className={classes.rentButton} variant='contained' color='Primary'>Refund</Button>}
+                        <Button onClick={applyRefund} className={classes.rentButton} variant='contained' color='Primary'>Refund</Button>}
                         </>
                     </Grid>
 

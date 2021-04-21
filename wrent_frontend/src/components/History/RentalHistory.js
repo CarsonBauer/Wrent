@@ -60,21 +60,6 @@ export default function Home() {
                               setSearchText(event.target.value)
                           }}/>
           </Grid>
-
-          {/*<Grid item className={classes.select}>
-              <FormControl fullWidth variant="filled">
-                  <InputLabel>Filter</InputLabel>
-                  <Select name="tags" id="tags" onChange={handleTagSelect}>
-                      <option value="Default" selected disabled/>
-                      {tags.map((tag, i) => (
-                          <MenuItem value={tag.id}>
-                              {tag.name}
-                          </MenuItem>
-                      ))}
-                  </Select>
-              </FormControl>
-            </Grid>*/}
-
         </Grid>
       </Grid>
 

@@ -43,10 +43,6 @@ export default function Orders() {
         const res = await getRecentItems();
         var i
         setRows(res)
-        // res.forEach(element => {
-        //     setRows(...rows, createData(i, element.time, element.userName, element.price))
-        //     i = i + 1;
-        // })
     }, [])
 
     return (
