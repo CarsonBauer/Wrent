@@ -8,22 +8,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Button from '@material-ui/core/Button';
-import { getRecentItems } from '../helpers/RentalController';
+import { getRefunds, deleteRefund } from '../helpers/RefundController';
 
 // Generate Order Data
-// function createData(id, date, name, shipTo, paymentMethod, amount) {
-function createData(id, date, name, amount) {
-    // return { id, date, name, shipTo, paymentMethod, amount };
-    return { id, date, name, amount };
+function createData(refundId, itemName, user) {
+    return { refundId, itemName, user };
 }
-
-// const rows = [
-//     createData(0, '7 April, 2021', 'Elvis Presley', 312.44),
-//     createData(1, '7 April, 2021', 'Paul McCartney', 866.99),
-//     createData(2, '7 April, 2021', 'Tom Scholz', 100.81),
-//     createData(3, '7 April, 2021', 'Michael Jackson', 654.39),
-//     createData(4, '7 April, 2021', 'Bruce Springsteen', 212.79),
-// ];
 
 function preventDefault(event) {
     event.preventDefault();
@@ -41,14 +31,17 @@ export default function Orders() {
     const [rows, setRows] = React.useState([])
 
     React.useEffect(async () => {
-        const res = await getRecentItems();
-        var i
-        setRows(res)
-        // res.forEach(element => {
-        //     setRows(...rows, createData(i, element.time, element.userName, element.price))
-        //     i = i + 1;
-        // })
+        setRefunds();
     }, [])
+
+    const setRefunds = async () => {
+        const res = await getRefunds();
+        setRows(res)
+    }
+
+    const handleDeleteClick = async (id) => {
+        const res = await deleteRefund(id);
+    }
 
     return (
         <React.Fragment>
@@ -56,14 +49,26 @@ export default function Orders() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Date</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell>Item</TableCell>
+                        <TableCell>User</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
                         <TableRow>
                             <TableCell>
-                                <Button>Test</Button>
+                                <Button onClick={async () => { 
+                                        const res = await deleteRefund(row.refundId)
+                                        setRefunds();
+                                    }} 
+                                    variant="contained" color="secondary" size="small">Accept Request</Button>
+                            </TableCell>
+                            <TableCell>
+                                {row.itemName}
+                            </TableCell>
+                            <TableCell>
+                                {row.user}
                             </TableCell>
                         </TableRow>
                     ))}
