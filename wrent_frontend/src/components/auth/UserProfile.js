@@ -126,24 +126,35 @@ export default function UserProfile(props) {
 
     const [location, setLocation] = useState({});
 
-    useEffect(() => {
-        const getItem = async () => {
-            //   const itemFromServer = await fetchItem()
-            const itemFromServer = await fetchItem(props.params['id'])
-            setItem(itemFromServer)
-            return itemFromServer['location']
+    // useEffect(() => {
+    //     const getItem = async () => {
+    //         //   const itemFromServer = await fetchItem()
+    //         const itemFromServer = await fetchItem(props.params['id'])
+    //         setItem(itemFromServer)
+    //         return itemFromServer['location']
+    //     }
+    //     const getLocation = async (loc) => {
+            // const locFromServer = await fetchLocation(loc)
+            // setLocation(locFromServer)
+            // console.log(locFromServer)
+            // return locFromServer
+    //     }
+    //     getItem().then((res) => { getLocation(res) })
+    // }, [])
+
+    useEffect(async () => {
+        const fetchUser = async () => {
+            const res = await getUser();
+            setUser(res);
+            return res.location;
         }
         const getLocation = async (loc) => {
             const locFromServer = await fetchLocation(loc)
             setLocation(locFromServer)
+            console.log(locFromServer)
             return locFromServer
         }
-        getItem().then((res) => { getLocation(res) })
-    }, [])
-
-    useEffect(async () => {
-        const res = await getUser();
-        setUser(res);
+        fetchUser().then((res) => getLocation(res))
     }, [])
 
     const fetchUsers = async () => {
