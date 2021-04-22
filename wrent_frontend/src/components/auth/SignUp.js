@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import Paper from "@material-ui/core/Paper";
 import WrentLogo from './wrentLogo';
 import { postLocation } from '../helpers/LocationController';
+import {useHistory} from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +51,7 @@ export default function SignUp() {
     const [location, setLocation] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
+    let history = useHistory()
     var id = null;
 
     const handleFirstNameChange = (event) => {
@@ -120,7 +122,7 @@ export default function SignUp() {
                 'userName': userName.toString(),
                 'permission': "User"
             })
-        })
+        }).then(history.push("/login"))
     }
 
     return (
