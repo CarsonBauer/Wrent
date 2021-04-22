@@ -44,6 +44,15 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'white',
         borderRadius: '5px',
         padding: '40px',
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginLeft: -theme.spacing(3),
+        width: '450px',
+    },
+    submit: {
+        margin: theme.spacing(0, 0, 1),
     },
     d1: {
         //paddingLeft: '5%',
@@ -115,26 +124,9 @@ export default function UserProfile(props) {
 
     const [items, setItems] = useState([]);
     const [item, setItem] = useState({});
-    // const [users, setUsers] = useState([]);
     const [users, setUser] = useState({});
 
     const [location, setLocation] = useState({});
-
-    // useEffect(() => {
-    //     const getItem = async () => {
-    //         //   const itemFromServer = await fetchItem()
-    //         const itemFromServer = await fetchItem(props.params['id'])
-    //         setItem(itemFromServer)
-    //         return itemFromServer['location']
-    //     }
-    //     const getLocation = async (loc) => {
-            // const locFromServer = await fetchLocation(loc)
-            // setLocation(locFromServer)
-            // console.log(locFromServer)
-            // return locFromServer
-    //     }
-    //     getItem().then((res) => { getLocation(res) })
-    // }, [])
 
     useEffect(async () => {
         const fetchUser = async () => {
@@ -167,25 +159,34 @@ export default function UserProfile(props) {
 
             <Paper className={classes.paper}>
                 <WrentLogo className={classes.l1} />
-                <Button className={classes.t2} component="h1" variant="h5">
+                <Typography component="h1" variant="d1">
                     USER PROFILE
-                </Button>
+                </Typography>
                 <br />
                 <br />
-                <Button className={classes.t3} component="h1" variant="h5">
+                {/* <Button className={classes.t3} component="h1" variant="h5">
                     Name :  &nbsp; &nbsp; {users.name}
                     {users.lastName} &nbsp; &nbsp; {users.firstName}
-                </Button>
+                </Button> */}
+                <Typography>Name: {users.name}</Typography>
                 <br />
                 <br />
-                <Button className={classes.t4} component="h1" variant="h5">
+                {/* <Button className={classes.t4} component="h1" variant="h5">
                     Email :  &nbsp; &nbsp; {users.email}
-                </Button>
+                </Button> */}
+                <Typography>Email: {users.email}</Typography>
                 <br />
                 <br />
                 <div >
-                    &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                    <Button className={classes.d1} href={`/map/${location['lat']}/${location['lon']}`} >View On Map</Button>
+                    <Button
+                        href={`/map/${location['lat']}/${location['lon']}`}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >View on Map</Button>
+                    {/* <Button type="submit" href={`/map/${location['lat']}/${location['lon']}`} >View On Map</Button> */}
                 </div>
                 <>
                     {items.map((item, i) => (
