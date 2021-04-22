@@ -12,11 +12,6 @@ import Tab from "@material-ui/core/Tab";
 import {routes} from "../../constants/routes";
 import logo from "../home/Icon.png";
 import { getAdminStatus, getUser } from "../helpers/UserController"
-import MenuClosed from "@material-ui/icons/Menu";
-import MenuOpen from "@material-ui/icons/MenuOpen";
-import Drawer from '@material-ui/core/Drawer';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import TempDrawer from "./TempDrawer";
 
 // stolen from: https://github.com/sneas/react-nested-routes-example

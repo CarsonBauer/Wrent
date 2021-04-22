@@ -4,12 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Link from "@material-ui/core/Link"
 import { getAdminStatus, getUser } from "../helpers/UserController"
 import {NavLink, useHistory} from "react-router-dom";
@@ -70,9 +65,9 @@ const handleChange = (event, newValue) => {
     >
       <List>
         {loggedIn && <Link href="/userprofile"><ListItem >My Profile</ListItem></Link>}
-        <Link href="/rentalHistory"><ListItem >History</ListItem></Link>
-        <Link href="/addItem"><ListItem >Add Item</ListItem></Link>
-        <Link href="/login"><ListItem >LogIn / Sign Up</ListItem></Link>
+        {loggedIn && <Link href="/rentalHistory"><ListItem >History</ListItem></Link>}
+        {loggedIn && <Link href="/addItem"><ListItem >Add Item</ListItem></Link>}
+        {!loggedIn && <Link href="/login"><ListItem >LogIn / Sign Up</ListItem></Link>}
         {isAdmin && <Link href="/adminPage"><ListItem >Stats</ListItem></Link>}
       </List>
     </div>
@@ -82,7 +77,7 @@ const handleChange = (event, newValue) => {
     <div>
       {['right'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}><MenuClosed style={{ color: "#ffffff"}}/></Button>
+          <Button onClick={toggleDrawer(anchor, true)}><MenuClosed style={{ color: "#FFFFFF"}}/></Button>
           <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
             {list(anchor)}
           </Drawer>
