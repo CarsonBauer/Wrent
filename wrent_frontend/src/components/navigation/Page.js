@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Navigation from "./Navigation";
 import Box from '@material-ui/core/Box';
 import {makeStyles} from "@material-ui/core/styles";
@@ -8,7 +8,7 @@ import Link from '@material-ui/core/Link';
 import Background from '../../img/background.png';
 import {addResponseMessage, Widget} from 'react-chat-widget';
 import {useParams, withRouter} from "react-router-dom";
-import 'react-chat-widget/lib/styles.css';
+import {chatra} from './chatra';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -36,14 +36,23 @@ function Copyright() {
     );
 }
 
-function handleNewUserMessage() {
-    addResponseMessage("Thank you for your message, an admin will be with you shortly.")
-}
 
 const Page = ({route}) => {
     const PageBody = route.component;
     const params = useParams();
     const classes = useStyles();
+    useEffect(() => {
+        const script = document.createElement('script');
+
+        script.src = chatra;
+        script.async = true;
+
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        }
+    }, []);
     return (
         <>
 
@@ -56,10 +65,7 @@ const Page = ({route}) => {
                         <Copyright/>
                     </Box>
                 </Container>
-                <Widget
-                    handleNewUserMessage={handleNewUserMessage}
-                    title="Wrent Support"
-                    subtitle=""/>
+
             </main>
         </>
     );
