@@ -64,11 +64,12 @@ const handleChange = (event, newValue) => {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {loggedIn && <Link href="/userprofile"><ListItem >My Profile</ListItem></Link>}
-        {loggedIn && <Link href="/rentalHistory"><ListItem >History</ListItem></Link>}
-        {loggedIn && <Link href="/addItem"><ListItem >Add Item</ListItem></Link>}
-        {!loggedIn && <Link href="/login"><ListItem >LogIn / Sign Up</ListItem></Link>}
-        {isAdmin && <Link href="/adminPage"><ListItem >Stats</ListItem></Link>}
+        {loggedIn && <Button fullWidth href="/userprofile"><ListItem >My Profile</ListItem></Button>}
+        {loggedIn && <Button fullWidth href="/rentalHistory"><ListItem >History</ListItem></Button>}
+        {loggedIn && <Button fullWidth href="/addItem"><ListItem >Add Item</ListItem></Button>}
+        {!loggedIn && <Button fullWidth href="/login"><ListItem >LogIn / Sign Up</ListItem></Button>}
+        {isAdmin && <Button fullWidth href="/adminPage"><ListItem >Stats</ListItem></Button>}
+        {loggedIn && <Button fullWidth onClick={localStorage.removeItem('user-jwt')} href="/"><ListItem >Logout</ListItem></Button>}
       </List>
     </div>
   );
