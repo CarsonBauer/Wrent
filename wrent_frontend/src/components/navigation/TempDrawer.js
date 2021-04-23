@@ -56,12 +56,10 @@ const handleChange = (event, newValue) => {
 
   const list = (anchor) => (
     <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
+      className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={toggleDrawer('right', false)}
+      onKeyDown={toggleDrawer('right', false)}
     >
       <List>
         {loggedIn && <Button fullWidth href="/userprofile"><ListItem >My Profile</ListItem></Button>}
@@ -69,21 +67,19 @@ const handleChange = (event, newValue) => {
         {loggedIn && <Button fullWidth href="/addItem"><ListItem >Add Item</ListItem></Button>}
         {!loggedIn && <Button fullWidth href="/login"><ListItem >LogIn / Sign Up</ListItem></Button>}
         {isAdmin && <Button fullWidth href="/adminPage"><ListItem >Stats</ListItem></Button>}
-        {loggedIn && <Button fullWidth onClick={localStorage.removeItem('user-jwt')} href="/"><ListItem >Logout</ListItem></Button>}
+        {loggedIn && <Button fullWidth onClick={() => localStorage.removeItem('user-jwt')} href="/"><ListItem >Logout</ListItem></Button>}
       </List>
     </div>
   );
-
+  
   return (
     <div>
-      {['right'].map((anchor) => (
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}><MenuClosed style={{ color: "#FFFFFF"}}/></Button>
-          <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-            {list(anchor)}
+        <React.Fragment key='right'>
+          <Button onClick={toggleDrawer('right', true)}><MenuClosed style={{ color: "#FFFFFF"}}/></Button>
+          <Drawer anchor='right' open={state['right']} onClose={toggleDrawer('right', false)}>
+            {list('right')}
           </Drawer>
         </React.Fragment>
-      ))}
     </div>
   );
 }
