@@ -220,7 +220,7 @@ export default function AddItem() {
                         }}>Add Tag</Button>
                     </Grid>
 
-                    <Grid container>
+                    <Grid container direction="column">
                         {tags.map((tag, i) => (
                             <div>
                                 <text value={tag.id}>

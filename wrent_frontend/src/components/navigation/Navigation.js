@@ -12,11 +12,7 @@ import Tab from "@material-ui/core/Tab";
 import {routes} from "../../constants/routes";
 import logo from "../home/Icon.png";
 import { getAdminStatus, getUser } from "../helpers/UserController"
-import MenuClosed from "@material-ui/icons/Menu";
-import MenuOpen from "@material-ui/icons/MenuOpen";
-import Drawer from '@material-ui/core/Drawer';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import TempDrawer from "./TempDrawer";
 
 // stolen from: https://github.com/sneas/react-nested-routes-example
 
@@ -105,22 +101,7 @@ const Navigation = ({route}) => {
                         </Link>
                     </Typography>
                     <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" className={classes.tabs}>
-                        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                            <MenuClosed style={{ color: "#ffffff"}}/>
-                        </Button>
-                        <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                        >
-                            {loggedIn && <Link href="/userprofile"><MenuItem onClick={handleClose}>My Profile</MenuItem></Link>}
-                            <Link href="/rentalHistory"><MenuItem onClick={handleClose}>History</MenuItem></Link>
-                            <Link href="/addItem"><MenuItem onClick={handleClose}>Add Item</MenuItem></Link>
-                            <Link href="/login"><MenuItem onClick={handleClose}>LogIn / Sign Up</MenuItem></Link>
-                            {isAdmin && <Link href="/adminPage"><MenuItem onClick={handleClose}>Stats</MenuItem></Link>}
-                        </Menu>
+                        <TempDrawer/>
                     </Tabs>
                 </Toolbar>
             </AppBar>
