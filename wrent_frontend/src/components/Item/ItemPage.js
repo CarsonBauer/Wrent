@@ -35,11 +35,12 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
+        height: '100%',
         marginTop: theme.spacing(3),
     },
     description: {
-        width: '50%',
-        marginTop: theme.spacing(3),
+        width: '75%',
+        //marginTop: theme.spacing(3),
     },
     imageContainer: {
         width: '60%',
@@ -63,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
         width: '12%',
         height: '50px'
     },
+    paymentBtns: {
+        width: '50%%',
+    },
     leftCol: {
         maxHeight: '300px',
         width: '50%'
@@ -74,6 +78,15 @@ const useStyles = makeStyles((theme) => ({
     reviwplaceholder: {
         width: '50%',
         height: '300px',
+    },
+    payment:{
+        width: '25%'
+    },
+    price:{
+        marginRight: '10%',
+    },
+    mapBtn:{
+        minWidth: '100px',
     },
 }));
 
@@ -155,42 +168,46 @@ export default function ItemPage(props) {
                         </Grid>
                     </Grid>
 
-
-                <Grid container direction="row" justify='center' alignItems="center">
-
                     <Grid container direction="row" justify='center' alignItems="center">
-                        <>
-                        {!rented ? 
-                        <PayPalButton 
-                            amount = {item.price}
-                            currency = {'USD'}
-                            onSuccess = { createRental }
-                            options={{
-                                clientId: process.env.REACT_APP_PAYPAL_CLIENT
-                            }}
-                        />
-                        : 
-                        <Button onClick={applyRefund} className={classes.rentButton} variant='contained' color='Primary'>Refund</Button>}
-                        </>
+                        <Grid className = {classes.price}>
+                            {item.price &&
+                                <Typography textAlign="center" variant="h5" color="textSecondary" component="p">
+                                    Price: ${item.price.toFixed(2)}
+                                </Typography>
+                            }
+                        </Grid>
+
+                        <Grid direction="row" justify='left' alignItems="center">
+                            <Button className={classes.mapBtn} href={`/map/${location['lat']}/${location['lon']}`} variant="contained" color="primary">Map</Button>
+                        </Grid>
+
                     </Grid>
 
-                    <Grid container direction="row" justify='left' alignItems="center">
-                        <>
-                        {item.price &&
-                            <Typography textAlign="center" variant="body2" color="textSecondary" component="p">
-                                Price: ${item.price.toFixed(2)}
-                            </Typography>
-                        }
-                        </>
-                    </Grid>
+                    
 
-                    <Grid container direction="row" justify='center' alignItems="center">
+                    <Grid container direction="row" justify='flex-start' alignItems="center">
                         
-                        <Grid item className={classes.description} justify='center' alignItems="flex-start">
+                        <Grid item className={classes.description} justify='flex-start' alignItems="flex-start">
                             <Typography variant='body1'>{description}</Typography>
                         </Grid>
 
-                        <Grid className={classes.ownerData} item justify='center' alignItems='center'>
+                        <Grid className={classes.payment} direction="row" justify='center' alignItems="center">
+                            <>
+                            {!rented ? 
+                            <PayPalButton 
+                                amount = {item.price}
+                                currency = {'USD'}
+                                onSuccess = { createRental }
+                                options={{
+                                    clientId: process.env.REACT_APP_PAYPAL_CLIENT
+                                }}
+                            />
+                            : 
+                            <Button onClick={applyRefund} className={classes.rentButton} variant='contained' color='Primary'>Refund</Button>}
+                            </>
+                        </Grid>
+
+                        {/*<Grid className={classes.ownerData} item justify='center' alignItems='center'>
                             <Grid container direction='row' justify='center' alignItems="flex-start">
                                 <Typography variant='h5'>Owner Info</Typography>
                             </Grid>
@@ -200,17 +217,8 @@ export default function ItemPage(props) {
                                     <Typography variant='h6'>John Doe <Button variant='text' color='secondary'>Contact Owner</Button></Typography>
                                 </Grid>
                             </Grid>
-                        </Grid>
-
-                    <Grid container direction="row" justify='left' alignItems="center">
-                        <br/>
-                        <br/>
-                        <br/>
-                        <Button href={`/map/${location['lat']}/${location['lon']}`} variant="contained" color="primary">Map</Button>
+                        </Grid>*/}
                     </Grid>
-
-                </Grid>
-                </Grid>
                 </Paper>
             </Container>
         </Authorization>
